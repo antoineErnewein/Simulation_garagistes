@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
+        <EntityContainer Name="Model1TargetContainer" >
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="GaragisteJeu" EntityType="Model1.Garagiste" />
+          <EntitySet Name="VoitureJeu" EntityType="Model1.Voiture" />
+          <EntitySet Name="PeriodeFermetureJeu" EntityType="Model1.PeriodeFermeture" />
+          <AssociationSet Name="GaragistePeriodeFermeture" Association="Model1.GaragistePeriodeFermeture">
+            <End Role="Garagiste" EntitySet="GaragisteJeu" />
+            <End Role="PeriodeFermeture" EntitySet="PeriodeFermetureJeu" />
+          </AssociationSet>
+          <EntitySet Name="RevisionJeu" EntityType="Model1.Revision" />
+          <EntitySet Name="FranchiseJeu" EntityType="Model1.Franchise" />
+          <AssociationSet Name="FranchiseGaragiste" Association="Model1.FranchiseGaragiste">
+            <End Role="Franchise" EntitySet="FranchiseJeu" />
+            <End Role="Garagiste" EntitySet="GaragisteJeu" />
+          </AssociationSet>
+          <EntitySet Name="ReparationJeu" EntityType="Model1.Reparation" />
+          <AssociationSet Name="GaragisteReparation" Association="Model1.GaragisteReparation">
+            <End Role="Garagiste" EntitySet="GaragisteJeu" />
+            <End Role="Reparation" EntitySet="ReparationJeu" />
+          </AssociationSet>
+          <EntitySet Name="ModeleJeu" EntityType="Model1.Modele" />
+          <AssociationSet Name="VoitureReparation" Association="Model1.VoitureReparation">
+            <End Role="Voiture" EntitySet="VoitureJeu" />
+            <End Role="Reparation" EntitySet="ReparationJeu" />
+          </AssociationSet>
+          <AssociationSet Name="ModeleVoiture" Association="Model1.ModeleVoiture">
+            <End Role="Modele" EntitySet="ModeleJeu" />
+            <End Role="Voiture" EntitySet="VoitureJeu" />
+          </AssociationSet>
+          <EntitySet Name="MarqueJeu" EntityType="Model1.Marque" />
+          <AssociationSet Name="MarqueModele" Association="Model1.MarqueModele">
+            <End Role="Marque" EntitySet="MarqueJeu" />
+            <End Role="Modele" EntitySet="ModeleJeu" />
+          </AssociationSet>
+          <AssociationSet Name="ModeleRevision" Association="Model1.ModeleRevision">
+            <End Role="Modele" EntitySet="ModeleJeu" />
+            <End Role="Revision" EntitySet="RevisionJeu" />
+          </AssociationSet>
+          <AssociationSet Name="MarqueRevision" Association="Model1.MarqueRevision">
+            <End Role="Marque" EntitySet="MarqueJeu" />
+            <End Role="Revision" EntitySet="RevisionJeu" />
+          </AssociationSet>
+          <AssociationSet Name="ReparationRevision" Association="Model1.ReparationRevision">
+            <End Role="Reparation" EntitySet="ReparationJeu" />
+            <End Role="Revision" EntitySet="RevisionJeu" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Garagiste">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Nom" Nullable="false" />
+          <NavigationProperty Name="PeriodeFermeture" Relationship="Model1.GaragistePeriodeFermeture" FromRole="Garagiste" ToRole="PeriodeFermeture" />
+          <NavigationProperty Name="Franchise" Relationship="Model1.FranchiseGaragiste" FromRole="Garagiste" ToRole="Franchise" />
+          <NavigationProperty Name="Reparation" Relationship="Model1.GaragisteReparation" FromRole="Garagiste" ToRole="Reparation" />
+        </EntityType>
+        <EntityType Name="Voiture">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Double" Name="Kilometrage" Nullable="true" DefaultValue="0" />
+          <NavigationProperty Name="Reparation" Relationship="Model1.VoitureReparation" FromRole="Voiture" ToRole="Reparation" />
+          <NavigationProperty Name="Modele" Relationship="Model1.ModeleVoiture" FromRole="Voiture" ToRole="Modele" />
+        </EntityType>
+        <EntityType Name="PeriodeFermeture">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="DateDebut" Nullable="false" />
+          <Property Type="DateTime" Name="DateFin" Nullable="false" />
+          <NavigationProperty Name="Garagiste" Relationship="Model1.GaragistePeriodeFermeture" FromRole="PeriodeFermeture" ToRole="Garagiste" />
+        </EntityType>
+        <Association Name="GaragistePeriodeFermeture">
+          <End Type="Model1.Garagiste" Role="Garagiste" Multiplicity="1" />
+          <End Type="Model1.PeriodeFermeture" Role="PeriodeFermeture" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Revision">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Libelle" Nullable="false" />
+          <Property Type="Double" Name="Kilometrage" Nullable="false" />
+          <Property Type="Time" Name="DureeIntervention" Nullable="false" />
+          <NavigationProperty Name="Modele" Relationship="Model1.ModeleRevision" FromRole="Revision" ToRole="Modele" />
+          <NavigationProperty Name="Marque" Relationship="Model1.MarqueRevision" FromRole="Revision" ToRole="Marque" />
+          <NavigationProperty Name="Reparation" Relationship="Model1.ReparationRevision" FromRole="Revision" ToRole="Reparation" />
+        </EntityType>
+        <EntityType Name="Franchise">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Nom" Nullable="false" />
+          <NavigationProperty Name="Garagiste" Relationship="Model1.FranchiseGaragiste" FromRole="Franchise" ToRole="Garagiste" />
+        </EntityType>
+        <Association Name="FranchiseGaragiste">
+          <End Type="Model1.Franchise" Role="Franchise" Multiplicity="1" />
+          <End Type="Model1.Garagiste" Role="Garagiste" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Reparation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="DateDebut" Nullable="false" />
+          <Property Type="DateTime" Name="DateFin" Nullable="false" />
+          <NavigationProperty Name="Garagiste" Relationship="Model1.GaragisteReparation" FromRole="Reparation" ToRole="Garagiste" />
+          <NavigationProperty Name="Voiture" Relationship="Model1.VoitureReparation" FromRole="Reparation" ToRole="Voiture" />
+          <NavigationProperty Name="Revision" Relationship="Model1.ReparationRevision" FromRole="Reparation" ToRole="Revision" />
+        </EntityType>
+        <Association Name="GaragisteReparation">
+          <End Type="Model1.Garagiste" Role="Garagiste" Multiplicity="1" />
+          <End Type="Model1.Reparation" Role="Reparation" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Marque">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Nom" Nullable="false" />
+          <NavigationProperty Name="Modele" Relationship="Model1.MarqueModele" FromRole="Marque" ToRole="Modele" />
+          <NavigationProperty Name="Revision" Relationship="Model1.MarqueRevision" FromRole="Marque" ToRole="Revision" />
+        </EntityType>
+        <EntityType Name="Modele">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Nom" Nullable="false" />
+          <NavigationProperty Name="Voiture" Relationship="Model1.ModeleVoiture" FromRole="Modele" ToRole="Voiture" />
+          <NavigationProperty Name="Marque" Relationship="Model1.MarqueModele" FromRole="Modele" ToRole="Marque" />
+          <NavigationProperty Name="Revision" Relationship="Model1.ModeleRevision" FromRole="Modele" ToRole="Revision" />
+        </EntityType>
+        <Association Name="VoitureReparation">
+          <End Type="Model1.Voiture" Role="Voiture" Multiplicity="1" />
+          <End Type="Model1.Reparation" Role="Reparation" Multiplicity="*" />
+        </Association>
+        <Association Name="ModeleVoiture">
+          <End Type="Model1.Modele" Role="Modele" Multiplicity="1" />
+          <End Type="Model1.Voiture" Role="Voiture" Multiplicity="*" />
+        </Association>
+        <Association Name="MarqueModele">
+          <End Type="Model1.Marque" Role="Marque" Multiplicity="1" />
+          <End Type="Model1.Modele" Role="Modele" Multiplicity="*" />
+        </Association>
+        <Association Name="ModeleRevision">
+          <End Type="Model1.Modele" Role="Modele" Multiplicity="0..1" />
+          <End Type="Model1.Revision" Role="Revision" Multiplicity="*" />
+        </Association>
+        <Association Name="MarqueRevision">
+          <End Type="Model1.Marque" Role="Marque" Multiplicity="0..1" />
+          <End Type="Model1.Revision" Role="Revision" Multiplicity="*" />
+        </Association>
+        <Association Name="ReparationRevision">
+          <End Type="Model1.Reparation" Role="Reparation" Multiplicity="*" />
+          <End Type="Model1.Revision" Role="Revision" Multiplicity="1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="Model1" />
+        <Alias Key="Target" Value="Model1.Store" />
+        <EntityContainerMapping CdmEntityContainer="Model1Container" StorageEntityContainer="Model1TargetContainer">
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
