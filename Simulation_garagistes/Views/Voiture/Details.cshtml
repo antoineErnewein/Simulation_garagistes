@@ -1,0 +1,22 @@
+﻿@model DAL.Models.Voiture
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Voiture</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Kilometrage)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Kilometrage)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

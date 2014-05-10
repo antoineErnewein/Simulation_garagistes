@@ -1,0 +1,40 @@
+﻿@model IEnumerable<DAL.Models.Modele>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>liste des modèles</h2>
+
+<p>
+    <a href="~/Modele/Create">Ajouter un modèle</a>
+    <a href="~/Marque">Ajouter une marque</a>
+</p>
+<table>
+    <tr>
+        <th>
+           Modèle
+        </th>
+        <th>
+           Marque
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.Nom
+        </td>
+        <td>
+            @item.Marque.Nom
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @*@Html.ActionLink("Details", "Details", new { id=item.ID }) |*@
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

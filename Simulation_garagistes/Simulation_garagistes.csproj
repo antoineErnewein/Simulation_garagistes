@@ -183,12 +183,16 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MarqueController.cs" />
+    <Compile Include="Controllers\ModeleController.cs" />
+    <Compile Include="Controllers\VoitureController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\vmModele.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -301,12 +305,33 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Voiture\Index.cshtml" />
+    <Content Include="Views\Voiture\Details.cshtml" />
+    <Content Include="Views\Voiture\Create.cshtml" />
+    <Content Include="Views\Voiture\Edit.cshtml" />
+    <Content Include="Views\Voiture\Delete.cshtml" />
+    <Content Include="Views\Marque\Index.cshtml" />
+    <Content Include="Views\Marque\Details.cshtml" />
+    <Content Include="Views\Marque\Create.cshtml" />
+    <Content Include="Views\Marque\Edit.cshtml" />
+    <Content Include="Views\Marque\Delete.cshtml" />
+    <Content Include="Views\Modele\Index.cshtml" />
+    <Content Include="Views\Modele\Details.cshtml" />
+    <Content Include="Views\Modele\Create.cshtml" />
+    <Content Include="Views\Modele\Edit.cshtml" />
+    <Content Include="Views\Modele\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{1fd6c0bc-293f-41aa-aac0-3a275bd2f0fc}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

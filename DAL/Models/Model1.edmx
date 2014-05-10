@@ -4,15 +4,235 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
-        <EntityContainer Name="Model1TargetContainer" >
-        </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="GaragisteJeu" EntityType="Model1.Store.GaragisteJeu" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VoitureJeu" EntityType="Model1.Store.VoitureJeu" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PeriodeFermetureJeu" EntityType="Model1.Store.PeriodeFermetureJeu" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RevisionJeu" EntityType="Model1.Store.RevisionJeu" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FranchiseJeu" EntityType="Model1.Store.FranchiseJeu" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ReparationJeu" EntityType="Model1.Store.ReparationJeu" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ModeleJeu" EntityType="Model1.Store.ModeleJeu" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MarqueJeu" EntityType="Model1.Store.MarqueJeu" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="GaragistePeriodeFermeture" Association="Model1.Store.GaragistePeriodeFermeture">
+      <End Role="Garagiste" EntitySet="GaragisteJeu" />
+      <End Role="PeriodeFermeture" EntitySet="PeriodeFermetureJeu" />
+    </AssociationSet>
+    <AssociationSet Name="FranchiseGaragiste" Association="Model1.Store.FranchiseGaragiste">
+      <End Role="Franchise" EntitySet="FranchiseJeu" />
+      <End Role="Garagiste" EntitySet="GaragisteJeu" />
+    </AssociationSet>
+    <AssociationSet Name="GaragisteReparation" Association="Model1.Store.GaragisteReparation">
+      <End Role="Garagiste" EntitySet="GaragisteJeu" />
+      <End Role="Reparation" EntitySet="ReparationJeu" />
+    </AssociationSet>
+    <AssociationSet Name="VoitureReparation" Association="Model1.Store.VoitureReparation">
+      <End Role="Voiture" EntitySet="VoitureJeu" />
+      <End Role="Reparation" EntitySet="ReparationJeu" />
+    </AssociationSet>
+    <AssociationSet Name="ModeleVoiture" Association="Model1.Store.ModeleVoiture">
+      <End Role="Modele" EntitySet="ModeleJeu" />
+      <End Role="Voiture" EntitySet="VoitureJeu" />
+    </AssociationSet>
+    <AssociationSet Name="MarqueModele" Association="Model1.Store.MarqueModele">
+      <End Role="Marque" EntitySet="MarqueJeu" />
+      <End Role="Modele" EntitySet="ModeleJeu" />
+    </AssociationSet>
+    <AssociationSet Name="ModeleRevision" Association="Model1.Store.ModeleRevision">
+      <End Role="Modele" EntitySet="ModeleJeu" />
+      <End Role="Revision" EntitySet="RevisionJeu" />
+    </AssociationSet>
+    <AssociationSet Name="MarqueRevision" Association="Model1.Store.MarqueRevision">
+      <End Role="Marque" EntitySet="MarqueJeu" />
+      <End Role="Revision" EntitySet="RevisionJeu" />
+    </AssociationSet>
+    <AssociationSet Name="ReparationRevision" Association="Model1.Store.ReparationRevision">
+      <End Role="Reparation" EntitySet="ReparationJeu" />
+      <End Role="Revision" EntitySet="RevisionJeu" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="GaragisteJeu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Franchise_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VoitureJeu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Kilometrage" Type="float" Nullable="true" DefaultValue="0" />
+    <Property Name="Modele_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PeriodeFermetureJeu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateDebut" Type="datetime" Nullable="false" />
+    <Property Name="DateFin" Type="datetime" Nullable="false" />
+    <Property Name="Garagiste_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RevisionJeu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Libelle" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Kilometrage" Type="float" Nullable="false" />
+    <Property Name="DureeIntervention" Type="time" Nullable="false" />
+    <Property Name="Modele_ID" Type="int" Nullable="true" />
+    <Property Name="Marque_ID" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="FranchiseJeu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ReparationJeu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateDebut" Type="datetime" Nullable="false" />
+    <Property Name="DateFin" Type="datetime" Nullable="false" />
+    <Property Name="Garagiste_ID" Type="int" Nullable="false" />
+    <Property Name="Voiture_ID" Type="int" Nullable="false" />
+    <Property Name="Revision_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ModeleJeu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Marque_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MarqueJeu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="GaragistePeriodeFermeture">
+    <End Role="Garagiste" Type="Model1.Store.GaragisteJeu" Multiplicity="1" />
+    <End Role="PeriodeFermeture" Type="Model1.Store.PeriodeFermetureJeu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Garagiste">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PeriodeFermeture">
+        <PropertyRef Name="Garagiste_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FranchiseGaragiste">
+    <End Role="Franchise" Type="Model1.Store.FranchiseJeu" Multiplicity="1" />
+    <End Role="Garagiste" Type="Model1.Store.GaragisteJeu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Franchise">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Garagiste">
+        <PropertyRef Name="Franchise_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GaragisteReparation">
+    <End Role="Garagiste" Type="Model1.Store.GaragisteJeu" Multiplicity="1" />
+    <End Role="Reparation" Type="Model1.Store.ReparationJeu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Garagiste">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Reparation">
+        <PropertyRef Name="Garagiste_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VoitureReparation">
+    <End Role="Voiture" Type="Model1.Store.VoitureJeu" Multiplicity="1" />
+    <End Role="Reparation" Type="Model1.Store.ReparationJeu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Voiture">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Reparation">
+        <PropertyRef Name="Voiture_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ModeleVoiture">
+    <End Role="Modele" Type="Model1.Store.ModeleJeu" Multiplicity="1" />
+    <End Role="Voiture" Type="Model1.Store.VoitureJeu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Modele">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Voiture">
+        <PropertyRef Name="Modele_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MarqueModele">
+    <End Role="Marque" Type="Model1.Store.MarqueJeu" Multiplicity="1" />
+    <End Role="Modele" Type="Model1.Store.ModeleJeu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Marque">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Modele">
+        <PropertyRef Name="Marque_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ModeleRevision">
+    <End Role="Modele" Type="Model1.Store.ModeleJeu" Multiplicity="0..1" />
+    <End Role="Revision" Type="Model1.Store.RevisionJeu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Modele">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Revision">
+        <PropertyRef Name="Modele_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MarqueRevision">
+    <End Role="Marque" Type="Model1.Store.MarqueJeu" Multiplicity="0..1" />
+    <End Role="Revision" Type="Model1.Store.RevisionJeu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Marque">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Revision">
+        <PropertyRef Name="Marque_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ReparationRevision">
+    <End Role="Reparation" Type="Model1.Store.ReparationJeu" Multiplicity="*" />
+    <End Role="Revision" Type="Model1.Store.RevisionJeu" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Revision">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Reparation">
+        <PropertyRef Name="Revision_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
-        <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="GarageEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="GaragisteJeu" EntityType="Model1.Garagiste" />
           <EntitySet Name="VoitureJeu" EntityType="Model1.Voiture" />
           <EntitySet Name="PeriodeFermetureJeu" EntityType="Model1.PeriodeFermeture" />
@@ -176,13 +396,152 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
-        <Alias Key="Model" Value="Model1" />
-        <Alias Key="Target" Value="Model1.Store" />
-        <EntityContainerMapping CdmEntityContainer="Model1Container" StorageEntityContainer="Model1TargetContainer">
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="GarageEntities">
+    <EntitySetMapping Name="GaragisteJeu">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Garagiste)">
+        <MappingFragment StoreEntitySet="GaragisteJeu">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VoitureJeu">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Voiture)">
+        <MappingFragment StoreEntitySet="VoitureJeu">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Kilometrage" ColumnName="Kilometrage" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PeriodeFermetureJeu">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.PeriodeFermeture)">
+        <MappingFragment StoreEntitySet="PeriodeFermetureJeu">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="DateDebut" ColumnName="DateDebut" />
+          <ScalarProperty Name="DateFin" ColumnName="DateFin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RevisionJeu">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Revision)">
+        <MappingFragment StoreEntitySet="RevisionJeu">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Libelle" ColumnName="Libelle" />
+          <ScalarProperty Name="Kilometrage" ColumnName="Kilometrage" />
+          <ScalarProperty Name="DureeIntervention" ColumnName="DureeIntervention" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FranchiseJeu">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Franchise)">
+        <MappingFragment StoreEntitySet="FranchiseJeu">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReparationJeu">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Reparation)">
+        <MappingFragment StoreEntitySet="ReparationJeu">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="DateDebut" ColumnName="DateDebut" />
+          <ScalarProperty Name="DateFin" ColumnName="DateFin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ModeleJeu">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Modele)">
+        <MappingFragment StoreEntitySet="ModeleJeu">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MarqueJeu">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Marque)">
+        <MappingFragment StoreEntitySet="MarqueJeu">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Nom" ColumnName="Nom" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="GaragistePeriodeFermeture" TypeName="Model1.GaragistePeriodeFermeture" StoreEntitySet="PeriodeFermetureJeu">
+      <EndProperty Name="Garagiste">
+        <ScalarProperty Name="ID" ColumnName="Garagiste_ID" />
+      </EndProperty>
+      <EndProperty Name="PeriodeFermeture">
+        <ScalarProperty Name="ID" ColumnName="ID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FranchiseGaragiste" TypeName="Model1.FranchiseGaragiste" StoreEntitySet="GaragisteJeu">
+      <EndProperty Name="Franchise">
+        <ScalarProperty Name="ID" ColumnName="Franchise_ID" />
+      </EndProperty>
+      <EndProperty Name="Garagiste">
+        <ScalarProperty Name="ID" ColumnName="ID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GaragisteReparation" TypeName="Model1.GaragisteReparation" StoreEntitySet="ReparationJeu">
+      <EndProperty Name="Garagiste">
+        <ScalarProperty Name="ID" ColumnName="Garagiste_ID" />
+      </EndProperty>
+      <EndProperty Name="Reparation">
+        <ScalarProperty Name="ID" ColumnName="ID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="VoitureReparation" TypeName="Model1.VoitureReparation" StoreEntitySet="ReparationJeu">
+      <EndProperty Name="Voiture">
+        <ScalarProperty Name="ID" ColumnName="Voiture_ID" />
+      </EndProperty>
+      <EndProperty Name="Reparation">
+        <ScalarProperty Name="ID" ColumnName="ID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ModeleVoiture" TypeName="Model1.ModeleVoiture" StoreEntitySet="VoitureJeu">
+      <EndProperty Name="Modele">
+        <ScalarProperty Name="ID" ColumnName="Modele_ID" />
+      </EndProperty>
+      <EndProperty Name="Voiture">
+        <ScalarProperty Name="ID" ColumnName="ID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="MarqueModele" TypeName="Model1.MarqueModele" StoreEntitySet="ModeleJeu">
+      <EndProperty Name="Marque">
+        <ScalarProperty Name="ID" ColumnName="Marque_ID" />
+      </EndProperty>
+      <EndProperty Name="Modele">
+        <ScalarProperty Name="ID" ColumnName="ID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ModeleRevision" TypeName="Model1.ModeleRevision" StoreEntitySet="RevisionJeu">
+      <EndProperty Name="Modele">
+        <ScalarProperty Name="ID" ColumnName="Modele_ID" />
+      </EndProperty>
+      <EndProperty Name="Revision">
+        <ScalarProperty Name="ID" ColumnName="ID" />
+      </EndProperty>
+      <Condition ColumnName="Modele_ID" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="MarqueRevision" TypeName="Model1.MarqueRevision" StoreEntitySet="RevisionJeu">
+      <EndProperty Name="Marque">
+        <ScalarProperty Name="ID" ColumnName="Marque_ID" />
+      </EndProperty>
+      <EndProperty Name="Revision">
+        <ScalarProperty Name="ID" ColumnName="ID" />
+      </EndProperty>
+      <Condition ColumnName="Marque_ID" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ReparationRevision" TypeName="Model1.ReparationRevision" StoreEntitySet="ReparationJeu">
+      <EndProperty Name="Revision">
+        <ScalarProperty Name="ID" ColumnName="Revision_ID" />
+      </EndProperty>
+      <EndProperty Name="Reparation">
+        <ScalarProperty Name="ID" ColumnName="ID" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
