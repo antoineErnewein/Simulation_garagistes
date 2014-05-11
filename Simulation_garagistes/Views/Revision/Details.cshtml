@@ -1,0 +1,36 @@
+﻿@model DAL.Models.Revision
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Revision</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Libelle)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Libelle)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Kilometrage)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Kilometrage)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DureeIntervention)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DureeIntervention)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

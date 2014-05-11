@@ -1,0 +1,46 @@
+﻿@model Simulation_garagistes.ViewModels.vmGaragiste
+
+@{
+    ViewBag.Title = "Créer un nouveau garagiste";
+}
+
+<h2>Créer un nouveau garagiste</h2>
+
+<form name="input" action="/Garagiste/Create" method="post">
+Nom : <input type="text" name="garagisteName"><br />
+Franchise : <select name="franchiseId">
+    @foreach (var item in Model.Franchises) {
+        <option value="@item.ID">@item.Nom</option>
+    }
+    </select><br />
+<input type="submit" value="Enregistrer">
+</form> 
+
+@*@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Garagiste</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Nom)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Nom)
+            @Html.ValidationMessageFor(model => model.Nom)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@

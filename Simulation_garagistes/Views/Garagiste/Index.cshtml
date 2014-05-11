@@ -1,0 +1,53 @@
+﻿@model IEnumerable<DAL.Models.Garagiste>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Créer un nouveau garagiste", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Nom
+        </th>
+        <th>
+            Franchise
+        </th>
+        <th>
+            Périodes de fermeture
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.Nom
+        </td>
+        <td>
+            @item.Franchise.Nom
+        </td>
+        <td>
+            @if(item.PeriodeFermeture.Count==0){
+                <p>Aucune période enregistrée</p>
+            }
+            else{
+            foreach (var periode in item.PeriodeFermeture)
+            {
+                <p>@periode.DateDebut à @periode.DateFin</p>
+            }
+            }
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

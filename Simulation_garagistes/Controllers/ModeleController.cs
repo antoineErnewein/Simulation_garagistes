@@ -19,12 +19,17 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Index()
         {
-            var modeles = db.ModeleJeu.Include(p => p.Marque);
-            vmModele vmModele = new vmModele();
-            vmModele.Modeles = modeles.ToList();
-            vmModele.Marques = db.MarqueJeu.ToList();
-            //return View(vmModele);
-            return View(db.ModeleJeu.Include(p => p.Marque).ToList());
+            //if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+            //{
+                var modeles = db.ModeleJeu.Include(p => p.Marque);
+                vmModele vmModele = new vmModele();
+                vmModele.Modeles = modeles.ToList();
+                vmModele.Marques = db.MarqueJeu.ToList();
+                //return View(vmModele);
+                return View(db.ModeleJeu.Include(p => p.Marque).ToList());
+            //}
+            //return RedirectToAction("..");
+            
         }
 
         //

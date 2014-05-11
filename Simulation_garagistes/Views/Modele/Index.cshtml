@@ -7,8 +7,10 @@
 <h2>liste des modèles</h2>
 
 <p>
+    @if (Request.IsAuthenticated) {
     <a href="~/Modele/Create">Ajouter un modèle</a>
     <a href="~/Marque">Ajouter une marque</a>
+    }
 </p>
 <table>
     <tr>
@@ -29,11 +31,13 @@
         <td>
             @item.Marque.Nom
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+        @if (Request.IsAuthenticated) {
+        <td>            
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID })  |
             @*@Html.ActionLink("Details", "Details", new { id=item.ID }) |*@
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })            
         </td>
+        }
     </tr>
 }
 
