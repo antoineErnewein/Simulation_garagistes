@@ -36,10 +36,10 @@
                 <p>Aucune période enregistrée</p>
             }
             else{
-            foreach (var periode in item.PeriodeFermeture)
-            {
-                <p>@periode.DateDebut à @periode.DateFin</p>
-            }
+                foreach (var periode in item.PeriodeFermeture)
+                {
+                    <p>@periode.DateDebut à @periode.DateFin</p>
+                }
             }
         </td>
         <td>

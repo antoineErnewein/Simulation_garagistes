@@ -1,12 +1,31 @@
-﻿@model DAL.Models.Garagiste
+﻿@model Simulation_garagistes.ViewModels.vmGaragiste
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Editer le garagiste";
 }
 
-<h2>Edit</h2>
-
-@using (Html.BeginForm()) {
+<h2>Editer le garagiste</h2>
+<form name="input" action="/Garagiste/Edit" method="post">
+<input type="hidden" name="garagisteId" value="@Model.ID" >
+Nom : <input type="text" name="garagisteName" value="@Model.Nom"><br />
+Franchise : <select name="franchiseId">
+    @foreach (var item in Model.Franchises) {
+        <option value="@item.ID" @((item.ID==Model.Franchise.ID) ? "selected" : "" )>@item.Nom</option>
+    }
+    </select><br />
+Périodes de Fermetures
+    @if(Model.PeriodeFermetures.Count==0){
+                <p>Aucune période enregistrée</p>
+            }
+            else{
+                foreach (var periode in Model.PeriodeFermetures)
+                {
+                    <p>@periode.DateDebut à @periode.DateFin</p>
+                }
+            }
+<input type="submit" value="Enregistrer">
+</form> 
+@*@using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
@@ -35,4 +54,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
+}*@

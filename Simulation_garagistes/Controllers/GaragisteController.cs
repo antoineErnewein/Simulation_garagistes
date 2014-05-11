@@ -77,27 +77,43 @@ namespace Simulation_garagistes.Controllers
         public ActionResult Edit(int id = 0)
         {
             Garagiste garagiste = db.GaragisteJeu.Find(id);
-            if (garagiste == null)
-            {
-                return HttpNotFound();
-            }
-            return View(garagiste);
+           
+            vmGaragiste vmGaragiste = new vmGaragiste();
+            vmGaragiste.Nom = garagiste.Nom;
+            vmGaragiste.Franchise = garagiste.Franchise;
+            vmGaragiste.ID = id;
+            vmGaragiste.Franchises = db.FranchiseJeu.ToList();
+            vmGaragiste.PeriodeFermetures = garagiste.PeriodeFermeture.ToList();
+
+            return View(vmGaragiste);
         }
 
         //
         // POST: /Garagiste/Edit/5
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Garagiste garagiste)
+        public ActionResult Edit(vmGaragiste vmGaragiste)
         {
-            if (ModelState.IsValid)
+            int franchiseId = int.Parse(Request["franchiseId"]);
+            string garagisteName = Request["garagisteName"];
+            int garagisteId = int.Parse(Request["garagisteId"]);
+
+            if (!String.IsNullOrEmpty(garagisteName))
             {
-                db.Entry(garagiste).State = EntityState.Modified;
+                Garagiste garagiste = db.GaragisteJeu.Find(garagisteId);
+                garagiste.Nom = garagisteName;
+                garagiste.Franchise = db.FranchiseJeu.Find(franchiseId);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit/" + garagisteId);
             }
-            return View(garagiste);
+            return RedirectToAction("Edit/" + garagisteId);
+            //if (ModelState.IsValid)
+            //{
+            //    db.Entry(garagiste).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
+            //return View(garagiste);
         }
 
         //
