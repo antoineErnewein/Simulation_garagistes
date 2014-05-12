@@ -347,6 +347,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{b3ac3a1f-e18a-4c15-9f5e-32ec04f9d607}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{1fd6c0bc-293f-41aa-aac0-3a275bd2f0fc}</Project>
       <Name>DAL</Name>
