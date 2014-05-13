@@ -53,12 +53,22 @@ namespace Simulation_garagistes.Controllers
         {
             int franchiseId = int.Parse(Request["franchiseId"]);
             string garagisteName = Request["garagisteName"];
+            DateTime fermetureBegin; 
+            DateTime fermetureEnd;
 
             if (!String.IsNullOrEmpty(garagisteName))
             {
                 Garagiste garagiste = new Garagiste();
                 garagiste.Nom = garagisteName;
                 garagiste.Franchise = db.FranchiseJeu.Find(franchiseId);
+                if (DateTime.TryParse(Request["fermetureBegin"], out fermetureBegin) && DateTime.TryParse(Request["fermetureEnd"], out fermetureEnd))
+                {
+                    PeriodeFermeture periodeFermeture = new PeriodeFermeture();
+                    periodeFermeture.DateDebut = fermetureBegin;
+                    periodeFermeture.DateFin = fermetureEnd;
+                    db.PeriodeFermetureJeu.Add(periodeFermeture);
+                    garagiste.PeriodeFermeture.Add(periodeFermeture);
+                }
                 db.GaragisteJeu.Add(garagiste);
                 db.SaveChanges();
                 return RedirectToAction("Index");

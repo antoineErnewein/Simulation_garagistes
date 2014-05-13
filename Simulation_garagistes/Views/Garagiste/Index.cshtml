@@ -6,9 +6,13 @@
 
 <h2>Index</h2>
 
-<p>
+@if (Request.IsAuthenticated) {
+    <a href="~/Garagiste/Create">Créer un nouveau garagiste</a>
+    <a href="~/Franchise">Ajouter une franchise</a>
+    }
+@*<p>
     @Html.ActionLink("Créer un nouveau garagiste", "Create")
-</p>
+</p>*@
 <table>
     <tr>
         <th>

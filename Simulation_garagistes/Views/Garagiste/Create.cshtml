@@ -3,6 +3,12 @@
 @{
     ViewBag.Title = "Créer un nouveau garagiste";
 }
+<script>
+    $.datepicker.setDefaults($.datepicker.regional["fr"]);
+    $(function() {
+        $("#datepicker1 , #datepicker2").datepicker($.datepicker.regional[ "fr" ]);
+    });
+</script>
 
 <h2>Créer un nouveau garagiste</h2>
 
@@ -13,6 +19,7 @@ Franchise : <select name="franchiseId">
         <option value="@item.ID">@item.Nom</option>
     }
     </select><br />
+Périodes de fermetures : <input type="text" id="datepicker1" name="fermetureBegin"> à <input type="text" id="datepicker2" name="fermetureEnd"><br />
 <input type="submit" value="Enregistrer">
 </form> 
 
