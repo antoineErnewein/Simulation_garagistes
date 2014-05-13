@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 05/10/2014 17:18:03
--- Generated from EDMX file: C:\Users\noel\Source\Repos\Simulation_garagistes\DAL\Models\Model1.edmx
+-- Date Created: 05/14/2014 01:16:18
+-- Generated from EDMX file: C:\Users\Antoine\Documents\GitHub\Simulation_garagistes\DAL\Models\Model1.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -209,7 +209,7 @@ ADD CONSTRAINT [FK_GaragistePeriodeFermeture]
     FOREIGN KEY ([Garagiste_ID])
     REFERENCES [dbo].[GaragisteJeu]
         ([ID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_GaragistePeriodeFermeture'
 CREATE INDEX [IX_FK_GaragistePeriodeFermeture]
@@ -223,7 +223,7 @@ ADD CONSTRAINT [FK_FranchiseGaragiste]
     FOREIGN KEY ([Franchise_ID])
     REFERENCES [dbo].[FranchiseJeu]
         ([ID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_FranchiseGaragiste'
 CREATE INDEX [IX_FK_FranchiseGaragiste]
@@ -237,7 +237,7 @@ ADD CONSTRAINT [FK_GaragisteReparation]
     FOREIGN KEY ([Garagiste_ID])
     REFERENCES [dbo].[GaragisteJeu]
         ([ID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_GaragisteReparation'
 CREATE INDEX [IX_FK_GaragisteReparation]
@@ -251,7 +251,7 @@ ADD CONSTRAINT [FK_VoitureReparation]
     FOREIGN KEY ([Voiture_ID])
     REFERENCES [dbo].[VoitureJeu]
         ([ID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_VoitureReparation'
 CREATE INDEX [IX_FK_VoitureReparation]
@@ -265,7 +265,7 @@ ADD CONSTRAINT [FK_ModeleVoiture]
     FOREIGN KEY ([Modele_ID])
     REFERENCES [dbo].[ModeleJeu]
         ([ID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_ModeleVoiture'
 CREATE INDEX [IX_FK_ModeleVoiture]
@@ -279,7 +279,7 @@ ADD CONSTRAINT [FK_MarqueModele]
     FOREIGN KEY ([Marque_ID])
     REFERENCES [dbo].[MarqueJeu]
         ([ID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_MarqueModele'
 CREATE INDEX [IX_FK_MarqueModele]
@@ -293,7 +293,7 @@ ADD CONSTRAINT [FK_ModeleRevision]
     FOREIGN KEY ([Modele_ID])
     REFERENCES [dbo].[ModeleJeu]
         ([ID])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_ModeleRevision'
 CREATE INDEX [IX_FK_ModeleRevision]

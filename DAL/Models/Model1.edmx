@@ -121,7 +121,9 @@
     <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="GaragistePeriodeFermeture">
-    <End Role="Garagiste" Type="Model1.Store.GaragisteJeu" Multiplicity="1" />
+    <End Role="Garagiste" Type="Model1.Store.GaragisteJeu" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="PeriodeFermeture" Type="Model1.Store.PeriodeFermetureJeu" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Garagiste">
@@ -133,7 +135,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FranchiseGaragiste">
-    <End Role="Franchise" Type="Model1.Store.FranchiseJeu" Multiplicity="1" />
+    <End Role="Franchise" Type="Model1.Store.FranchiseJeu" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="Garagiste" Type="Model1.Store.GaragisteJeu" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Franchise">
@@ -145,7 +149,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="GaragisteReparation">
-    <End Role="Garagiste" Type="Model1.Store.GaragisteJeu" Multiplicity="1" />
+    <End Role="Garagiste" Type="Model1.Store.GaragisteJeu" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="Reparation" Type="Model1.Store.ReparationJeu" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Garagiste">
@@ -157,7 +163,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="VoitureReparation">
-    <End Role="Voiture" Type="Model1.Store.VoitureJeu" Multiplicity="1" />
+    <End Role="Voiture" Type="Model1.Store.VoitureJeu" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="Reparation" Type="Model1.Store.ReparationJeu" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Voiture">
@@ -169,7 +177,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="ModeleVoiture">
-    <End Role="Modele" Type="Model1.Store.ModeleJeu" Multiplicity="1" />
+    <End Role="Modele" Type="Model1.Store.ModeleJeu" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="Voiture" Type="Model1.Store.VoitureJeu" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Modele">
@@ -181,7 +191,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="MarqueModele">
-    <End Role="Marque" Type="Model1.Store.MarqueJeu" Multiplicity="1" />
+    <End Role="Marque" Type="Model1.Store.MarqueJeu" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="Modele" Type="Model1.Store.ModeleJeu" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Marque">
@@ -193,7 +205,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="ModeleRevision">
-    <End Role="Modele" Type="Model1.Store.ModeleJeu" Multiplicity="0..1" />
+    <End Role="Modele" Type="Model1.Store.ModeleJeu" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="Revision" Type="Model1.Store.RevisionJeu" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Modele">
@@ -307,7 +321,9 @@
           <NavigationProperty Name="Garagiste" Relationship="Model1.GaragistePeriodeFermeture" FromRole="PeriodeFermeture" ToRole="Garagiste" />
         </EntityType>
         <Association Name="GaragistePeriodeFermeture">
-          <End Type="Model1.Garagiste" Role="Garagiste" Multiplicity="1" />
+          <End Type="Model1.Garagiste" Role="Garagiste" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="Model1.PeriodeFermeture" Role="PeriodeFermeture" Multiplicity="*" />
         </Association>
         <EntityType Name="Revision">
@@ -331,7 +347,9 @@
           <NavigationProperty Name="Garagiste" Relationship="Model1.FranchiseGaragiste" FromRole="Franchise" ToRole="Garagiste" />
         </EntityType>
         <Association Name="FranchiseGaragiste">
-          <End Type="Model1.Franchise" Role="Franchise" Multiplicity="1" />
+          <End Type="Model1.Franchise" Role="Franchise" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="Model1.Garagiste" Role="Garagiste" Multiplicity="*" />
         </Association>
         <EntityType Name="Reparation">
@@ -346,7 +364,9 @@
           <NavigationProperty Name="Revision" Relationship="Model1.ReparationRevision" FromRole="Reparation" ToRole="Revision" />
         </EntityType>
         <Association Name="GaragisteReparation">
-          <End Type="Model1.Garagiste" Role="Garagiste" Multiplicity="1" />
+          <End Type="Model1.Garagiste" Role="Garagiste" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="Model1.Reparation" Role="Reparation" Multiplicity="*" />
         </Association>
         <EntityType Name="Marque">
@@ -369,28 +389,38 @@
           <NavigationProperty Name="Revision" Relationship="Model1.ModeleRevision" FromRole="Modele" ToRole="Revision" />
         </EntityType>
         <Association Name="VoitureReparation">
-          <End Type="Model1.Voiture" Role="Voiture" Multiplicity="1" />
+          <End Type="Model1.Voiture" Role="Voiture" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="Model1.Reparation" Role="Reparation" Multiplicity="*" />
         </Association>
         <Association Name="ModeleVoiture">
-          <End Type="Model1.Modele" Role="Modele" Multiplicity="1" />
+          <End Type="Model1.Modele" Role="Modele" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="Model1.Voiture" Role="Voiture" Multiplicity="*" />
         </Association>
         <Association Name="MarqueModele">
-          <End Type="Model1.Marque" Role="Marque" Multiplicity="1" />
+          <End Type="Model1.Marque" Role="Marque" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="Model1.Modele" Role="Modele" Multiplicity="*" />
         </Association>
         <Association Name="ModeleRevision">
-          <End Type="Model1.Modele" Role="Modele" Multiplicity="0..1" />
+          <End Type="Model1.Modele" Role="Modele" Multiplicity="0..1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="Model1.Revision" Role="Revision" Multiplicity="*" />
         </Association>
         <Association Name="MarqueRevision">
-          <End Type="Model1.Marque" Role="Marque" Multiplicity="0..1" />
+          <End Type="Model1.Marque" Role="Marque" Multiplicity="0..1" >
+          </End>
           <End Type="Model1.Revision" Role="Revision" Multiplicity="*" />
         </Association>
         <Association Name="ReparationRevision">
           <End Type="Model1.Reparation" Role="Reparation" Multiplicity="*" />
-          <End Type="Model1.Revision" Role="Revision" Multiplicity="1" />
+          <End Type="Model1.Revision" Role="Revision" Multiplicity="1" >
+          </End>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
