@@ -7,29 +7,23 @@ using System.Web;
 using System.Web.Mvc;
 using DAL.Models;
 using Simulation_garagistes.ViewModels;
+using BLL.Services;
+using DAL.Managers;
 
 namespace Simulation_garagistes.Controllers
 {
     public class ModeleController : Controller
     {
         private GarageEntities db = new GarageEntities();
+        private ModeleService modeleService = new ModeleService(new ModeleManager());
+        private MarqueService marqueService = new MarqueService(new MarqueManager());
 
         //
         // GET: /Modele/
 
         public ActionResult Index()
         {
-            //if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
-            //{
-                var modeles = db.ModeleJeu.Include(p => p.Marque);
-                vmModele vmModele = new vmModele();
-                vmModele.Modeles = modeles.ToList();
-                vmModele.Marques = db.MarqueJeu.ToList();
-                //return View(vmModele);
-                return View(db.ModeleJeu.Include(p => p.Marque).ToList());
-            //}
-            //return RedirectToAction("..");
-            
+            return View(modeleService.getAllModeles());
         }
 
         //
@@ -37,7 +31,7 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Modele modele = db.ModeleJeu.Find(id);
+            Modele modele = modeleService.getModeleById(id);
             if (modele == null)
             {
                 return HttpNotFound();
@@ -51,7 +45,7 @@ namespace Simulation_garagistes.Controllers
         public ActionResult Create()
         {
             vmModele vmModele = new vmModele();
-            vmModele.Marques = db.MarqueJeu.ToList();
+            vmModele.Marques = marqueService.getAllMarques();
             return View(vmModele);
         }
 
@@ -66,17 +60,13 @@ namespace Simulation_garagistes.Controllers
 
             if (!String.IsNullOrEmpty(modeleName))
             {
-                Modele modele = new Modele();
-                modele.Nom = modeleName;
-                modele.Marque = db.MarqueJeu.Find(marqueId);
-                db.ModeleJeu.Add(modele);
-                db.SaveChanges();
+                modeleService.createModele(modeleName, marqueId);
                 return RedirectToAction("Index");
             }
             else
             {
                 vmModele = new vmModele();
-                vmModele.Marques = db.MarqueJeu.ToList();
+                vmModele.Marques = marqueService.getAllMarques();
                 return View(vmModele);
             }
 
@@ -88,12 +78,12 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Modele modele = db.ModeleJeu.Find(id);
+            Modele modele = modeleService.getModeleById(id);
             vmModele vmModele = new vmModele();
             vmModele.Nom = modele.Nom;
             vmModele.Marque = modele.Marque;
             vmModele.ID = id;
-            vmModele.Marques = db.MarqueJeu.ToList();
+            vmModele.Marques = marqueService.getAllMarques();
 
             return View(vmModele);
             //if (modele == null)
@@ -115,10 +105,7 @@ namespace Simulation_garagistes.Controllers
 
             if (!String.IsNullOrEmpty(modeleName))
             {
-                modele = db.ModeleJeu.Find(modeleID); ;
-                modele.Nom = modeleName;
-                modele.Marque = db.MarqueJeu.Find(marqueId);
-                db.SaveChanges();
+                modeleService.updateModele(modeleID, modeleName, marqueId);
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Index");
@@ -136,7 +123,7 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Modele modele = db.ModeleJeu.Find(id);
+            Modele modele = modeleService.getModeleById(id);
             if (modele == null)
             {
                 return HttpNotFound();
@@ -151,9 +138,7 @@ namespace Simulation_garagistes.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Modele modele = db.ModeleJeu.Find(id);
-            db.ModeleJeu.Remove(modele);
-            db.SaveChanges();
+            modeleService.deleteModele(id);
             return RedirectToAction("Index");
         }
 

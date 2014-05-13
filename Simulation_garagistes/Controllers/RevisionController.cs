@@ -6,19 +6,22 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DAL.Models;
+using BLL.Services;
+using DAL.Managers;
 
 namespace Simulation_garagistes.Controllers
 {
     public class RevisionController : Controller
     {
         private GarageEntities db = new GarageEntities();
+        private RevisionService revisionService = new RevisionService(new RevisionManager());
 
         //
         // GET: /Revision/
 
         public ActionResult Index()
         {
-            return View(db.RevisionJeu.ToList());
+            return View(revisionService.getAllRevisions());
         }
 
         //
@@ -26,7 +29,7 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Revision revision = db.RevisionJeu.Find(id);
+            Revision revision = revisionService.getRevisionById(id);
             if (revision == null)
             {
                 return HttpNotFound();
@@ -64,7 +67,7 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Revision revision = db.RevisionJeu.Find(id);
+            Revision revision = revisionService.getRevisionById(id);
             if (revision == null)
             {
                 return HttpNotFound();
@@ -93,7 +96,7 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Revision revision = db.RevisionJeu.Find(id);
+            Revision revision = revisionService.getRevisionById(id);
             if (revision == null)
             {
                 return HttpNotFound();
@@ -108,9 +111,7 @@ namespace Simulation_garagistes.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Revision revision = db.RevisionJeu.Find(id);
-            db.RevisionJeu.Remove(revision);
-            db.SaveChanges();
+            revisionService.deleteRevision(id);
             return RedirectToAction("Index");
         }
 

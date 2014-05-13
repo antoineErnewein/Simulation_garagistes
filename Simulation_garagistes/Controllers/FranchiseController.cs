@@ -6,19 +6,22 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DAL.Models;
+using BLL.Services;
+using DAL.Managers;
 
 namespace Simulation_garagistes.Controllers
 {
     public class FranchiseController : Controller
     {
         private GarageEntities db = new GarageEntities();
+        private FranchiseService franchiseService = new FranchiseService(new FranchiseManager());
 
         //
         // GET: /Franchise/
 
         public ActionResult Index()
         {
-            return View(db.FranchiseJeu.ToList());
+            return View(franchiseService.getAllFranchises());
         }
 
         //
@@ -26,7 +29,7 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Franchise franchise = db.FranchiseJeu.Find(id);
+            Franchise franchise = franchiseService.getFranchiseById(id);
             if (franchise == null)
             {
                 return HttpNotFound();
@@ -64,7 +67,7 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Franchise franchise = db.FranchiseJeu.Find(id);
+            Franchise franchise = franchiseService.getFranchiseById(id);
             if (franchise == null)
             {
                 return HttpNotFound();
@@ -93,7 +96,7 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Franchise franchise = db.FranchiseJeu.Find(id);
+            Franchise franchise = franchiseService.getFranchiseById(id);
             if (franchise == null)
             {
                 return HttpNotFound();
@@ -108,9 +111,7 @@ namespace Simulation_garagistes.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Franchise franchise = db.FranchiseJeu.Find(id);
-            db.FranchiseJeu.Remove(franchise);
-            db.SaveChanges();
+            franchiseService.deleteFranchise(id);
             return RedirectToAction("Index");
         }
 

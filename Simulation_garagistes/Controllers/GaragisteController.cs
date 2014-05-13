@@ -7,19 +7,24 @@ using System.Web;
 using System.Web.Mvc;
 using DAL.Models;
 using Simulation_garagistes.ViewModels;
+using BLL.Services;
+using DAL.Managers;
 
 namespace Simulation_garagistes.Controllers
 {
     public class GaragisteController : Controller
     {
         private GarageEntities db = new GarageEntities();
-
+        private GaragisteService garagisteService = new GaragisteService(new GaragisteManager());
+        private FranchiseService franchiseService = new FranchiseService(new FranchiseManager());
+        private PeriodeFermetureService periodeFermetureService = new PeriodeFermetureService(new PeriodeFermetureManager());
+       
         //
         // GET: /Garagiste/
 
         public ActionResult Index()
         {
-            return View(db.GaragisteJeu.Include(p =>p.Franchise).Include(p=>p.PeriodeFermeture).ToList());
+            return View(garagisteService.getAllGaragistes());
         }
 
         //
@@ -27,7 +32,7 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Garagiste garagiste = db.GaragisteJeu.Find(id);
+            Garagiste garagiste = garagisteService.getGaragisteById(id);
             if (garagiste == null)
             {
                 return HttpNotFound();
@@ -41,7 +46,7 @@ namespace Simulation_garagistes.Controllers
         public ActionResult Create()
         {
             vmGaragiste vmGaragiste = new vmGaragiste();
-            vmGaragiste.Franchises = db.FranchiseJeu.ToList();
+            vmGaragiste.Franchises = franchiseService.getAllFranchises();
             return View(vmGaragiste);
         }
 
@@ -76,7 +81,7 @@ namespace Simulation_garagistes.Controllers
             else
             {
                 vmGaragiste = new vmGaragiste();
-                vmGaragiste.Franchises = db.FranchiseJeu.ToList();
+                vmGaragiste.Franchises = franchiseService.getAllFranchises();
                 return View(vmGaragiste);
             }
         }
@@ -92,7 +97,7 @@ namespace Simulation_garagistes.Controllers
             vmGaragiste.Nom = garagiste.Nom;
             vmGaragiste.Franchise = garagiste.Franchise;
             vmGaragiste.ID = id;
-            vmGaragiste.Franchises = db.FranchiseJeu.ToList();
+            vmGaragiste.Franchises = franchiseService.getAllFranchises();
             vmGaragiste.PeriodeFermetures = garagiste.PeriodeFermeture.ToList();
 
             return View(vmGaragiste);
@@ -110,10 +115,7 @@ namespace Simulation_garagistes.Controllers
 
             if (!String.IsNullOrEmpty(garagisteName))
             {
-                Garagiste garagiste = db.GaragisteJeu.Find(garagisteId);
-                garagiste.Nom = garagisteName;
-                garagiste.Franchise = db.FranchiseJeu.Find(franchiseId);
-                db.SaveChanges();
+                garagisteService.updateGaragiste(garagisteId, garagisteName, franchiseId);
                 return RedirectToAction("Edit/" + garagisteId);
             }
             return RedirectToAction("Edit/" + garagisteId);
@@ -131,7 +133,7 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Garagiste garagiste = db.GaragisteJeu.Find(id);
+            Garagiste garagiste = garagisteService.getGaragisteById(id);
             if (garagiste == null)
             {
                 return HttpNotFound();
@@ -146,9 +148,7 @@ namespace Simulation_garagistes.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Garagiste garagiste = db.GaragisteJeu.Find(id);
-            db.GaragisteJeu.Remove(garagiste);
-            db.SaveChanges();
+            garagisteService.deleteGaragiste(id);
             return RedirectToAction("Index");
         }
 

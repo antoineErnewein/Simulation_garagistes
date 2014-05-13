@@ -42,9 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GaragisteService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VoitureService.cs" />
+    <Compile Include="Services\FranchiseService.cs" />
+    <Compile Include="Services\GaragisteService.cs" />
+    <Compile Include="Services\MarqueService.cs" />
+    <Compile Include="Services\ModeleService.cs" />
+    <Compile Include="Services\PeriodeFermetureService.cs" />
+    <Compile Include="Services\ReparationService.cs" />
+    <Compile Include="Services\RevisionService.cs" />
+    <Compile Include="Services\VoitureService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">

@@ -6,19 +6,22 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DAL.Models;
+using BLL.Services;
+using DAL.Managers;
 
 namespace Simulation_garagistes.Controllers
 {
     public class VoitureController : Controller
     {
         private GarageEntities db = new GarageEntities();
+        private VoitureService voitureService = new VoitureService(new VoitureManager());
 
         //
         // GET: /Voiture/
 
         public ActionResult Index()
         {
-            return View(db.VoitureJeu.ToList());
+            return View(voitureService.getAllVoitures());
         }
 
         //
@@ -26,7 +29,7 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Voiture voiture = db.VoitureJeu.Find(id);
+            Voiture voiture = voitureService.getVoitureById(id);
             if (voiture == null)
             {
                 return HttpNotFound();
@@ -64,7 +67,7 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Voiture voiture = db.VoitureJeu.Find(id);
+            Voiture voiture = voitureService.getVoitureById(id);
             if (voiture == null)
             {
                 return HttpNotFound();
@@ -93,7 +96,7 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Voiture voiture = db.VoitureJeu.Find(id);
+            Voiture voiture = voitureService.getVoitureById(id);
             if (voiture == null)
             {
                 return HttpNotFound();
@@ -108,9 +111,7 @@ namespace Simulation_garagistes.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Voiture voiture = db.VoitureJeu.Find(id);
-            db.VoitureJeu.Remove(voiture);
-            db.SaveChanges();
+            voitureService.deleteVoiture(id);
             return RedirectToAction("Index");
         }
 

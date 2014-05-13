@@ -6,19 +6,22 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DAL.Models;
+using BLL.Services;
+using DAL.Managers;
 
 namespace Simulation_garagistes.Controllers
 {
     public class MarqueController : Controller
     {
         private GarageEntities db = new GarageEntities();
+        private MarqueService marqueService = new MarqueService(new MarqueManager());
 
         //
         // GET: /Marque/
 
         public ActionResult Index()
         {
-            return View(db.MarqueJeu.ToList());
+            return View(marqueService.getAllMarques());
         }
 
         //
@@ -26,7 +29,7 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Marque marque = db.MarqueJeu.Find(id);
+            Marque marque = marqueService.getMarqueById(id);
             if (marque == null)
             {
                 return HttpNotFound();
@@ -64,7 +67,7 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Marque marque = db.MarqueJeu.Find(id);
+            Marque marque = marqueService.getMarqueById(id);
             if (marque == null)
             {
                 return HttpNotFound();
@@ -93,7 +96,7 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Marque marque = db.MarqueJeu.Find(id);
+            Marque marque = marqueService.getMarqueById(id);
             if (marque == null)
             {
                 return HttpNotFound();
@@ -108,9 +111,7 @@ namespace Simulation_garagistes.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Marque marque = db.MarqueJeu.Find(id);
-            db.MarqueJeu.Remove(marque);
-            db.SaveChanges();
+            marqueService.deleteMarque(id);
             return RedirectToAction("Index");
         }
 

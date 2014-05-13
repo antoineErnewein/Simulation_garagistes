@@ -46,6 +46,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IManagers\IFranchiseManager.cs" />
+    <Compile Include="IManagers\IGaragisteManager.cs" />
+    <Compile Include="IManagers\IMarqueManager.cs" />
+    <Compile Include="IManagers\IModeleManager.cs" />
+    <Compile Include="IManagers\IPeriodeFermetureManager.cs" />
+    <Compile Include="IManagers\IReparationManager.cs" />
+    <Compile Include="IManagers\IRevisionManager.cs" />
+    <Compile Include="IManagers\IVoitureManager.cs" />
+    <Compile Include="Managers\FranchiseManager.cs" />
+    <Compile Include="Managers\GaragisteManager.cs" />
+    <Compile Include="Managers\MarqueManager.cs" />
+    <Compile Include="Managers\ModeleManager.cs" />
+    <Compile Include="Managers\PeriodeFermetureManager.cs" />
+    <Compile Include="Managers\ReparationManager.cs" />
+    <Compile Include="Managers\RevisionManager.cs" />
+    <Compile Include="Managers\VoitureManager.cs" />
     <Compile Include="Models\Franchise.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

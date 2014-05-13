@@ -3,44 +3,72 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL;
+using DAL.IManagers;
+using DAL.Managers;
 using DAL.Models;
 
-namespace BLL
+namespace BLL.Services
 {
-    class VoitureService
+    public class VoitureService
     {
-        private GarageEntities dbContext; 
+        private IVoitureManager voitureManager;
 
-        public VoitureService()
+        public VoitureService(IVoitureManager voitureManager)
         {
-            this.dbContext = new GarageEntities();
+            this.voitureManager = voitureManager;
         }
 
         //Créer une voiture du modele voulu avec un kilométrage entre 20.000 et 200.000 
         public int createVoiture(int modeleID)
         {
-            Modele modele = dbContext.ModeleJeu.Find(modeleID);
-            int id = -1;
+            Random rand = new Random();
+            Voiture voiture = new Voiture();
+            voiture.Kilometrage = rand.Next(20000, 200000);
 
-            if (modele != null)
+            return voitureManager.createVoiture(voiture, modeleID);
+        }
+
+        public Voiture getVoitureById(int voitureID)
+        {
+            return voitureManager.getVoitureById(voitureID);
+        }
+
+        public List<Voiture> getVoituresByMarque(int marqueID)
+        {
+            return voitureManager.getVoituresByMarque(marqueID);
+        }
+
+        public List<Voiture> getVoituresByModele(int modeleID)
+        {
+            return voitureManager.getVoituresByModele(modeleID);
+        }
+
+        public List<Voiture> getAllVoitures()
+        {
+            return voitureManager.getAllVoitures();
+        }
+
+        public bool updateVoiture(int voitureID, double kilometrage, int modeleID)
+        {
+            Voiture voiture = voitureManager.getVoitureById(voitureID);
+
+            if (voiture == null)
             {
-                Random rand = new Random();
-
-                Voiture voiture = new Voiture();
-                voiture.Modele = modele;
-                voiture.Kilometrage = rand.Next(20000, 200000);
-
-                dbContext.VoitureJeu.Add(voiture);
-                dbContext.SaveChanges();
-                id = voiture.ID;
+                return false;
             }
 
-            return id;  
+            voiture.Kilometrage = kilometrage;
+
+            return voitureManager.updateVoiture(voiture, modeleID);
+        }
+
+        public bool deleteVoiture(int voitureID)
+        {
+            return voitureManager.deleteVoiture(voitureID);
         }
 
         //Retourne la liste des révisions a effectuer pour une voiture
-        public List<Revision> getRevisionsAFaire(int voitureID)
+        /*public List<Revision> getRevisionsAFaire(int voitureID)
         {
             List<Revision> res = new List<Revision>();
             Voiture voiture = dbContext.VoitureJeu.Find(voitureID);
@@ -69,7 +97,7 @@ namespace BLL
             }
 
             return res;
-        }
+        }*/
 
     }
 }
