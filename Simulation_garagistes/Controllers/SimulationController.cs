@@ -53,9 +53,39 @@ namespace Simulation_garagistes.Controllers
             new System.Threading.Thread(() =>
             {
                 initSimulation();
+                run();
+
             }).Start();
 
             return View();
+        }
+
+        public void run()
+        {
+            //FAIRE TOUS LES TESTS SUR LES DATES !
+            string[] debut = Request["debut_simu"].Split('/');
+            string[] fin = Request["fin_simu"].Split('/');
+            DateTime dateCourante = new DateTime(int.Parse(debut[2]), int.Parse(debut[0]), int.Parse(debut[1]));
+            DateTime dateFin = new DateTime(int.Parse(fin[2]), int.Parse(fin[0]), int.Parse(fin[1]));
+
+            logService.createLog("Début de la simulation au : " + Request["debut_simu"]);
+            List<Voiture> voituresEnJeu = voitureService.getAllVoitures();
+            List<Revision> revisionsAEffectuer = null;
+
+            while (dateCourante.CompareTo(dateFin) < 0)
+            {
+                foreach (Voiture v in voituresEnJeu)
+                {
+                    if ((revisionsAEffectuer = voitureService.rouler(v.ID, dateCourante)) != null)
+                    {
+                        //Il faut trouver un garage et faire les réparations
+                    }
+                }
+
+                dateCourante = dateCourante.AddDays(1);
+            }
+
+            logService.createLog("Fin de la simulation au : " + Request["fin_simu"]);
         }
 
         public void initSimulation()

@@ -39,9 +39,9 @@ namespace BLL.Services
             return reparationManager.getReparationsByGaragisteAndJour(garagisteID, jour);
         }
 
-        public List<Reparation> getReparationsByVoitureAndRevision(int voitureID, int revisionID)
+        public Reparation getReparationByVoitureAndRevision(int voitureID, int revisionID)
         {
-            return reparationManager.getReparationsByVoitureAndRevision(voitureID, revisionID);
+            return reparationManager.getReparationByVoitureAndRevision(voitureID, revisionID);
         }
 
         public List<Reparation> getAllReparations()

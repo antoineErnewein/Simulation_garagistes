@@ -74,13 +74,13 @@ namespace DAL.Managers
             }
         }
 
-        public List<Reparation> getReparationsByVoitureAndRevision(int voitureID, int revisionID)
+        public Reparation getReparationByVoitureAndRevision(int voitureID, int revisionID)
         {
             try
             {
                 return (from r in dbService.ReparationJeu
                         where r.Voiture.ID == voitureID && r.Revision.ID == revisionID
-                        select r).ToList();
+                        select r).First();
             }
             catch (Exception ex)
             {

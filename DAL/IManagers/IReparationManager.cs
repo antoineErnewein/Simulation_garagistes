@@ -13,7 +13,7 @@ namespace DAL.IManagers
         List<Reparation> getReparationsByVoiture(int voitureID);
         List<Reparation> getReparationsByGaragiste(int garagisteID);
         List<Reparation> getReparationsByGaragisteAndJour(int garagisteID, DateTime jour);
-        List<Reparation> getReparationsByVoitureAndRevision(int voitureID, int revisionID);
+        Reparation getReparationByVoitureAndRevision(int voitureID, int revisionID);
         List<Reparation> getAllReparations();
         bool updateReparation(Reparation reparation, int garagisteID, int voitureID, int revisionID);
         bool deleteReparation(int reparationID);
