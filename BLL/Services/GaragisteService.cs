@@ -12,6 +12,7 @@ namespace BLL.Services
     public class GaragisteService
     {
         private IGaragisteManager garagisteManager;
+        private LogService logService = new LogService(new LogManager());
 
         public GaragisteService(IGaragisteManager garagisteManager)
         {
@@ -69,7 +70,8 @@ namespace BLL.Services
             }
 
             garagiste.Nom = nom;
-
+   
+            logService.createLog("Création garagiste : " + nom + " franchiseID : " + franchiseID); 
             return garagisteManager.createGaragiste(garagiste, franchiseID);           
         }
     }

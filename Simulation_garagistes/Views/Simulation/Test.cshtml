@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Test";
+}
+<h2>Simulation Test</h2>
+
+<div id="Content">
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(
+        $(function() {
+            setInterval("getData()", 500);
+        })
+ );
+
+    function getData() {
+        $.getJSON(
+        "/Simulation/PopulateDetails", {},
+            function createTable(myData) {
+                $('#Content').empty();
+                var table = $('<table></table>');
+
+                for (i = 0; i < 20; i++) {
+                    var row = $('<tr></tr>');
+                    var data = $('<td></td>').text(myData[i]);
+                    row.append(data);
+                    table.append(row);
+                }
+
+                $('#Content').append(table);
+            });
+    }
+    
+</script>
+
+

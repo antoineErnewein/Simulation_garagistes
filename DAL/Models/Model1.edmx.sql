@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 05/14/2014 01:16:18
+-- Date Created: 05/14/2014 15:32:13
 -- Generated from EDMX file: C:\Users\Antoine\Documents\GitHub\Simulation_garagistes\DAL\Models\Model1.edmx
 -- --------------------------------------------------
 
@@ -72,6 +72,9 @@ IF OBJECT_ID(N'[dbo].[ModeleJeu]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[MarqueJeu]', 'U') IS NOT NULL
     DROP TABLE [dbo].[MarqueJeu];
+GO
+IF OBJECT_ID(N'[dbo].[LogJeu]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LogJeu];
 GO
 
 -- --------------------------------------------------
@@ -147,6 +150,14 @@ CREATE TABLE [dbo].[MarqueJeu] (
 );
 GO
 
+-- Creating table 'LogSimulationJeu'
+CREATE TABLE [dbo].[LogSimulationJeu] (
+    [ID] int IDENTITY(1,1) NOT NULL,
+    [Date] datetime  NOT NULL,
+    [Texte] nvarchar(max)  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -196,6 +207,12 @@ GO
 -- Creating primary key on [ID] in table 'MarqueJeu'
 ALTER TABLE [dbo].[MarqueJeu]
 ADD CONSTRAINT [PK_MarqueJeu]
+    PRIMARY KEY CLUSTERED ([ID] ASC);
+GO
+
+-- Creating primary key on [ID] in table 'LogSimulationJeu'
+ALTER TABLE [dbo].[LogSimulationJeu]
+ADD CONSTRAINT [PK_LogSimulationJeu]
     PRIMARY KEY CLUSTERED ([ID] ASC);
 GO
 

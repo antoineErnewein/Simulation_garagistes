@@ -12,6 +12,7 @@ namespace BLL.Services
     public class ReparationService
     {
         private IReparationManager reparationManager;
+        private LogService logService = new LogService(new LogManager());
 
         public ReparationService(IReparationManager reparationManager)
         {
@@ -80,6 +81,7 @@ namespace BLL.Services
             reparation.DateDebut = dateDebut;
             reparation.DateFin = dateFin;
 
+            logService.createLog("Création réparation : Début : " + dateDebut.ToShortDateString() + " Fin : " + dateFin.ToShortDateString() + " GaragisteID : " + garagisteID + " VoitureID : " + voitureID + "RevisionID : " + revisionID);
             return reparationManager.createReparation(reparation, garagisteID, voitureID, revisionID);
         }
 

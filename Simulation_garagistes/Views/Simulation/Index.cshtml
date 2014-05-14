@@ -1,0 +1,88 @@
+﻿@model Simulation_garagistes.ViewModels.vmSimulation
+
+@{
+    ViewBag.Title = "Configuration de la simulation";
+}
+
+<script>
+    $.datepicker.setDefaults($.datepicker.regional["fr"]);
+    $(function() {
+        $("#datepicker1 , #datepicker2").datepicker($.datepicker.regional[ "fr" ]);
+    });
+</script>
+
+<h2>Configuration de la simulation</h2>
+
+<form name="input" action="/Simulation/Test" method="post">
+
+    <div>
+        <h3>Dates de la simulation</h3>
+        De : <input type="text" id="datepicker1" name="debut_simu"> à <input type="text" id="datepicker2" name="fin_simu"><br />
+   </div>
+
+    <hr />
+    <div>
+        <h3>Garagistes par franchises</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Franchises</th>
+                    <th>Nombre de garagistes</th>
+                </tr>
+
+                @foreach (var item in Model.Franchises) 
+                {
+                    <tr>
+                        <td>@item.Nom</td>
+                        <td><input type="number" value="0" name="franchise_@item.ID"/></td>
+                    </tr>
+                }
+            </thead>
+        </table>
+    </div>
+
+    <hr />
+    <div>
+        <h3>Voitures par marques</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Marques</th>
+                    <th>Nombre de voitures</th>
+                </tr>
+
+                @foreach (var item in Model.Marques) 
+                {
+                    <tr>
+                        <td>@item.Nom</td>
+                        <td><input type="number" value="0" name="marque_@item.ID"/></td>
+                    </tr>
+                }
+            </thead>
+        </table>
+    </div>
+
+    <hr />
+    <div>
+        <h3>Voitures par modèles</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Modèles</th>
+                    <th>Nombre de voitures</th>
+                </tr>
+
+                @foreach (var item in Model.Modeles) 
+                {
+                    <tr>
+                        <td>@item.Nom</td>
+                        <td><input type="number" value="0" name="modele_@item.ID"/></td>
+                    </tr>
+                }
+            </thead>
+        </table>
+    </div>
+
+    <input type="submit" value="Lancer la simulation !">
+</form>
+

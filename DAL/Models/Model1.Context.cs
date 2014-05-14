@@ -33,5 +33,6 @@ namespace DAL.Models
         public DbSet<Reparation> ReparationJeu { get; set; }
         public DbSet<Modele> ModeleJeu { get; set; }
         public DbSet<Marque> MarqueJeu { get; set; }
+        public DbSet<LogSimulation> LogSimulationJeu { get; set; }
     }
 }

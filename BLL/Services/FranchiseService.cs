@@ -12,6 +12,7 @@ namespace BLL.Services
     public class FranchiseService
     {
         private IFranchiseManager franchiseManager;
+        private LogService logService = new LogService(new LogManager());
 
         public FranchiseService(IFranchiseManager franchiseManager)
         {
@@ -84,6 +85,7 @@ namespace BLL.Services
 
             franchise.Nom = nom;
 
+            logService.createLog("Création franchise : Nom : " + nom);
             return franchiseManager.createFranchise(franchise);
         }
 

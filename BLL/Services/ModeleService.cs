@@ -12,6 +12,7 @@ namespace BLL.Services
     public class ModeleService
     {
         private IModeleManager modeleManager;
+        private LogService logService = new LogService(new LogManager());
 
         public ModeleService(IModeleManager modeleManager)
         {
@@ -96,7 +97,7 @@ namespace BLL.Services
             }
 
             modele.Nom = nom;
-
+            logService.createLog("Création modèle : Nom : " + nom + " MarqueID : " + marqueID);
             return modeleManager.createModele(modele, marqueID);
         }
     }

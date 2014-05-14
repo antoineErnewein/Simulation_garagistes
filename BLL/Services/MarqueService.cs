@@ -12,6 +12,7 @@ namespace BLL.Services
     public class MarqueService
     {
         private IMarqueManager marqueManager;
+        private LogService logService = new LogService(new LogManager());
 
         public MarqueService(IMarqueManager marqueManager)
         {
@@ -84,6 +85,7 @@ namespace BLL.Services
 
             marque.Nom = nom;
 
+            logService.createLog("Création marque : Nom : " + nom);
             return marqueManager.createMarque(marque);
         }
 
@@ -109,6 +111,22 @@ namespace BLL.Services
             marqueManager.updateMarque();
 
             return modele.ID;
+        }
+
+        public int getModeleAleatByMarque(int marqueID)
+        {
+            Marque marque = marqueManager.getMarqueById(marqueID);
+            
+            if(marque.Modele == null)
+                return -1;
+
+            List<Modele> modeles = marque.Modele.ToList();
+            Random rand = new Random();
+
+            if (modeles.Count == 0)
+                return -1;
+
+            return modeles[rand.Next(0,modeles.Count() -1)].ID;
         }
     }
 }

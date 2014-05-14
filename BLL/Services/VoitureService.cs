@@ -12,6 +12,7 @@ namespace BLL.Services
     public class VoitureService
     {
         private IVoitureManager voitureManager;
+        private LogService logService = new LogService(new LogManager());
 
         public VoitureService(IVoitureManager voitureManager)
         {
@@ -25,6 +26,7 @@ namespace BLL.Services
             Voiture voiture = new Voiture();
             voiture.Kilometrage = rand.Next(20000, 200000);
 
+            logService.createLog("Création voiture : ModèleID : " + modeleID + " Kilométrage : " + voiture.Kilometrage);
             return voitureManager.createVoiture(voiture, modeleID);
         }
 

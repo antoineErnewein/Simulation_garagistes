@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="IManagers\IFranchiseManager.cs" />
     <Compile Include="IManagers\IGaragisteManager.cs" />
+    <Compile Include="IManagers\ILogManager.cs" />
     <Compile Include="IManagers\IMarqueManager.cs" />
     <Compile Include="IManagers\IModeleManager.cs" />
     <Compile Include="IManagers\IPeriodeFermetureManager.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="IManagers\IVoitureManager.cs" />
     <Compile Include="Managers\FranchiseManager.cs" />
     <Compile Include="Managers\GaragisteManager.cs" />
+    <Compile Include="Managers\LogManager.cs" />
     <Compile Include="Managers\MarqueManager.cs" />
     <Compile Include="Managers\ModeleManager.cs" />
     <Compile Include="Managers\PeriodeFermetureManager.cs" />
@@ -66,6 +68,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Garagiste.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LogSimulation.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Marque.cs">

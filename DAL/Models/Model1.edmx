@@ -14,6 +14,7 @@
     <EntitySet Name="ReparationJeu" EntityType="Model1.Store.ReparationJeu" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ModeleJeu" EntityType="Model1.Store.ModeleJeu" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="MarqueJeu" EntityType="Model1.Store.MarqueJeu" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LogSimulationJeu" EntityType="Model1.Store.LogSimulationJeu" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="GaragistePeriodeFermeture" Association="Model1.Store.GaragistePeriodeFermeture">
       <End Role="Garagiste" EntitySet="GaragisteJeu" />
       <End Role="PeriodeFermeture" EntitySet="PeriodeFermetureJeu" />
@@ -119,6 +120,14 @@
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nom" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LogSimulationJeu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Texte" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="GaragistePeriodeFermeture">
     <End Role="Garagiste" Type="Model1.Store.GaragisteJeu" Multiplicity="1">
@@ -291,6 +300,7 @@
             <End Role="Reparation" EntitySet="ReparationJeu" />
             <End Role="Revision" EntitySet="RevisionJeu" />
           </AssociationSet>
+          <EntitySet Name="LogSimulationJeu" EntityType="Model1.LogSimulation" />
         </EntityContainer>
         <EntityType Name="Garagiste">
           <Key>
@@ -422,6 +432,14 @@
           <End Type="Model1.Revision" Role="Revision" Multiplicity="1" >
           </End>
         </Association>
+        <EntityType Name="LogSimulation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="String" Name="Texte" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -493,6 +511,15 @@
         <MappingFragment StoreEntitySet="MarqueJeu">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Nom" ColumnName="Nom" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LogSimulationJeu">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.LogSimulation)">
+        <MappingFragment StoreEntitySet="LogSimulationJeu">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Texte" ColumnName="Texte" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

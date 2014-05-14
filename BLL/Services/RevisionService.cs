@@ -12,6 +12,7 @@ namespace BLL.Services
     public class RevisionService
     {
         private IRevisionManager revisionManager;
+        private LogService logService = new LogService(new LogManager());
 
         public RevisionService(IRevisionManager revisionManager)
         {
@@ -74,6 +75,7 @@ namespace BLL.Services
             revision.Kilometrage = kilometrage;
             revision.DureeIntervention = new TimeSpan(duree);
 
+            logService.createLog("Création révision : Libelle : " + libelle + " Kilométrage : " + kilometrage + " Durée : " + duree + " ModeleID : " + modeleID + " MarqueID : " + marqueID);
             return revisionManager.createRevision(revision, modeleID, marqueID);
         }
     }

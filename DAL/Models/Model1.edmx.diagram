@@ -22,6 +22,7 @@
         <AssociationConnector Association="Model1.ModeleRevision" />
         <AssociationConnector Association="Model1.MarqueRevision" />
         <AssociationConnector Association="Model1.ReparationRevision" />
+        <EntityTypeShape EntityType="Model1.LogSimulation" Width="1.5" PointX="3.375" PointY="6.5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

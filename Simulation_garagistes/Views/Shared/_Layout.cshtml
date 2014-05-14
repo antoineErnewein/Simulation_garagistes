@@ -14,22 +14,19 @@
     <body>
         <header>
             <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("votre logo ici", "Index", "Home")</p>
-                </div>
                 <div class="float-right">
                     <section id="login">
                         @Html.Partial("_LoginPartial")
                     </section>
                     <nav>
                         <ul id="menu">
-                            <li>@Html.ActionLink("Accueil", "Index", "Home")</li>                             
-                            <li>@Html.ActionLink("Modèles de voitures", "Index", "Modele")</li>
-                            <li>@Html.ActionLink("Révisions de voitures", "Index", "Revision")</li>
+                            <li>@Html.ActionLink("Simulation", "Index", "Simulation")</li>
+                            <li>@Html.ActionLink("Voitures", "Index", "Voiture")</li>                             
+                            <li>@Html.ActionLink("Marques", "Index", "Marque")</li>
+                            <li>@Html.ActionLink("Modèles", "Index", "Modele")</li>
+                            <li>@Html.ActionLink("Révisions", "Index", "Revision")</li>
                             <li>@Html.ActionLink("Franchises", "Index", "Franchise")</li> 
                             <li>@Html.ActionLink("Garagistes", "Index", "Garagiste")</li>                             
-                            <li>@Html.ActionLink("À propos de", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                         </ul>
                     </nav>
                 </div>
