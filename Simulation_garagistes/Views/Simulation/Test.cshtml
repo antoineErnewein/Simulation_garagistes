@@ -17,7 +17,7 @@
 
     function getData() {
         $.getJSON(
-        "/Simulation/PopulateDetails", {},
+        "/Simulation/GetLogs", {},
             function createTable(myData) {
                 $('#Content').empty();
                 var table = $('<table></table>');

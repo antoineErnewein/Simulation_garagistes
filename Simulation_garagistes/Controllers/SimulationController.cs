@@ -33,17 +33,9 @@ namespace Simulation_garagistes.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
-        public JsonResult PopulateDetails(LogResultModel log)
+        public JsonResult GetLogs()
         {
-            /*LogResultModel logResultModel = new LogResultModel();
-            
 
-            logResultModel.Texte = logService.getLastestLogs(1)[0].Texte;
-            logResultModel.Id = logService.getLastestLogs(1)[0].ID;
-           
-
-            return Json(logResultModel);*/
-            //var myData = new[] { new { first = "Jan'e", last = "Doe" }, new { first = "John", last = "Doe" } };
             List<LogSimulation> logs = logService.getLastestLogs(20);
             string[] myData = new string[20];
             for(int i = 0; i<20; i++)
@@ -55,16 +47,18 @@ namespace Simulation_garagistes.Controllers
 
         }
 
-        public class LogResultModel
-        {
-            public string Texte { get; set; }
-            public int Id { get; set;}
-        }
-
-
-
         [HttpPost]
         public ActionResult Test(vmGaragiste vmGaragiste)
+        {
+            new System.Threading.Thread(() =>
+            {
+                initSimulation();
+            }).Start();
+
+            return View();
+        }
+
+        public void initSimulation()
         {
             int franchiseID, marqueID, modeleID;
             string franchiseName, marqueName, modeleName;
@@ -81,7 +75,7 @@ namespace Simulation_garagistes.Controllers
 
                     for (int i = 0; i < nbVoulu; i++)
                     {
-                        garagisteService.createGaragiste("Garagiste_"+franchiseName+"_"+i, franchiseID);
+                        garagisteService.createGaragiste("Garagiste_" + franchiseName + "_" + i, franchiseID);
                     }
                 }
 
@@ -113,93 +107,6 @@ namespace Simulation_garagistes.Controllers
                 }
             }
 
-            return View();
-        }
-
-        //
-        // GET: /Simulation/Details/5
-
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        //
-        // GET: /Simulation/Create
-
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        //
-        // POST: /Simulation/Create
-
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Simulation/Edit/5
-
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Simulation/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Simulation/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Simulation/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
