@@ -65,7 +65,7 @@ namespace DAL.Managers
             try
             {
                 return (from r in dbService.ReparationJeu
-                        where r.Garagiste.ID == garagisteID && r.DateDebut.Date == jour.Date
+                        where r.Garagiste.ID == garagisteID && r.DateDebut.Day == jour.Day && r.DateDebut.Month == jour.Month && r.DateDebut.Year == jour.Year
                         select r).ToList();
             }
             catch (Exception ex)

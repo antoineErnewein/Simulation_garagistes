@@ -91,9 +91,12 @@ namespace BLL.Services
             List<Reparation> reparations = reparationManager.getReparationsByGaragisteAndJour(garageID, jour);
             int charge = 0;
 
-            foreach (Reparation rep in reparations)
+            if (reparations != null)
             {
-                charge += rep.Revision.DureeIntervention.Hours;
+                foreach (Reparation rep in reparations)
+                {
+                    charge += rep.Revision.DureeIntervention.Hours;
+                }
             }
 
             return charge;

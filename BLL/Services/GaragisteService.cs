@@ -74,5 +74,11 @@ namespace BLL.Services
             logService.createLog("Création garagiste : " + nom + " franchiseID : " + franchiseID); 
             return garagisteManager.createGaragiste(garagiste, franchiseID);           
         }
+
+        /*public bool EstDisponiblePourRevision(int garagisteID, int revisionID, DateTime jour)
+        {
+            Garagiste garagiste = garagisteManager.getGaragisteById(garagisteID);
+
+        }*/
     }
 }

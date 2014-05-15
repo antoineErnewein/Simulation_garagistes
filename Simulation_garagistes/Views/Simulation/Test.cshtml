@@ -3,9 +3,10 @@
 }
 <h2>Simulation Test</h2>
 
-<div id="Content">
+<div id="Clock" style="float:right"></div>
+<input type="button" id="btnPause" value="Pause" style="float:right"/>
 
-</div>
+<div id="Content"></div>
 
 <script type="text/javascript">
 
@@ -18,20 +19,30 @@
     function getData() {
         $.getJSON(
         "/Simulation/GetLogs", {},
-            function createTable(myData) {
+            function createTable(data) {
                 $('#Content').empty();
+                $('#Clock').empty();
+
                 var table = $('<table></table>');
 
-                for (i = 0; i < 20; i++) {
+                for (i = 0; i < data.logs.length; i++) {
                     var row = $('<tr></tr>');
-                    var data = $('<td></td>').text(myData[i]);
-                    row.append(data);
+                    var cell = $('<td></td>').text(data.logs[i]);
+                    row.append(cell);
                     table.append(row);
                 }
 
+                var time = $('<p></p>').text(data.date);
+
                 $('#Content').append(table);
+                $('#Clock').append(time);
             });
     }
+
+    $("#btnPause").click(function () {
+        var etat = $("#btnPause").attr("value");
+        $.post("/Simulation/Pause", { 'etat': etat }, function (data) { if (etat == "Pause") { $("#btnPause").prop('value', 'Unpause') } else { $("#btnPause").prop('value', 'Pause') } }, 'json');
+    });
     
 </script>
 

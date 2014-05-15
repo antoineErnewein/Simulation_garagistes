@@ -7,6 +7,7 @@ using DAL.Models;
 using BLL.Services;
 using DAL.Managers;
 using Simulation_garagistes.ViewModels;
+using System.Threading;
 
 namespace Simulation_garagistes.Controllers
 {
@@ -17,7 +18,11 @@ namespace Simulation_garagistes.Controllers
         private ModeleService modeleService = new ModeleService(new ModeleManager());
         private GaragisteService garagisteService = new GaragisteService(new GaragisteManager());
         private VoitureService voitureService = new VoitureService(new VoitureManager());
+        private ReparationService reparationService = new ReparationService(new ReparationManager());
         private LogService logService = new LogService(new LogManager());
+        private PeriodeFermetureService periodeFermetureService = new PeriodeFermetureService(new PeriodeFermetureManager());
+        private static String dateJSON = "";
+        private static bool interruptThread = false;
 
         //
         // GET: /Simulation/
@@ -37,26 +42,50 @@ namespace Simulation_garagistes.Controllers
         {
 
             List<LogSimulation> logs = logService.getLastestLogs(20);
-            string[] myData = new string[20];
-            for(int i = 0; i<20; i++)
+
+            Data data = new Data();
+            data.logs = new string[logs.Count];
+
+            for(int i = 0; i<logs.Count; i++)
             {
-                myData[i] = logs[i].Texte;
+                data.logs[i] = logs[i].Texte;
             }
 
-            return Json(myData, JsonRequestBehavior.AllowGet);
+            data.date = "Jour : " + dateJSON;
 
+            return Json(data, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult Pause(string etat)
+        {
+            if (etat == "Pause")
+            {
+                interruptThread = true;
+            }
+            else if (etat == "Unpause")
+            {
+                interruptThread = false;
+            }
+            else
+            {
+                return Json("'Success':'false'");
+            }
+
+            return Json("'Success':'true'");
         }
 
         [HttpPost]
         public ActionResult Test(vmGaragiste vmGaragiste)
         {
-            new System.Threading.Thread(() =>
+            new Thread(() =>
             {
                 initSimulation();
                 run();
-
             }).Start();
-
+    
             return View();
         }
 
@@ -67,25 +96,56 @@ namespace Simulation_garagistes.Controllers
             string[] fin = Request["fin_simu"].Split('/');
             DateTime dateCourante = new DateTime(int.Parse(debut[2]), int.Parse(debut[0]), int.Parse(debut[1]));
             DateTime dateFin = new DateTime(int.Parse(fin[2]), int.Parse(fin[0]), int.Parse(fin[1]));
+            dateJSON = dateCourante.Day + "/" + dateCourante.Month + "/" + dateCourante.Year;
 
-            logService.createLog("Début de la simulation au : " + Request["debut_simu"]);
+            logService.createLog("Début de la simulation au : " + dateJSON);
             List<Voiture> voituresEnJeu = voitureService.getAllVoitures();
+            List<Garagiste> garagistesEnJeu = garagisteService.getAllGaragistes();
             List<Revision> revisionsAEffectuer = null;
+            int charge = 0;
+            bool repare = false;
 
             while (dateCourante.CompareTo(dateFin) < 0)
             {
+                checkIfInterrupted();
+
                 foreach (Voiture v in voituresEnJeu)
                 {
                     if ((revisionsAEffectuer = voitureService.rouler(v.ID, dateCourante)) != null)
                     {
                         //Il faut trouver un garage et faire les réparations
+                        for (int i = 0; i < garagistesEnJeu.Count && !repare; i++)
+                        {
+                            //On teste si il est en vacances
+                            if (periodeFermetureService.isVacances(garagistesEnJeu[i].ID, dateCourante))
+                            {
+                                logService.createLog("Le garagiste (" + garagistesEnJeu[i].ID + ") est en vacances, il ne peut prendre la voiture (" + v.ID + ") pour la revision (" + revisionsAEffectuer[0].ID + ")");
+                            }
+
+                            else
+                            {
+                                if ((charge = reparationService.getChargeHoraire(garagistesEnJeu[i].ID, dateCourante) + revisionsAEffectuer[0].DureeIntervention.Hours) > 8)
+                                {
+                                    logService.createLog("La voiture (" + v.ID + ") ne peut pas effectuer la revision (" + revisionsAEffectuer[0].ID + ") [" + revisionsAEffectuer[0].DureeIntervention.Hours + "h] chez le garagiste (" + garagistesEnJeu[i].ID + ") [" + charge + "/8h]");
+                                }
+
+                                else
+                                {
+                                    reparationService.createReparation(dateCourante, dateCourante, garagistesEnJeu[i].ID, v.ID, revisionsAEffectuer[0].ID);
+                                    repare = true;
+                                }
+                            }
+                        }
+
+                        repare = false;
                     }
                 }
 
                 dateCourante = dateCourante.AddDays(1);
+                dateJSON = dateCourante.Day + "/" + dateCourante.Month + "/" + dateCourante.Year;
             }
 
-            logService.createLog("Fin de la simulation au : " + Request["fin_simu"]);
+            logService.createLog("Fin de la simulation au : " + dateCourante);
         }
 
         public void initSimulation()
@@ -137,6 +197,20 @@ namespace Simulation_garagistes.Controllers
                 }
             }
 
+        }
+
+        public void checkIfInterrupted()
+        {
+            while (interruptThread)
+            {
+                Thread.Sleep(1000);
+            }
+        }
+
+        public class Data
+        {
+            public string[] logs { get; set; }
+            public string date { get; set; }
         }
     }
 }
