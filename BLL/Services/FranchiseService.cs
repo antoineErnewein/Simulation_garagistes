@@ -85,7 +85,7 @@ namespace BLL.Services
 
             franchise.Nom = nom;
 
-            logService.createLog("Création franchise : Nom : " + nom);
+            logService.createLog("Création franchise : Nom : " + nom, DAL.Enums.LogType.Creations);
             return franchiseManager.createFranchise(franchise);
         }
 

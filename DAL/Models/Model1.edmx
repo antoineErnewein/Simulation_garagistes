@@ -128,6 +128,7 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="Texte" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="GaragistePeriodeFermeture">
     <End Role="Garagiste" Type="Model1.Store.GaragisteJeu" Multiplicity="1">
@@ -439,6 +440,7 @@
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="DateTime" Name="Date" Nullable="false" />
           <Property Type="String" Name="Texte" Nullable="false" />
+          <Property Type="Int32" Name="Type" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -520,6 +522,7 @@
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="Texte" ColumnName="Texte" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

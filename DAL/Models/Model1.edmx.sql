@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 05/14/2014 15:32:13
+-- Date Created: 05/15/2014 19:28:00
 -- Generated from EDMX file: C:\Users\Antoine\Documents\GitHub\Simulation_garagistes\DAL\Models\Model1.edmx
 -- --------------------------------------------------
 
@@ -73,8 +73,8 @@ GO
 IF OBJECT_ID(N'[dbo].[MarqueJeu]', 'U') IS NOT NULL
     DROP TABLE [dbo].[MarqueJeu];
 GO
-IF OBJECT_ID(N'[dbo].[LogJeu]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[LogJeu];
+IF OBJECT_ID(N'[dbo].[LogSimulationJeu]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LogSimulationJeu];
 GO
 
 -- --------------------------------------------------
@@ -154,7 +154,8 @@ GO
 CREATE TABLE [dbo].[LogSimulationJeu] (
     [ID] int IDENTITY(1,1) NOT NULL,
     [Date] datetime  NOT NULL,
-    [Texte] nvarchar(max)  NOT NULL
+    [Texte] nvarchar(max)  NOT NULL,
+    [Type] int  NOT NULL
 );
 GO
 

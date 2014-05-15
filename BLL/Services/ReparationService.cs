@@ -81,7 +81,7 @@ namespace BLL.Services
             reparation.DateDebut = dateDebut;
             reparation.DateFin = dateFin;
 
-            logService.createLog("Création réparation : Début : " + dateDebut.ToShortDateString() + " Fin : " + dateFin.ToShortDateString() + " GaragisteID : " + garagisteID + " VoitureID : " + voitureID + "RevisionID : " + revisionID);
+            logService.createLog("La voiture (" + voitureID + ") fait la revision (" + revisionID + ") chez le garagiste (" + garagisteID + ") du " + dateDebut.ToShortDateString() + " au " + dateFin.ToShortDateString(), DAL.Enums.LogType.ReparationVoiture);
             return reparationManager.createReparation(reparation, garagisteID, voitureID, revisionID);
         }
 

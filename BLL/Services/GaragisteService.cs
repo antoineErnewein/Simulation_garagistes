@@ -71,7 +71,7 @@ namespace BLL.Services
 
             garagiste.Nom = nom;
    
-            logService.createLog("Création garagiste : " + nom + " franchiseID : " + franchiseID); 
+            logService.createLog("Création garagiste : " + nom + " franchiseID :" + franchiseID, DAL.Enums.LogType.Creations); 
             return garagisteManager.createGaragiste(garagiste, franchiseID);           
         }
 

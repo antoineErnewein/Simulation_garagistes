@@ -43,6 +43,24 @@ namespace DAL.Managers
             }
         }
 
+        public List<LogSimulation> getLastestSimulation()
+        {
+            try
+            {
+                int id = (from l in dbService.LogSimulationJeu where l.Type == 1
+                        orderby l.ID descending
+                        select l).First().ID;
+
+                return (from l in dbService.LogSimulationJeu
+                        where l.ID >= id
+                        select l).ToList();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public int createLog(LogSimulation log)
         {
             try

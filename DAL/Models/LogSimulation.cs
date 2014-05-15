@@ -17,5 +17,6 @@ namespace DAL.Models
         public int ID { get; set; }
         public System.DateTime Date { get; set; }
         public string Texte { get; set; }
+        public int Type { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace BLL.Services
             Voiture voiture = new Voiture();
             voiture.Kilometrage = rand.Next(20000, 200000);
 
-            logService.createLog("Création voiture : ModèleID : " + modeleID + " Kilométrage : " + voiture.Kilometrage);
+            logService.createLog("Création voiture : ModèleID (" + modeleID + ") Kilométrage : " + voiture.Kilometrage, DAL.Enums.LogType.Creations);
             return voitureManager.createVoiture(voiture, modeleID);
         }
 
@@ -83,13 +83,13 @@ namespace BLL.Services
                 {
                     km = rand.Next(50, 100);
                     voiture.Kilometrage += km;
-                    logService.createLog("Week-end (" + jour.DayOfWeek + "), la voiture (" + voitureID + ") [" + voiture.Kilometrage + "km] : roule " + km + "Km");
+                    logService.createLog("Week-end (" + jour.ToShortDateString() + "), la voiture (" + voitureID + ") [" + voiture.Kilometrage + "km] roule " + km + "Km", DAL.Enums.LogType.VoitureRoule);
                 }
                 else
                 {
                     km = rand.Next(20, 50);
                     voiture.Kilometrage += km;
-                    logService.createLog("Semaine (" + jour.DayOfWeek + "), la voiture (" + voitureID + ") [" + voiture.Kilometrage + "km] : roule " + km + "Km");
+                    logService.createLog("Semaine (" + jour.ToShortDateString() + "), la voiture (" + voitureID + ") [" + voiture.Kilometrage + "km] roule " + km + "Km", DAL.Enums.LogType.VoitureRoule);
                 }
 
                 voitureManager.updateVoiture(voiture, voiture.Modele.ID);
@@ -99,7 +99,7 @@ namespace BLL.Services
 
             else
             {
-                logService.createLog("La voiture : " + voitureID + " ne peut pas rouler, elle doit effectuer une révision");
+                logService.createLog("La voiture (" + voitureID + ") ne peut pas rouler, elle doit effectuer une révision", DAL.Enums.LogType.VoitureImmobilisee);
             }
 
             return revisions;

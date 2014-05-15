@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DAL.IManagers;
 using DAL.Managers;
 using DAL.Models;
+using DAL.Enums;
 
 namespace BLL.Services
 {
@@ -28,13 +29,19 @@ namespace BLL.Services
             return logManager.getLastestLogs(number);
         }
 
-        public int createLog(string texte)
+        public int createLog(string texte, LogType type)
         {
             LogSimulation log = new LogSimulation();
             log.Date = DateTime.Now;
             log.Texte = texte;
+            log.Type = (int)type;
 
             return logManager.createLog(log);
+        }
+
+        public List<LogSimulation> getLastestSimulation()
+        {
+            return logManager.getLastestSimulation();
         }
     }
 }

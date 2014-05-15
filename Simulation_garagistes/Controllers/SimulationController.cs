@@ -8,6 +8,7 @@ using BLL.Services;
 using DAL.Managers;
 using Simulation_garagistes.ViewModels;
 using System.Threading;
+using System.IO;
 
 namespace Simulation_garagistes.Controllers
 {
@@ -23,6 +24,7 @@ namespace Simulation_garagistes.Controllers
         private PeriodeFermetureService periodeFermetureService = new PeriodeFermetureService(new PeriodeFermetureManager());
         private static String dateJSON = "";
         private static bool interruptThread = false;
+        private static bool fini = false;
 
         //
         // GET: /Simulation/
@@ -45,13 +47,16 @@ namespace Simulation_garagistes.Controllers
 
             Data data = new Data();
             data.logs = new string[logs.Count];
+            data.types = new int[logs.Count];
 
             for(int i = 0; i<logs.Count; i++)
             {
                 data.logs[i] = logs[i].Texte;
+                data.types[i] = logs[i].Type;
             }
 
             data.date = "Jour : " + dateJSON;
+            data.simulationTerminee = fini;
 
             return Json(data, JsonRequestBehavior.AllowGet);
 
@@ -84,9 +89,28 @@ namespace Simulation_garagistes.Controllers
             {
                 initSimulation();
                 run();
+                fini = true;
+
             }).Start();
     
             return View();
+        }
+
+        public ActionResult GetFile()
+        {
+            using (MemoryStream memoStream = new MemoryStream(1024 * 5))
+            {
+                using (StreamWriter writer = new StreamWriter(memoStream))
+                {
+                    List<LogSimulation> logsInSimu = logService.getLastestSimulation();
+                    foreach (LogSimulation l in logsInSimu)
+                    {
+                        writer.WriteLine("[" + l.Date + "] " + l.Texte);
+                    }
+                }
+
+                return File(new MemoryStream(memoStream.GetBuffer()), "text/txt", "Rapport_simulation.txt");
+            }
         }
 
         public void run()
@@ -98,7 +122,7 @@ namespace Simulation_garagistes.Controllers
             DateTime dateFin = new DateTime(int.Parse(fin[2]), int.Parse(fin[0]), int.Parse(fin[1]));
             dateJSON = dateCourante.Day + "/" + dateCourante.Month + "/" + dateCourante.Year;
 
-            logService.createLog("Début de la simulation au : " + dateJSON);
+            logService.createLog("Début de la simulation au : " + dateJSON, DAL.Enums.LogType.DebutSimulation);
             List<Voiture> voituresEnJeu = voitureService.getAllVoitures();
             List<Garagiste> garagistesEnJeu = garagisteService.getAllGaragistes();
             List<Revision> revisionsAEffectuer = null;
@@ -107,10 +131,11 @@ namespace Simulation_garagistes.Controllers
 
             while (dateCourante.CompareTo(dateFin) < 0)
             {
-                checkIfInterrupted();
 
                 foreach (Voiture v in voituresEnJeu)
                 {
+                    checkIfInterrupted();
+
                     if ((revisionsAEffectuer = voitureService.rouler(v.ID, dateCourante)) != null)
                     {
                         //Il faut trouver un garage et faire les réparations
@@ -119,14 +144,14 @@ namespace Simulation_garagistes.Controllers
                             //On teste si il est en vacances
                             if (periodeFermetureService.isVacances(garagistesEnJeu[i].ID, dateCourante))
                             {
-                                logService.createLog("Le garagiste (" + garagistesEnJeu[i].ID + ") est en vacances, il ne peut prendre la voiture (" + v.ID + ") pour la revision (" + revisionsAEffectuer[0].ID + ")");
+                                logService.createLog("(" + dateJSON + ") Le garagiste (" + garagistesEnJeu[i].ID + ") est en vacances, il ne peut prendre la voiture (" + v.ID + ") pour la revision (" + revisionsAEffectuer[0].ID + ")", DAL.Enums.LogType.GaragisteEnVacances);
                             }
 
                             else
                             {
-                                if ((charge = reparationService.getChargeHoraire(garagistesEnJeu[i].ID, dateCourante) + revisionsAEffectuer[0].DureeIntervention.Hours) > 8)
+                                if (((charge = reparationService.getChargeHoraire(garagistesEnJeu[i].ID, dateCourante)) + revisionsAEffectuer[0].DureeIntervention.Hours) > 8)
                                 {
-                                    logService.createLog("La voiture (" + v.ID + ") ne peut pas effectuer la revision (" + revisionsAEffectuer[0].ID + ") [" + revisionsAEffectuer[0].DureeIntervention.Hours + "h] chez le garagiste (" + garagistesEnJeu[i].ID + ") [" + charge + "/8h]");
+                                    logService.createLog("(" + dateJSON + ") La voiture (" + v.ID + ") ne peut pas effectuer la revision (" + revisionsAEffectuer[0].ID + ") [" + revisionsAEffectuer[0].DureeIntervention.Hours + "h] chez le garagiste (" + garagistesEnJeu[i].ID + ") [" + charge + "/8h]", DAL.Enums.LogType.GaragistePlein);
                                 }
 
                                 else
@@ -145,7 +170,7 @@ namespace Simulation_garagistes.Controllers
                 dateJSON = dateCourante.Day + "/" + dateCourante.Month + "/" + dateCourante.Year;
             }
 
-            logService.createLog("Fin de la simulation au : " + dateCourante);
+            logService.createLog("Fin de la simulation au : " + dateJSON, DAL.Enums.LogType.FinSimulation);
         }
 
         public void initSimulation()
@@ -210,7 +235,9 @@ namespace Simulation_garagistes.Controllers
         public class Data
         {
             public string[] logs { get; set; }
+            public int[] types { get; set; }
             public string date { get; set; }
+            public bool simulationTerminee { get; set; }
         }
     }
 }

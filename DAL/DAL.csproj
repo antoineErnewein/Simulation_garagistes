@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\LogType.cs" />
     <Compile Include="IManagers\IFranchiseManager.cs" />
     <Compile Include="IManagers\IGaragisteManager.cs" />
     <Compile Include="IManagers\ILogManager.cs" />
