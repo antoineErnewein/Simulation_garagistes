@@ -38,7 +38,7 @@ namespace Simulation_garagistes.Controllers
 
             List<LogSimulation> logs = logService.getLastestLogs(20);
             string[] myData = new string[20];
-            for(int i = 0; i<20; i++)
+            for(int i = 0; i<logs.Count; i++)
             {
                 myData[i] = logs[i].Texte;
             }

@@ -12,13 +12,16 @@
 <table>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Libelle)
+            Libellé
+        </th>        
+        <th>
+            Kilométrage
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Kilometrage)
+            Marque/Modèle
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DureeIntervention)
+            Durée d'intervention
         </th>
         <th></th>
     </tr>
@@ -26,13 +29,27 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Libelle)
+            @item.Libelle
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Kilometrage)
+            @item.Kilometrage
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DureeIntervention)
+            @if (item.Marque.Nom == null && @item.Modele.Nom == null){
+                <p>Aucune marque ou modèle associée"</p>
+            }
+            else if (item.Marque == null){
+                <p>@item.Modele.Nom</p>
+            }
+            else if (item.Modele == null){
+                <p>@item.Marque.Nom</p>
+            }
+            else{
+                <p>@item.Marque.Nom / @item.Modele.Nom</p>
+            }
+        </td>        
+        <td>
+            @item.DureeIntervention
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |

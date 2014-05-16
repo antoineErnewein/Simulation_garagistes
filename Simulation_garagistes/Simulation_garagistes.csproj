@@ -196,6 +196,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\vmRevision.cs" />
     <Compile Include="ViewModels\vmGaragiste.cs" />
     <Compile Include="ViewModels\vmModele.cs" />
     <Compile Include="ViewModels\vmSimulation.cs" />

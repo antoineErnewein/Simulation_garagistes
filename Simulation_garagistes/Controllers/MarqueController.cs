@@ -21,6 +21,10 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Index()
         {
+            //List<Marque> marques;
+            //if ((marques = marqueService.getAllMarques()) == null)
+            //    marques = new List<Marque>();
+            //return View(marques);
             return View(marqueService.getAllMarques());
         }
 
