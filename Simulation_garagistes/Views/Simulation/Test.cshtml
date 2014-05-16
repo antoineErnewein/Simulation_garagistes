@@ -12,28 +12,49 @@
     <hr />
     <h3>Statistiques</h3>
     <p>Occupation des garages :</p>
+    <canvas id="myChart" width="150" height="150"></canvas>
     <div id="statOccupation"></div>
+    <p>Nombre de réparations effectuées :</p>
+    <div id="statReparation"></div>
     
 </div>
 
 <div id="Content"></div>
 
-<script type="text/javascript" >
+<script src="~/Scripts/Chart.js"></script>
+<script type="text/javascript">
+
     var intervalID;
+    var fini = false;
+
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var options = { animateRotate: false };
+    var Chartdata = [
+                {
+                    value: 0,
+                    color: "#F7464A"
+                },
+                {
+                    value: 100,
+                    color: "white"
+                }];
+
+    var chartConstruct = new Chart(ctx);
 
     $(document).ready(
-        $(function () {
+        $(function() {
             intervalID = setInterval("getData()", 500);
         })
  );
 
     function getData() {
         $.getJSON(
-        "/Simulation/GetLogs", {},
+        "/Simulation/GetLogs/", {},
             function createTable(data) {
                 $('#Content').empty();
                 $('#Clock').empty();
-                $('#statOccupation').empty(stOccupation);
+                $('#statOccupation').empty();
+                $('#statReparation').empty();
 
                 var table = $('<table></table>');
 
@@ -47,13 +68,24 @@
 
                 var time = $('<p></p>').text(data.date);
                 var stOccupation = $('<p></p>').text(data.tauxOccupation[0] + " / " + data.tauxOccupation[1] + " H");
+                var stReparations = $('<p></p>').text(""+data.nbReparations);
+
+                if (data.simulationTerminee != null) {
+                    fini = data.simulationTerminee;
+                }
 
                 $('#Content').append(table);
                 $('#Clock').append(time);
                 $('#statOccupation').append(stOccupation);
+                $('#statReparation').append(stReparations);
 
-                if (data.simulationTerminee) {
-                    clearInterval(intervalID);
+                Chartdata[0].value = ((data.tauxOccupation[0] / data.tauxOccupation[1])*100);
+                Chartdata[1].value = (100 - ((data.tauxOccupation[0] / data.tauxOccupation[1]) * 100));
+                chartConstruct.Doughnut(Chartdata, options);
+
+
+                if (fini) {
+                    //clearInterval(intervalID);
                     $("#btnPause").css("display", "none");
                     $("#Download").css("display", "inline");
 
@@ -64,7 +96,7 @@
 
     $("#btnPause").click(function () {
         var etat = $("#btnPause").attr("value");
-        $.post("/Simulation/Pause", { 'etat': etat }, function (data) { if (etat == "Pause") { $("#btnPause").prop('value', 'Unpause') } else { $("#btnPause").prop('value', 'Pause') } }, 'json');
+        $.post("/Simulation/Pause/", { 'etat': etat }, function (data) { if (etat == "Pause") { $("#btnPause").prop('value', 'Unpause') } else { $("#btnPause").prop('value', 'Pause') } }, 'json');
     });
 
     function setBackgroundColor(row, type) {
@@ -100,16 +132,11 @@
                 color = "white";
                 break;
             default:
-                color = "white"
+                color = "white";
         }
 
         $(row).css("background-color", color);
     }
-
-    //TEST
-
-
-
 
 </script>
 

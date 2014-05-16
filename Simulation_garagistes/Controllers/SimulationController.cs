@@ -27,6 +27,7 @@ namespace Simulation_garagistes.Controllers
         private static bool interruptThread = false;
         private static bool fini = false;
         private static DateTime dateCourante;
+        private static int nbReparations;
 
         //
         // GET: /Simulation/
@@ -60,6 +61,7 @@ namespace Simulation_garagistes.Controllers
             data.date = "Jour : " + dateJSON;
             data.simulationTerminee = fini;
             data.tauxOccupation = garagisteService.getTauxOccupation(dateCourante);
+            data.nbReparations = nbReparations;
 
             return Json(data, JsonRequestBehavior.AllowGet);
 
@@ -85,8 +87,8 @@ namespace Simulation_garagistes.Controllers
             return Json("'Success':'true'");
         }
 
-        [HttpPost]
-        public ActionResult Test(vmGaragiste vmGaragiste)
+        [HttpPost, ActionName("Test")]
+        public ActionResult Test()
         {
             new Thread(() =>
             {
@@ -131,7 +133,7 @@ namespace Simulation_garagistes.Controllers
             List<Revision> revisionsAEffectuer = null;
             int chargeFaisable = 0;
             bool repare = false;
-            bool dateNonTrouvee = true;
+            nbReparations = 0;
 
             while (dateCourante.CompareTo(dateFin) < 0)
             {
@@ -163,19 +165,16 @@ namespace Simulation_garagistes.Controllers
                                     //On démarre la réparation à ce jour mais on la poursuit le lendemain
                                     chargeFaisable = 8 - reparationService.getChargeHoraire(garagistesEnJeu[i].ID, dateCourante);
                                     reparationService.createReparation(dateCourante, dateCourante.AddDays(1), chargeFaisable, garagistesEnJeu[i].ID, v.ID, revisionsAEffectuer[0].ID);
-                                    reparationService.createReparation(dateCourante, dateCourante.AddDays(1), (revisionsAEffectuer[0].DureeIntervention.Hours - chargeFaisable), garagistesEnJeu[i].ID, v.ID, revisionsAEffectuer[0].ID);
+                                    reparationService.createReparation(dateCourante.AddDays(1), dateCourante.AddDays(1), (revisionsAEffectuer[0].DureeIntervention.Hours - chargeFaisable), garagistesEnJeu[i].ID, v.ID, revisionsAEffectuer[0].ID);
                                     logService.createLog("(" + dateJSON + ") La voiture (" + v.ID + ") effectue la revision (" + revisionsAEffectuer[0].ID + ") en 2 jours chez le garagiste (" + garagistesEnJeu[i].ID + ")", DAL.Enums.LogType.ReparationSurDeuxJours);
+                                    nbReparations++;
                                 }
-
-                                /*if (((charge = reparationService.getChargeHoraire(garagistesEnJeu[i].ID, dateCourante)) + revisionsAEffectuer[0].DureeIntervention.Hours) > 8)
-                                {
-                                    logService.createLog("(" + dateJSON + ") La voiture (" + v.ID + ") ne peut pas effectuer la revision (" + revisionsAEffectuer[0].ID + ") [" + revisionsAEffectuer[0].DureeIntervention.Hours + "h] chez le garagiste (" + garagistesEnJeu[i].ID + ") [" + charge + "/8h]", DAL.Enums.LogType.GaragistePlein);
-                                }*/
 
                                 else
                                 {
                                     reparationService.createReparation(dateCourante, dateCourante, revisionsAEffectuer[0].DureeIntervention.Hours, garagistesEnJeu[i].ID, v.ID, revisionsAEffectuer[0].ID);
                                     repare = true;
+                                    nbReparations++;
                                 }
                             }
                         }
@@ -257,6 +256,7 @@ namespace Simulation_garagistes.Controllers
             public string date { get; set; }
             public bool simulationTerminee { get; set; }
             public int[] tauxOccupation { get; set; }
+            public int nbReparations  { get; set; }
         }
     }
 }
