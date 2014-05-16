@@ -107,13 +107,16 @@ namespace DAL.Managers
             }
         }
 
+        //REGLER LE PROBLEME DE LA DATE
         public bool isVacances(int garagisteID, DateTime jour)
         {
             try
             {
                 return (from p in dbService.PeriodeFermetureJeu
-                        where p.Garagiste.ID == garagisteID && p.DateDebut.Date <= jour.Date && p.DateFin.Date >= jour.Date
-                        select p).Count() >= 1;
+                        where p.Garagiste.ID == garagisteID
+                        select p).ToList().Where(x => DateTime.Compare(x.DateDebut.Date, jour.Date) <= 0 && DateTime.Compare(x.DateFin.Date, jour.Date) >= 0).ToList().Count() >=1; 
+                        /* && p.DateDebut.Date <= jour.Date && p.DateFin.Date >= jour.Date
+                        select p).Count() >= 1;*/
             }
             catch (Exception ex)
             {

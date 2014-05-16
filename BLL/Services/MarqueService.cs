@@ -85,7 +85,7 @@ namespace BLL.Services
 
             marque.Nom = nom;
 
-            logService.createLog("Création marque : Nom : " + nom);
+            logService.createLog("Création marque : Nom : " + nom, DAL.Enums.LogType.Creations);
             return marqueManager.createMarque(marque);
         }
 

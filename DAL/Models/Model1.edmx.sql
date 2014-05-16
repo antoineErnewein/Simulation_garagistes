@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 05/15/2014 09:14:17
--- Generated from EDMX file: C:\Users\noel\Source\Repos\Simulation_garagistes\DAL\Models\Model1.edmx
+-- Date Created: 05/15/2014 19:28:00
+-- Generated from EDMX file: C:\Users\Antoine\Documents\GitHub\Simulation_garagistes\DAL\Models\Model1.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -154,7 +154,8 @@ GO
 CREATE TABLE [dbo].[LogSimulationJeu] (
     [ID] int IDENTITY(1,1) NOT NULL,
     [Date] datetime  NOT NULL,
-    [Texte] nvarchar(max)  NOT NULL
+    [Texte] nvarchar(max)  NOT NULL,
+    [Type] int  NOT NULL
 );
 GO
 

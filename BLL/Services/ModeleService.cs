@@ -97,7 +97,7 @@ namespace BLL.Services
             }
 
             modele.Nom = nom;
-            logService.createLog("Création modèle : Nom : " + nom + " MarqueID : " + marqueID);
+            logService.createLog("Création modèle : Nom : " + nom + " MarqueID : " + marqueID, DAL.Enums.LogType.Creations);
             return modeleManager.createModele(modele, marqueID);
         }
     }

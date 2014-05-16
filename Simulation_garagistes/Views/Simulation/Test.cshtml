@@ -3,36 +3,99 @@
 }
 <h2>Simulation Test</h2>
 
-<div id="Content">
-
+<div id="Download" style="display:none">
+    @Html.ActionLink("Télécharger le rapport", "GetFile")
 </div>
+<div id="Clock" style="float:right"></div>
+<input type="button" id="btnPause" value="Pause" style="float:right"/>
+
+<div id="Content"></div>
 
 <script type="text/javascript">
 
+    var intervalID;
+
     $(document).ready(
         $(function() {
-            setInterval("getData()", 500);
+            intervalID = setInterval("getData()", 500);
         })
  );
 
     function getData() {
         $.getJSON(
         "/Simulation/GetLogs", {},
-            function createTable(myData) {
+            function createTable(data) {
                 $('#Content').empty();
+                $('#Clock').empty();
+
                 var table = $('<table></table>');
 
-                for (i = 0; i < 20; i++) {
+                for (i = 0; i < data.logs.length; i++) {
                     var row = $('<tr></tr>');
-                    var data = $('<td></td>').text(myData[i]);
-                    row.append(data);
+                    setBackgroundColor(row, data.types[i]);
+                    var cell = $('<td></td>').text(data.logs[i]);
+                    row.append(cell);
                     table.append(row);
                 }
 
+                var time = $('<p></p>').text(data.date);
+
                 $('#Content').append(table);
+                $('#Clock').append(time);
+
+                if (data.simulationTerminee) {
+                    clearInterval(intervalID);
+                    $("#btnPause").css("display", "none");
+                    $("#Download").css("display", "inline");
+                }
+
             });
     }
+
+    $("#btnPause").click(function () {
+        var etat = $("#btnPause").attr("value");
+        $.post("/Simulation/Pause", { 'etat': etat }, function (data) { if (etat == "Pause") { $("#btnPause").prop('value', 'Unpause') } else { $("#btnPause").prop('value', 'Pause') } }, 'json');
+    });
     
+    function setBackgroundColor(row, type) {
+
+        var color = "white";
+
+        switch (type) {
+            case (1): //Debut simulation
+                color = "#edd578";
+                break;
+            case (2): //Fin simulation
+                color = "#edd578";
+                break;
+            case (3): //Voiture roule
+                color = "#99ed78";
+                break;
+            case (4): //Voiture immobilisee
+                color = "#f7858d";
+                break;
+            case (5): //Reparation voiture
+                color = "#85f1f7";
+                break;
+            case (6): //Garagiste en vacances
+                color = "#f785f7";
+                break;
+            case (7): //Garagiste plein
+                color = "#f785f7";
+                break;
+            case (8): //Creations
+                color = "white";
+                break;
+            case (9): //Autres
+                color = "white";
+                break;
+            default:
+                color = "white"
+        }
+
+        $(row).css("background-color", color);
+    }
+
 </script>
 
 

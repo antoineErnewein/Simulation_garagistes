@@ -75,7 +75,7 @@ namespace BLL.Services
             revision.Kilometrage = kilometrage;
             revision.DureeIntervention = new TimeSpan(duree);
 
-            logService.createLog("Création révision : Libelle : " + libelle + " Kilométrage : " + kilometrage + " Durée : " + duree + " ModeleID : " + modeleID + " MarqueID : " + marqueID);
+            logService.createLog("Création révision : Libelle : " + libelle + " Kilométrage : " + kilometrage + " Durée : " + duree + " ModeleID : " + modeleID + " MarqueID : " + marqueID, DAL.Enums.LogType.Creations);
             return revisionManager.createRevision(revision, modeleID, marqueID);
         }
     }

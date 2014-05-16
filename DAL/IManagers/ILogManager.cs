@@ -12,5 +12,6 @@ namespace DAL.IManagers
         List<LogSimulation> getAllLogs();
         List<LogSimulation> getLastestLogs(int number);
         int createLog(LogSimulation log);
+        List<LogSimulation> getLastestSimulation();
     }
 }
