@@ -17,6 +17,7 @@ namespace DAL.Models
         public int ID { get; set; }
         public System.DateTime DateDebut { get; set; }
         public System.DateTime DateFin { get; set; }
+        public System.TimeSpan Duree { get; set; }
     
         public virtual Garagiste Garagiste { get; set; }
         public virtual Voiture Voiture { get; set; }

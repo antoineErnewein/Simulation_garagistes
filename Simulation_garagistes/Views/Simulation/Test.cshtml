@@ -6,17 +6,23 @@
 <div id="Download" style="display:none">
     @Html.ActionLink("Télécharger le rapport", "GetFile")
 </div>
-<div id="Clock" style="float:right"></div>
-<input type="button" id="btnPause" value="Pause" style="float:right"/>
+<div style="float:right">
+    <div id="Clock"></div>
+    <input type="button" id="btnPause" value="Pause" />
+    <hr />
+    <h3>Statistiques</h3>
+    <p>Occupation des garages :</p>
+    <div id="statOccupation"></div>
+    
+</div>
 
 <div id="Content"></div>
 
-<script type="text/javascript">
-
+<script type="text/javascript" >
     var intervalID;
 
     $(document).ready(
-        $(function() {
+        $(function () {
             intervalID = setInterval("getData()", 500);
         })
  );
@@ -27,6 +33,7 @@
             function createTable(data) {
                 $('#Content').empty();
                 $('#Clock').empty();
+                $('#statOccupation').empty(stOccupation);
 
                 var table = $('<table></table>');
 
@@ -39,14 +46,17 @@
                 }
 
                 var time = $('<p></p>').text(data.date);
+                var stOccupation = $('<p></p>').text(data.tauxOccupation[0] + " / " + data.tauxOccupation[1] + " H");
 
                 $('#Content').append(table);
                 $('#Clock').append(time);
+                $('#statOccupation').append(stOccupation);
 
                 if (data.simulationTerminee) {
                     clearInterval(intervalID);
                     $("#btnPause").css("display", "none");
                     $("#Download").css("display", "inline");
+
                 }
 
             });
@@ -56,7 +66,7 @@
         var etat = $("#btnPause").attr("value");
         $.post("/Simulation/Pause", { 'etat': etat }, function (data) { if (etat == "Pause") { $("#btnPause").prop('value', 'Unpause') } else { $("#btnPause").prop('value', 'Pause') } }, 'json');
     });
-    
+
     function setBackgroundColor(row, type) {
 
         var color = "white";
@@ -96,6 +106,10 @@
         $(row).css("background-color", color);
     }
 
-</script>
+    //TEST
 
+
+
+
+</script>
 

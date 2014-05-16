@@ -51,7 +51,7 @@ namespace BLL.Services
 
             revision.Libelle = libelle;
             revision.Kilometrage = kilometrage;
-            revision.DureeIntervention = new TimeSpan(duree);
+            revision.DureeIntervention = new TimeSpan(duree, 0, 0);
 
             return revisionManager.updateRevision(revision, modeleID, marqueID);
         }
@@ -73,10 +73,27 @@ namespace BLL.Services
 
             revision.Libelle = libelle;
             revision.Kilometrage = kilometrage;
-            revision.DureeIntervention = new TimeSpan(duree);
+            revision.DureeIntervention = new TimeSpan(duree, 0, 0);
 
             logService.createLog("Création révision : Libelle : " + libelle + " Kilométrage : " + kilometrage + " Durée : " + duree + " ModeleID : " + modeleID + " MarqueID : " + marqueID, DAL.Enums.LogType.Creations);
             return revisionManager.createRevision(revision, modeleID, marqueID);
+        }
+
+        public int createRevisionWhithoutID(string libelle, int kilometrage, int duree)
+        {
+            Revision revision = new Revision();
+            libelle = libelle.Trim();
+
+            if (libelle == "")
+            {
+                return -1;
+            }
+
+            revision.Libelle = libelle;
+            revision.Kilometrage = kilometrage;
+            revision.DureeIntervention = new TimeSpan(duree, 0, 0);
+
+            return revisionManager.createRevisionWithoutID(revision);
         }
     }
 }

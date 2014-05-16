@@ -19,6 +19,7 @@ namespace DAL.Enums
         GaragisteEnVacances = 6,
         GaragistePlein = 7,
         Creations = 8,
-        Autres = 9
+        Autres = 9,
+        ReparationSurDeuxJours = 10
     }
 }

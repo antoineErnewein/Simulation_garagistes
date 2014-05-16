@@ -49,7 +49,7 @@ namespace BLL.Services
             return reparationManager.getAllReparations();
         }
 
-        public bool updateReparation(int reparationID, DateTime dateDebut, DateTime dateFin, int garagisteID, int voitureID, int revisionID)
+        public bool updateReparation(int reparationID, DateTime dateDebut, DateTime dateFin, int duree, int garagisteID, int voitureID, int revisionID)
         {
             Reparation reparation = reparationManager.getReparationById(reparationID);
             
@@ -60,6 +60,7 @@ namespace BLL.Services
 
             reparation.DateDebut = dateDebut;
             reparation.DateFin = dateFin;
+            reparation.Duree = new TimeSpan(duree, 0, 0);
 
             return reparationManager.updateReparation(reparation, garagisteID, voitureID, revisionID);
         }
@@ -69,7 +70,7 @@ namespace BLL.Services
             return reparationManager.deleteReparation(reparationID);
         }
 
-        public int createReparation(DateTime dateDebut, DateTime dateFin, int garagisteID, int voitureID, int revisionID)
+        public int createReparation(DateTime dateDebut, DateTime dateFin, int duree, int garagisteID, int voitureID, int revisionID)
         {
             Reparation reparation = new Reparation();
 
@@ -80,6 +81,7 @@ namespace BLL.Services
 
             reparation.DateDebut = dateDebut;
             reparation.DateFin = dateFin;
+            reparation.Duree = new TimeSpan(duree, 0, 0);
 
             logService.createLog("La voiture (" + voitureID + ") fait la revision (" + revisionID + ") chez le garagiste (" + garagisteID + ") du " + dateDebut.ToShortDateString() + " au " + dateFin.ToShortDateString(), DAL.Enums.LogType.ReparationVoiture);
             return reparationManager.createReparation(reparation, garagisteID, voitureID, revisionID);
@@ -95,11 +97,13 @@ namespace BLL.Services
             {
                 foreach (Reparation rep in reparations)
                 {
-                    charge += rep.Revision.DureeIntervention.Hours;
+                    charge += rep.Duree.Hours;
                 }
             }
 
             return charge;
         }
+
+        
     }
 }

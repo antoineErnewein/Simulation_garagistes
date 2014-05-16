@@ -13,6 +13,7 @@ namespace BLL.Services
     {
         private IGaragisteManager garagisteManager;
         private LogService logService = new LogService(new LogManager());
+        private ReparationService reparationService = new ReparationService(new ReparationManager());
 
         public GaragisteService(IGaragisteManager garagisteManager)
         {
@@ -73,6 +74,21 @@ namespace BLL.Services
    
             logService.createLog("Création garagiste : " + nom + " franchiseID :" + franchiseID, DAL.Enums.LogType.Creations); 
             return garagisteManager.createGaragiste(garagiste, franchiseID);           
+        }
+
+        public int[] getTauxOccupation(DateTime jour)
+        {
+            List<Garagiste> garagistes = garagisteManager.getAllGaragistes();
+            int[] res = new int[2];
+
+            foreach (Garagiste g in garagistes)
+            {
+                res[0] += reparationService.getChargeHoraire(g.ID, jour);
+            }
+
+            res[1] = garagistes.Count * 8;
+
+            return res;
         }
 
         /*public bool EstDisponiblePourRevision(int garagisteID, int revisionID, DateTime jour)

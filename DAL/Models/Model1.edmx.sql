@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 05/15/2014 19:28:00
+-- Date Created: 05/16/2014 21:46:40
 -- Generated from EDMX file: C:\Users\Antoine\Documents\GitHub\Simulation_garagistes\DAL\Models\Model1.edmx
 -- --------------------------------------------------
 
@@ -129,6 +129,7 @@ CREATE TABLE [dbo].[ReparationJeu] (
     [ID] int IDENTITY(1,1) NOT NULL,
     [DateDebut] datetime  NOT NULL,
     [DateFin] datetime  NOT NULL,
+    [Duree] time  NOT NULL,
     [Garagiste_ID] int  NOT NULL,
     [Voiture_ID] int  NOT NULL,
     [Revision_ID] int  NOT NULL
