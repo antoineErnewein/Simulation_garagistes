@@ -112,9 +112,19 @@ namespace Simulation_garagistes.Controllers
             int franchiseId = int.Parse(Request["franchiseId"]);
             string garagisteName = Request["garagisteName"];
             int garagisteId = int.Parse(Request["garagisteId"]);
+            DateTime fermetureBegin;
+            DateTime fermetureEnd;
 
             if (!String.IsNullOrEmpty(garagisteName))
             {
+                if (DateTime.TryParse(Request["fermetureBegin"], out fermetureBegin) && DateTime.TryParse(Request["fermetureEnd"], out fermetureEnd))
+                {
+                    PeriodeFermeture periodeFermeture = new PeriodeFermeture();
+                    periodeFermeture.DateDebut = fermetureBegin;
+                    periodeFermeture.DateFin = fermetureEnd;
+                    db.PeriodeFermetureJeu.Add(periodeFermeture);
+                    garagisteService.getGaragisteById(garagisteId).PeriodeFermeture.Add(periodeFermeture);
+                }
                 garagisteService.updateGaragiste(garagisteId, garagisteName, franchiseId);
                 return RedirectToAction("Edit/" + garagisteId);
             }
@@ -156,6 +166,13 @@ namespace Simulation_garagistes.Controllers
         {
             db.Dispose();
             base.Dispose(disposing);
+        }
+
+        public ActionResult SupprimerPeriode(int id = 0)
+        {
+            PeriodeFermetureService periodeFermetureService = new PeriodeFermetureService(new PeriodeFermetureManager());
+            periodeFermetureService.deletePeriodeFermeture(id);
+            return Redirect(Request.UrlReferrer.PathAndQuery);
         }
     }
 }

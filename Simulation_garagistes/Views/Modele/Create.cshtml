@@ -7,13 +7,13 @@
 <h2>Créer un nouveau modèle</h2>
 
 <form name="input" action="/Modele/Create" method="post">
-Nom : <input type="text" name="modeleName"><br />
+Nom : <input type="text" name="modeleName" maxlength="99" required><br />
 Marque : <select name="marqueId">
     @foreach (var item in Model.Marques) {
         <option value="@item.ID">@item.Nom</option>
     }
     </select><br />
-<input type="submit" value="Enregistrer">
+<input type="submit" value="Enregistrer"><a href="~/Modele">Retour à la liste des modèles</a>
 </form> 
 @*@using (Html.BeginForm()) {
     @Html.AntiForgeryToken()

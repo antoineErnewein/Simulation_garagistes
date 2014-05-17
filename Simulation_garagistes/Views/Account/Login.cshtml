@@ -8,7 +8,7 @@
     <h1>@ViewBag.Title.</h1>
 </hgroup>
 
-<section id="loginForm">
+@*<section id="loginForm">*@
 <h2>Utilisez un compte local pour vous connecter.</h2>
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
     @Html.AntiForgeryToken()
@@ -38,12 +38,12 @@
         @Html.ActionLink("S'inscrire", "Register") si vous n’avez pas de compte.
     </p>
 }
-</section>
+@*</section>*@
 
-<section class="social" id="socialLoginForm">
+@*<section class="social" id="socialLoginForm">
     <h2>Utilisez un autre service pour vous connecter.</h2>
     @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
-</section>
+</section>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

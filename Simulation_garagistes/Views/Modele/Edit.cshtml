@@ -1,20 +1,20 @@
 ﻿@model Simulation_garagistes.ViewModels.vmModele
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Editer le modèle";
 }
 
 <h2>Editer le modèle</h2>
 
 <form name="input" action="/Modele/Edit" method="post">
 <input type="hidden" name="modeleId" value="@Model.ID" >
-Nom : <input type="text" name="modeleName" value="@Model.Nom"><br />
+Nom : <input type="text" name="modeleName" value="@Model.Nom" maxlength="99" required><br />
 Marque : <select name="marqueId">
     @foreach (var item in Model.Marques) {
         <option value="@item.ID" @((item.ID==Model.Marque.ID) ? "selected" : "" )>@item.Nom</option>
     }
     </select><br />
-<input type="submit" value="Enregistrer">
+<input type="submit" value="Enregistrer"><a href="~/Modele">Retour à la liste des modèles</a>
 </form> 
 
 @*@using (Html.BeginForm()) {

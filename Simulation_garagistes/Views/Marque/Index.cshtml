@@ -5,16 +5,19 @@
 }
 
 <h2>Liste des marques</h2>
-
+@if (Request.IsAuthenticated) {
 <p>
     @Html.ActionLink("Créer une nouvelle marque", "Create")
 </p>
+}
 <table>
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Nom)
         </th>
+        @if (Request.IsAuthenticated) {
         <th></th>
+        }
     </tr>
 
 @foreach (var item in Model) {
@@ -22,12 +25,14 @@
         <td>
             @Html.DisplayFor(modelItem => item.Nom)
         </td>
+        @if (Request.IsAuthenticated) {
         <td>
             @Html.ActionLink("Editer", "Edit", new { id=item.ID }) |
             <a href="~/Marque/Details/@item.ID">Carnet</a>
             @*@Html.ActionLink("Details", "Details", new { id=item.ID })*@ |
             @Html.ActionLink("Supprimer", "Delete", new { id=item.ID })
         </td>
+        }
     </tr>
 }
 

@@ -1,13 +1,13 @@
 ﻿@model DAL.Models.Modele
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Supprimer un modèle";
 }
 
-<h2>Delete</h2>
+<h2>Supprimer le modèle @Model.Nom</h2>
 
-<h3>Are you sure you want to delete this?</h3>
-<fieldset>
+<h3>Etes vous sûre de vouloir supprimer ce modèle ?</h3>
+@*<fieldset>
     <legend>Modele</legend>
 
     <div class="display-label">
@@ -16,11 +16,11 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.Nom)
     </div>
-</fieldset>
+</fieldset>*@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p>
-        <input type="submit" value="Delete" /> |
-        @Html.ActionLink("Back to List", "Index")
+        <input type="submit" value="Supprimer" /> |
+        @Html.ActionLink("Retour à la liste des modèles", "Index")
     </p>
 }

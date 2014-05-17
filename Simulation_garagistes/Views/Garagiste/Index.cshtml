@@ -1,18 +1,16 @@
 ﻿@model IEnumerable<DAL.Models.Garagiste>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Liste des garagistes";
 }
 
-<h2>Index</h2>
+<h2>Liste des garagistes</h2>
 
 @if (Request.IsAuthenticated) {
     <a href="~/Garagiste/Create">Créer un nouveau garagiste</a>
     <a href="~/Franchise">Ajouter une franchise</a>
     }
-@*<p>
-    @Html.ActionLink("Créer un nouveau garagiste", "Create")
-</p>*@
+
 <table>
     <tr>
         <th>
@@ -24,7 +22,9 @@
         <th>
             Périodes de fermeture
         </th>
+        @if (Request.IsAuthenticated) {
         <th></th>
+        }
     </tr>
 
 @foreach (var item in Model) {
@@ -42,15 +42,19 @@
             else{
                 foreach (var periode in item.PeriodeFermeture)
                 {
-                    <p>@periode.DateDebut à @periode.DateFin</p>
+                    <p>@periode.DateDebut.Day/@periode.DateDebut.Month/@periode.DateDebut.Year au @periode.DateFin.Day/@periode.DateFin.Month/@periode.DateFin.Year</p>
                 }
             }
         </td>
+        @if (Request.IsAuthenticated) {
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            <a href="~/Garagiste/Edit/@item.ID">Editer</a> |
+            <a href="~/Garagiste/Delete/@item.ID">Supprimer</a>
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
             @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })*@
         </td>
+        }
     </tr>
 }
 

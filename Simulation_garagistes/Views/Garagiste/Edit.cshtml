@@ -7,7 +7,7 @@
 <h2>Editer le garagiste</h2>
 <form name="input" action="/Garagiste/Edit" method="post">
 <input type="hidden" name="garagisteId" value="@Model.ID" >
-Nom : <input type="text" name="garagisteName" value="@Model.Nom"><br />
+Nom : <input type="text" name="garagisteName" value="@Model.Nom" maxlength="99" required><br />
 Franchise : <select name="franchiseId">
     @foreach (var item in Model.Franchises) {
         <option value="@item.ID" @((item.ID==Model.Franchise.ID) ? "selected" : "" )>@item.Nom</option>
@@ -15,16 +15,39 @@ Franchise : <select name="franchiseId">
     </select><br />
 Périodes de Fermetures
     @if(Model.PeriodeFermetures.Count==0){
-                <p>Aucune période enregistrée</p>
+                <p>Aucune période enregistrée </p>
             }
             else{
                 foreach (var periode in Model.PeriodeFermetures)
                 {
-                    <p>@periode.DateDebut à @periode.DateFin</p>
+                    <p>@periode.DateDebut.Day/@periode.DateDebut.Month/@periode.DateDebut.Year au @periode.DateFin.Day/@periode.DateFin.Month/@periode.DateFin.Year <a href="~/Garagiste/SupprimerPeriode/@periode.ID">X</a></p>
                 }
             }
-<input type="submit" value="Enregistrer">
+Ajouter une période : <input type="text" id="datepicker1" name="fermetureBegin"> à <input type="text" id="datepicker2" name="fermetureEnd"><br />
+<input type="submit" value="Enregistrer"><a href="~/Garagiste">Retour à la liste des garagistes</a>
 </form> 
+<script>
+    $.datepicker.setDefaults($.datepicker.regional['fr']);
+    $(function() {
+        $("#datepicker1 , #datepicker2").datepicker({
+            beforeShow: customRange,
+            dateFormat: "dd/mm/yy"});
+    });
+    function customRange(input) {
+        if (input.id === "datepicker1") {
+            if ($("#datepicker2").datepicker("getDate") != null) {
+                dateMax = $("#datepicker2").datepicker("getDate");
+                return { maxDate: dateMax };
+            }
+        }
+        if (input.id === "datepicker2") {
+            if ($("#datepicker1").datepicker("getDate") != null) {
+                dateMin = $("#datepicker1").datepicker("getDate");
+                return { minDate: dateMin };
+            }
+        }
+    }
+</script>
 @*@using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)

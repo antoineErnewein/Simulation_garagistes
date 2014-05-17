@@ -1,26 +1,17 @@
 ﻿@model DAL.Models.Marque
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Supprimer une marque";
 }
 
-<h2>Delete</h2>
+<h2>Supprimer la marque @Model.Nom</h2>
 
-<h3>Are you sure you want to delete this?</h3>
-<fieldset>
-    <legend>Marque</legend>
+<h3>Etes vous sûre de vouloir supprimer cette marque ?</h3>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Nom)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Nom)
-    </div>
-</fieldset>
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p>
-        <input type="submit" value="Delete" /> |
-        @Html.ActionLink("Back to List", "Index")
+        <input type="submit" value="Supprimer" /> |
+        @Html.ActionLink("Retour à la liste des marques", "Index")
     </p>
 }

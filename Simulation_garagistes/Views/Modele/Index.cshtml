@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<DAL.Models.Modele>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Liste des modèles";
 }
 
-<h2>liste des modèles</h2>
+<h2>Liste des modèles</h2>
 
 <p>
     @if (Request.IsAuthenticated) {
@@ -33,9 +33,9 @@
         </td>
         @if (Request.IsAuthenticated) {
         <td>            
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID })  |
-            <a href="~/Modele/Details/@item.ID">Carnet</a>@*@Html.ActionLink("Details", "Details", new { id=item.ID }) |*@
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })            
+            @Html.ActionLink("Editer", "Edit", new { id=item.ID })  |
+            <a href="~/Modele/Details/@item.ID">Carnet</a> | @*@Html.ActionLink("Details", "Details", new { id=item.ID }) |*@
+            @Html.ActionLink("Supprimer", "Delete", new { id=item.ID })            
         </td>
         }
     </tr>

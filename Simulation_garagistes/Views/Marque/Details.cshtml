@@ -5,7 +5,7 @@
 }
 
 <h2>Carnet d'entretien de la marque @Model.Nom</h2>
-
+@if(Model.Revision.Count>0){
 <table>
     <tr>
         <th>
@@ -39,7 +39,11 @@
 }
 
 </table>
-
+}
+else{
+    <h3>Aucune révision enregistrée pour cette marque</h3>
+}
+<a href="~/Marque">Retour à la liste des marques</a>
 @*<fieldset>
     <legend>Marque</legend>
 

@@ -90,7 +90,7 @@ namespace Simulation_garagistes.Controllers
             {
                 db.Entry(marque).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit/"+marque.ID);
             }
             return View(marque);
         }
