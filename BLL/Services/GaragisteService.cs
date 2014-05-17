@@ -91,6 +91,11 @@ namespace BLL.Services
             return res;
         }
 
+        public bool deleteAllGaragistes()
+        {
+            return garagisteManager.deleteAllGaragistes();
+        }
+
         /*public bool EstDisponiblePourRevision(int garagisteID, int revisionID, DateTime jour)
         {
             Garagiste garagiste = garagisteManager.getGaragisteById(garagisteID);

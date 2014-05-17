@@ -137,5 +137,10 @@ namespace BLL.Services
             return res;
         }
 
+        public bool deleteAllVoitures()
+        {
+            return voitureManager.deleteAllVoitures();
+        }
+
     }
 }

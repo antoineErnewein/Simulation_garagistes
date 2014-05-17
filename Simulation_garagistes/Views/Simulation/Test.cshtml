@@ -15,6 +15,7 @@
     <canvas id="myChart" width="150" height="150"></canvas>
     <div id="statOccupation"></div>
     <p>Nombre de réparations effectuées :</p>
+    <canvas id="myChart2" width="300" height="300"></canvas>
     <div id="statReparation"></div>
     
 </div>
@@ -28,7 +29,9 @@
     var fini = false;
 
     var ctx = document.getElementById("myChart").getContext("2d");
+    var ctx2 = document.getElementById("myChart2").getContext("2d");
     var options = { animateRotate: false };
+    var options2 = { animation: false };
     var Chartdata = [
                 {
                     value: 0,
@@ -39,7 +42,21 @@
                     color: "white"
                 }];
 
+    var Chartdata2 = {
+        labels: [],
+        datasets: [
+            {
+                fillColor: "rgba(220,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                data: []
+            }
+        ]
+    };
+
     var chartConstruct = new Chart(ctx);
+    var charConstruct2 = new Chart(ctx2);
 
     $(document).ready(
         $(function() {
@@ -82,6 +99,18 @@
                 Chartdata[0].value = ((data.tauxOccupation[0] / data.tauxOccupation[1])*100);
                 Chartdata[1].value = (100 - ((data.tauxOccupation[0] / data.tauxOccupation[1]) * 100));
                 chartConstruct.Doughnut(Chartdata, options);
+
+                Chartdata2.labels = data.chartDate;
+                
+                Chartdata2.datasets = [
+                {
+                    fillColor: "rgba(220,220,220,0.5)",
+                    strokeColor: "rgba(220,220,220,1)",
+                    pointColor: "rgba(220,220,220,1)",
+                    pointStrokeColor: "#fff",
+                    data: data.chartRep
+                }];
+                charConstruct2.Line(Chartdata2, options2);
 
 
                 if (fini) {

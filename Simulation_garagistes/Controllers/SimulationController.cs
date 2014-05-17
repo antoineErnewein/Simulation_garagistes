@@ -29,6 +29,9 @@ namespace Simulation_garagistes.Controllers
         private static DateTime dateCourante;
         private static int nbReparations;
 
+        private static List<String> chartDates;
+        private static List<int> chartNbRep;
+
         //
         // GET: /Simulation/
 
@@ -62,6 +65,8 @@ namespace Simulation_garagistes.Controllers
             data.simulationTerminee = fini;
             data.tauxOccupation = garagisteService.getTauxOccupation(dateCourante);
             data.nbReparations = nbReparations;
+            data.chartDate = chartDates.ToArray();
+            data.chartRep = chartNbRep.ToArray();
 
             return Json(data, JsonRequestBehavior.AllowGet);
 
@@ -94,6 +99,7 @@ namespace Simulation_garagistes.Controllers
             {
                 initSimulation();
                 run();
+                suppressionData();
                 fini = true;
 
             }).Start();
@@ -135,8 +141,15 @@ namespace Simulation_garagistes.Controllers
             bool repare = false;
             nbReparations = 0;
 
+            //Test graphe reparations
+            chartDates = new List<string>();
+            chartNbRep = new List<int>();
+            int repAvant = 0;
+
             while (dateCourante.CompareTo(dateFin) < 0)
             {
+                chartDates.Add(dateCourante.Day + "/" + dateCourante.Month);
+                repAvant = nbReparations;
 
                 foreach (Voiture v in voituresEnJeu)
                 {
@@ -185,6 +198,7 @@ namespace Simulation_garagistes.Controllers
 
                 dateCourante = dateCourante.AddDays(1);
                 dateJSON = dateCourante.Day + "/" + dateCourante.Month + "/" + dateCourante.Year;
+                chartNbRep.Add(nbReparations - repAvant);
             }
 
             logService.createLog("Fin de la simulation au : " + dateJSON, DAL.Enums.LogType.FinSimulation);
@@ -241,6 +255,12 @@ namespace Simulation_garagistes.Controllers
 
         }
 
+        public void suppressionData()
+        {
+            voitureService.deleteAllVoitures();
+            garagisteService.deleteAllGaragistes();
+        }
+
         public void checkIfInterrupted()
         {
             while (interruptThread)
@@ -257,6 +277,8 @@ namespace Simulation_garagistes.Controllers
             public bool simulationTerminee { get; set; }
             public int[] tauxOccupation { get; set; }
             public int nbReparations  { get; set; }
+            public string[] chartDate { get; set; }
+            public int[] chartRep { get; set; }
         }
     }
 }

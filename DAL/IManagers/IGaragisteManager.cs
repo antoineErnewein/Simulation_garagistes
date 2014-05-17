@@ -15,5 +15,6 @@ namespace DAL.IManagers
         bool updateGaragiste(Garagiste garagiste, int franchiseID);
         bool deleteGaragiste(int garagisteID);
         int createGaragiste(Garagiste garagiste, int franchiseID);
+        bool deleteAllGaragistes();
     }
 }

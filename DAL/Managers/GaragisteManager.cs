@@ -60,6 +60,27 @@ namespace DAL.Managers
             }
         }
 
+        public bool deleteAllGaragistes()
+        {
+            try
+            {
+                List<Garagiste> garagistes = (from g in dbService.GaragisteJeu
+                        select g).ToList();
+
+                foreach (Garagiste g in garagistes)
+                {
+                    dbService.GaragisteJeu.Remove(g);
+                }
+                
+                dbService.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public bool updateGaragiste(Garagiste garagiste, int franchiseID)
         {
             try
