@@ -79,7 +79,7 @@ namespace BLL.Services
             return revisionManager.createRevision(revision, modeleID, marqueID);
         }
 
-        public int createRevisionWhithoutID(string libelle, int kilometrage, int duree)
+        public int createRevisionWhithoutID(string libelle, int kilometrage, TimeSpan duree)
         {
             Revision revision = new Revision();
             libelle = libelle.Trim();
@@ -91,7 +91,7 @@ namespace BLL.Services
 
             revision.Libelle = libelle;
             revision.Kilometrage = kilometrage;
-            revision.DureeIntervention = new TimeSpan(duree, 0, 0);
+            revision.DureeIntervention = duree;
 
             return revisionManager.createRevisionWithoutID(revision);
         }
