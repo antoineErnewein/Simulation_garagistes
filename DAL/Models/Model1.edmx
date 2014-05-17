@@ -102,6 +102,7 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DateDebut" Type="datetime" Nullable="false" />
     <Property Name="DateFin" Type="datetime" Nullable="false" />
+    <Property Name="Duree" Type="time" Nullable="false" />
     <Property Name="Garagiste_ID" Type="int" Nullable="false" />
     <Property Name="Voiture_ID" Type="int" Nullable="false" />
     <Property Name="Revision_ID" Type="int" Nullable="false" />
@@ -373,6 +374,7 @@
           <NavigationProperty Name="Garagiste" Relationship="Model1.GaragisteReparation" FromRole="Reparation" ToRole="Garagiste" />
           <NavigationProperty Name="Voiture" Relationship="Model1.VoitureReparation" FromRole="Reparation" ToRole="Voiture" />
           <NavigationProperty Name="Revision" Relationship="Model1.ReparationRevision" FromRole="Reparation" ToRole="Revision" />
+          <Property Type="Time" Name="Duree" Nullable="false" />
         </EntityType>
         <Association Name="GaragisteReparation">
           <End Type="Model1.Garagiste" Role="Garagiste" Multiplicity="1" >
@@ -497,6 +499,7 @@
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="DateDebut" ColumnName="DateDebut" />
           <ScalarProperty Name="DateFin" ColumnName="DateFin" />
+          <ScalarProperty Name="Duree" ColumnName="Duree" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

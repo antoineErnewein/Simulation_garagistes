@@ -106,6 +106,28 @@ namespace DAL.Managers
             }
         }
 
+        public bool deleteAllVoitures()
+        {
+            try
+            {
+                List<Voiture> voitures = (from v in dbService.VoitureJeu
+                                   select v).ToList();
+
+                foreach (Voiture v in voitures)
+                {
+                    dbService.VoitureJeu.Remove(v);
+                }
+                
+                dbService.SaveChanges();
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         public int createVoiture(Voiture voiture, int modeleID)
         {
             try

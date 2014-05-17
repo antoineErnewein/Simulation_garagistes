@@ -22,9 +22,15 @@ namespace Simulation_garagistes.Controllers
         private ReparationService reparationService = new ReparationService(new ReparationManager());
         private LogService logService = new LogService(new LogManager());
         private PeriodeFermetureService periodeFermetureService = new PeriodeFermetureService(new PeriodeFermetureManager());
+        private RevisionService revisionService = new RevisionService(new RevisionManager());
         private static String dateJSON = "";
         private static bool interruptThread = false;
         private static bool fini = false;
+        private static DateTime dateCourante;
+        private static int nbReparations;
+
+        private static List<String> chartDates;
+        private static List<int> chartNbRep;
 
         //
         // GET: /Simulation/
@@ -44,6 +50,7 @@ namespace Simulation_garagistes.Controllers
         {
 
             List<LogSimulation> logs = logService.getLastestLogs(20);
+
             Data data = new Data();
             data.logs = new string[logs.Count];
             data.types = new int[logs.Count];
@@ -56,6 +63,10 @@ namespace Simulation_garagistes.Controllers
 
             data.date = "Jour : " + dateJSON;
             data.simulationTerminee = fini;
+            data.tauxOccupation = garagisteService.getTauxOccupation(dateCourante);
+            data.nbReparations = nbReparations;
+            data.chartDate = chartDates.ToArray();
+            data.chartRep = chartNbRep.ToArray();
 
             return Json(data, JsonRequestBehavior.AllowGet);
 
@@ -81,17 +92,18 @@ namespace Simulation_garagistes.Controllers
             return Json("'Success':'true'");
         }
 
-        [HttpPost]
-        public ActionResult Test(vmGaragiste vmGaragiste)
+        [HttpPost, ActionName("Test")]
+        public ActionResult Test()
         {
             new Thread(() =>
             {
                 initSimulation();
                 run();
+                suppressionData();
                 fini = true;
 
             }).Start();
-
+    
             return View();
         }
 
@@ -117,7 +129,7 @@ namespace Simulation_garagistes.Controllers
             //FAIRE TOUS LES TESTS SUR LES DATES !
             string[] debut = Request["debut_simu"].Split('/');
             string[] fin = Request["fin_simu"].Split('/');
-            DateTime dateCourante = new DateTime(int.Parse(debut[2]), int.Parse(debut[0]), int.Parse(debut[1]));
+            dateCourante = new DateTime(int.Parse(debut[2]), int.Parse(debut[0]), int.Parse(debut[1]));
             DateTime dateFin = new DateTime(int.Parse(fin[2]), int.Parse(fin[0]), int.Parse(fin[1]));
             dateJSON = dateCourante.Day + "/" + dateCourante.Month + "/" + dateCourante.Year;
 
@@ -125,11 +137,19 @@ namespace Simulation_garagistes.Controllers
             List<Voiture> voituresEnJeu = voitureService.getAllVoitures();
             List<Garagiste> garagistesEnJeu = garagisteService.getAllGaragistes();
             List<Revision> revisionsAEffectuer = null;
-            int charge = 0;
+            int chargeFaisable = 0;
             bool repare = false;
+            nbReparations = 0;
+
+            //Test graphe reparations
+            chartDates = new List<string>();
+            chartNbRep = new List<int>();
+            int repAvant = 0;
 
             while (dateCourante.CompareTo(dateFin) < 0)
             {
+                chartDates.Add(dateCourante.Day + "/" + dateCourante.Month);
+                repAvant = nbReparations;
 
                 foreach (Voiture v in voituresEnJeu)
                 {
@@ -144,19 +164,30 @@ namespace Simulation_garagistes.Controllers
                             if (periodeFermetureService.isVacances(garagistesEnJeu[i].ID, dateCourante))
                             {
                                 logService.createLog("(" + dateJSON + ") Le garagiste (" + garagistesEnJeu[i].ID + ") est en vacances, il ne peut prendre la voiture (" + v.ID + ") pour la revision (" + revisionsAEffectuer[0].ID + ")", DAL.Enums.LogType.GaragisteEnVacances);
-                    }
+                            }
 
                             else
                             {
-                                if (((charge = reparationService.getChargeHoraire(garagistesEnJeu[i].ID, dateCourante)) + revisionsAEffectuer[0].DureeIntervention.Hours) > 8)
+                                if (reparationService.getChargeHoraire(garagistesEnJeu[i].ID, dateCourante) >= 8)
                                 {
-                                    logService.createLog("(" + dateJSON + ") La voiture (" + v.ID + ") ne peut pas effectuer la revision (" + revisionsAEffectuer[0].ID + ") [" + revisionsAEffectuer[0].DureeIntervention.Hours + "h] chez le garagiste (" + garagistesEnJeu[i].ID + ") [" + charge + "/8h]", DAL.Enums.LogType.GaragistePlein);
-                }
+                                    logService.createLog("(" + dateJSON + ") La voiture (" + v.ID + ") ne peut pas effectuer la revision (" + revisionsAEffectuer[0].ID + ") [" + revisionsAEffectuer[0].DureeIntervention.Hours + "h] chez le garagiste (" + garagistesEnJeu[i].ID + ") [Agenda plein]", DAL.Enums.LogType.GaragistePlein);
+                                }
+
+                                else if (reparationService.getChargeHoraire(garagistesEnJeu[i].ID, dateCourante) + revisionsAEffectuer[0].DureeIntervention.Hours > 8)
+                                {
+                                    //On démarre la réparation à ce jour mais on la poursuit le lendemain
+                                    chargeFaisable = 8 - reparationService.getChargeHoraire(garagistesEnJeu[i].ID, dateCourante);
+                                    reparationService.createReparation(dateCourante, dateCourante.AddDays(1), chargeFaisable, garagistesEnJeu[i].ID, v.ID, revisionsAEffectuer[0].ID);
+                                    reparationService.createReparation(dateCourante.AddDays(1), dateCourante.AddDays(1), (revisionsAEffectuer[0].DureeIntervention.Hours - chargeFaisable), garagistesEnJeu[i].ID, v.ID, revisionsAEffectuer[0].ID);
+                                    logService.createLog("(" + dateJSON + ") La voiture (" + v.ID + ") effectue la revision (" + revisionsAEffectuer[0].ID + ") en 2 jours chez le garagiste (" + garagistesEnJeu[i].ID + ")", DAL.Enums.LogType.ReparationSurDeuxJours);
+                                    nbReparations++;
+                                }
 
                                 else
                                 {
-                                    reparationService.createReparation(dateCourante, dateCourante, garagistesEnJeu[i].ID, v.ID, revisionsAEffectuer[0].ID);
+                                    reparationService.createReparation(dateCourante, dateCourante, revisionsAEffectuer[0].DureeIntervention.Hours, garagistesEnJeu[i].ID, v.ID, revisionsAEffectuer[0].ID);
                                     repare = true;
+                                    nbReparations++;
                                 }
                             }
                         }
@@ -167,6 +198,7 @@ namespace Simulation_garagistes.Controllers
 
                 dateCourante = dateCourante.AddDays(1);
                 dateJSON = dateCourante.Day + "/" + dateCourante.Month + "/" + dateCourante.Year;
+                chartNbRep.Add(nbReparations - repAvant);
             }
 
             logService.createLog("Fin de la simulation au : " + dateJSON, DAL.Enums.LogType.FinSimulation);
@@ -223,13 +255,19 @@ namespace Simulation_garagistes.Controllers
 
         }
 
+        public void suppressionData()
+        {
+            voitureService.deleteAllVoitures();
+            garagisteService.deleteAllGaragistes();
+        }
+
         public void checkIfInterrupted()
         {
             while (interruptThread)
             {
                 Thread.Sleep(1000);
-                }
             }
+        }
 
         public class Data
         {
@@ -237,6 +275,10 @@ namespace Simulation_garagistes.Controllers
             public int[] types { get; set; }
             public string date { get; set; }
             public bool simulationTerminee { get; set; }
+            public int[] tauxOccupation { get; set; }
+            public int nbReparations  { get; set; }
+            public string[] chartDate { get; set; }
+            public int[] chartRep { get; set; }
         }
     }
 }

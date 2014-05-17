@@ -6,14 +6,57 @@
 <div id="Download" style="display:none">
     @Html.ActionLink("Télécharger le rapport", "GetFile")
 </div>
-<div id="Clock" style="float:right"></div>
-<input type="button" id="btnPause" value="Pause" style="float:right"/>
+<div style="float:right">
+    <div id="Clock"></div>
+    <input type="button" id="btnPause" value="Pause" />
+    <hr />
+    <h3>Statistiques</h3>
+    <p>Occupation des garages :</p>
+    <canvas id="myChart" width="150" height="150"></canvas>
+    <div id="statOccupation"></div>
+    <p>Nombre de réparations effectuées :</p>
+    <canvas id="myChart2" width="300" height="300"></canvas>
+    <div id="statReparation"></div>
+    
+</div>
 
 <div id="Content"></div>
 
+<script src="~/Scripts/Chart.js"></script>
 <script type="text/javascript">
 
     var intervalID;
+    var fini = false;
+
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var ctx2 = document.getElementById("myChart2").getContext("2d");
+    var options = { animateRotate: false };
+    var options2 = { animation: false };
+    var Chartdata = [
+                {
+                    value: 0,
+                    color: "#F7464A"
+                },
+                {
+                    value: 100,
+                    color: "white"
+                }];
+
+    var Chartdata2 = {
+        labels: [],
+        datasets: [
+            {
+                fillColor: "rgba(220,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                data: []
+            }
+        ]
+    };
+
+    var chartConstruct = new Chart(ctx);
+    var charConstruct2 = new Chart(ctx2);
 
     $(document).ready(
         $(function() {
@@ -23,10 +66,12 @@
 
     function getData() {
         $.getJSON(
-        "/Simulation/GetLogs", {},
+        "/Simulation/GetLogs/", {},
             function createTable(data) {
                 $('#Content').empty();
                 $('#Clock').empty();
+                $('#statOccupation').empty();
+                $('#statReparation').empty();
 
                 var table = $('<table></table>');
 
@@ -39,14 +84,40 @@
                 }
 
                 var time = $('<p></p>').text(data.date);
+                var stOccupation = $('<p></p>').text(data.tauxOccupation[0] + " / " + data.tauxOccupation[1] + " H");
+                var stReparations = $('<p></p>').text(""+data.nbReparations);
+
+                if (data.simulationTerminee != null) {
+                    fini = data.simulationTerminee;
+                }
 
                 $('#Content').append(table);
                 $('#Clock').append(time);
+                $('#statOccupation').append(stOccupation);
+                $('#statReparation').append(stReparations);
 
-                if (data.simulationTerminee) {
-                    clearInterval(intervalID);
+                Chartdata[0].value = ((data.tauxOccupation[0] / data.tauxOccupation[1])*100);
+                Chartdata[1].value = (100 - ((data.tauxOccupation[0] / data.tauxOccupation[1]) * 100));
+                chartConstruct.Doughnut(Chartdata, options);
+
+                Chartdata2.labels = data.chartDate;
+                
+                Chartdata2.datasets = [
+                {
+                    fillColor: "rgba(220,220,220,0.5)",
+                    strokeColor: "rgba(220,220,220,1)",
+                    pointColor: "rgba(220,220,220,1)",
+                    pointStrokeColor: "#fff",
+                    data: data.chartRep
+                }];
+                charConstruct2.Line(Chartdata2, options2);
+
+
+                if (fini) {
+                    //clearInterval(intervalID);
                     $("#btnPause").css("display", "none");
                     $("#Download").css("display", "inline");
+
                 }
 
             });
@@ -54,9 +125,9 @@
 
     $("#btnPause").click(function () {
         var etat = $("#btnPause").attr("value");
-        $.post("/Simulation/Pause", { 'etat': etat }, function (data) { if (etat == "Pause") { $("#btnPause").prop('value', 'Unpause') } else { $("#btnPause").prop('value', 'Pause') } }, 'json');
+        $.post("/Simulation/Pause/", { 'etat': etat }, function (data) { if (etat == "Pause") { $("#btnPause").prop('value', 'Unpause') } else { $("#btnPause").prop('value', 'Pause') } }, 'json');
     });
-    
+
     function setBackgroundColor(row, type) {
 
         var color = "white";
@@ -90,12 +161,11 @@
                 color = "white";
                 break;
             default:
-                color = "white"
+                color = "white";
         }
 
         $(row).css("background-color", color);
     }
 
 </script>
-
 

@@ -16,5 +16,6 @@ namespace DAL.IManagers
         bool updateVoiture(Voiture voiture, int modeleID);
         bool deleteVoiture(int voitureID);
         int createVoiture(Voiture voiture, int modeleID);
+        bool deleteAllVoitures();
     }
 }

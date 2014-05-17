@@ -122,5 +122,19 @@ namespace DAL.Managers
                 return -1;
             }
         }
+
+        public int createRevisionWithoutID(Revision revision)
+        {
+            try
+            {
+                dbService.RevisionJeu.Add(revision);
+                dbService.SaveChanges();
+                return revision.ID;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
     }
 }
