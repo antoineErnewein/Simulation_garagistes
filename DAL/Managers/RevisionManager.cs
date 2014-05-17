@@ -76,9 +76,9 @@ namespace DAL.Managers
         public bool updateRevision(Revision revision, int modeleID, int marqueID)
         {
             try
-            {
-                revision.Modele = dbService.ModeleJeu.Find(modeleID);
-                revision.Marque = dbService.MarqueJeu.Find(marqueID);
+            {                
+                revision.Modele = ((modeleID > 0) ?  dbService.ModeleJeu.Find(modeleID) : null);
+                revision.Marque = ((marqueID > 0) ? dbService.MarqueJeu.Find(marqueID) : null);
                 dbService.SaveChanges();
                 return true;
             }

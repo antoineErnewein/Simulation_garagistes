@@ -35,7 +35,7 @@
             @item.Kilometrage
         </td>
         <td>
-            @if (item.Marque.Nom == null && @item.Modele.Nom == null){
+            @if (item.Marque == null && @item.Modele == null){
                 <p>Aucune marque ou modèle associée"</p>
             }
             else if (item.Marque == null){

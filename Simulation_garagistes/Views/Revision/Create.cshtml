@@ -1,12 +1,31 @@
-﻿@model DAL.Models.Revision
+﻿@model Simulation_garagistes.ViewModels.vmRevision
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Créer une nouvelle révision";
 }
 
-<h2>Create</h2>
+<h2>Créer une nouvelle révision</h2>
 
-@using (Html.BeginForm()) {
+<form name="input" action="/Revision/Create" method="post">
+Libellé : <input type="text" name="revisionName"><br />
+Kilométrage : <input type="text" name="revisionKm"><br />
+Durée d'intervention : <input type="number" min="0" max="8" />h <input type="number" min="0" max="60" />min <input type="text" name="revisionDuree"><br />
+
+Marque : <select name="marqueId">
+    <option value="-1" selected>Aucune marque</option>
+    @foreach (var item in Model.Marques) {        
+            <option value="@item.ID" >@item.Nom</option>
+    }
+    </select><br />
+Modèle : <select name="modeleId">
+        <option value="-1" selected>Aucun modèle</option>
+    @foreach (var item in Model.Modeles) {
+            <option value="@item.ID" >@item.Nom</option>
+    }
+    </select><br />
+<input type="submit" value="Enregistrer">
+</form> 
+@*@using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
@@ -49,4 +68,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
+}*@

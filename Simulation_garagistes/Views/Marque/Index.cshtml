@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<DAL.Models.Marque>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Liste des marques";
 }
 
-<h2>Index</h2>
+<h2>Liste des marques</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Créer une nouvelle marque", "Create")
 </p>
 <table>
     <tr>
@@ -23,9 +23,10 @@
             @Html.DisplayFor(modelItem => item.Nom)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Editer", "Edit", new { id=item.ID }) |
+            <a href="~/Marque/Details/@item.ID">Carnet</a>
+            @*@Html.ActionLink("Details", "Details", new { id=item.ID })*@ |
+            @Html.ActionLink("Supprimer", "Delete", new { id=item.ID })
         </td>
     </tr>
 }

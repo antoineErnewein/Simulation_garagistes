@@ -1,12 +1,46 @@
 ﻿@model DAL.Models.Marque
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Carnet d'entretien";
 }
 
-<h2>Details</h2>
+<h2>Carnet d'entretien de la marque @Model.Nom</h2>
 
-<fieldset>
+<table>
+    <tr>
+        <th>
+            Libellé
+        </th>        
+        <th>
+            Kilométrage
+        </th>
+        <th>
+            Durée d'intervention
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Revision) {
+    <tr>
+        <td>
+            @item.Libelle
+        </td>
+        <td>
+            @item.Kilometrage
+        </td>             
+        <td>
+            @item.DureeIntervention
+        </td>
+        <td>
+            <a href="~/Revision/Edit/@item.ID">Editer</a> |
+            <a href="~/Revision/Delete/@item.ID">Supprimer</a>
+        </td>
+    </tr>
+}
+
+</table>
+
+@*<fieldset>
     <legend>Marque</legend>
 
     <div class="display-label">
@@ -19,4 +53,4 @@
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
-</p>
+</p>*@

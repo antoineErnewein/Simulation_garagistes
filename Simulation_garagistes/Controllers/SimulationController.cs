@@ -44,7 +44,6 @@ namespace Simulation_garagistes.Controllers
         {
 
             List<LogSimulation> logs = logService.getLastestLogs(20);
-
             Data data = new Data();
             data.logs = new string[logs.Count];
             data.types = new int[logs.Count];
@@ -92,7 +91,7 @@ namespace Simulation_garagistes.Controllers
                 fini = true;
 
             }).Start();
-    
+
             return View();
         }
 
@@ -145,14 +144,14 @@ namespace Simulation_garagistes.Controllers
                             if (periodeFermetureService.isVacances(garagistesEnJeu[i].ID, dateCourante))
                             {
                                 logService.createLog("(" + dateJSON + ") Le garagiste (" + garagistesEnJeu[i].ID + ") est en vacances, il ne peut prendre la voiture (" + v.ID + ") pour la revision (" + revisionsAEffectuer[0].ID + ")", DAL.Enums.LogType.GaragisteEnVacances);
-                            }
+                    }
 
                             else
                             {
                                 if (((charge = reparationService.getChargeHoraire(garagistesEnJeu[i].ID, dateCourante)) + revisionsAEffectuer[0].DureeIntervention.Hours) > 8)
                                 {
                                     logService.createLog("(" + dateJSON + ") La voiture (" + v.ID + ") ne peut pas effectuer la revision (" + revisionsAEffectuer[0].ID + ") [" + revisionsAEffectuer[0].DureeIntervention.Hours + "h] chez le garagiste (" + garagistesEnJeu[i].ID + ") [" + charge + "/8h]", DAL.Enums.LogType.GaragistePlein);
-                                }
+                }
 
                                 else
                                 {
@@ -229,8 +228,8 @@ namespace Simulation_garagistes.Controllers
             while (interruptThread)
             {
                 Thread.Sleep(1000);
+                }
             }
-        }
 
         public class Data
         {

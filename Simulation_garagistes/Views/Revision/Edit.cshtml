@@ -1,12 +1,43 @@
-﻿@model DAL.Models.Revision
+﻿@model Simulation_garagistes.ViewModels.vmRevision
 
 @{
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Editer la révision</h2>
 
-@using (Html.BeginForm()) {
+<form name="input" action="/Revision/Edit" method="post">
+<input type="hidden" name="revisionId" value="@Model.ID" >
+Libellé : <input type="text" name="revisionName" value="@Model.Libelle"><br />
+Kilométrage : <input type="text" name="revisionKm" value="@Model.Kilometrage"><br />
+Durée d'intervention : <input type="number" min="0" max="8" />h <input type="number" min="0" max="60" />min <input type="text" name="revisionDuree" value="@Model.DureeIntervention"><br />
+
+Marque : <select name="marqueId">
+    <option value="-1" @((Model.Marque==null) ? "selected" : "" )>Aucune marque</option>
+    @foreach (var item in Model.Marques) {
+        if( Model.Marque != null){
+            <option value="@item.ID" @((item.ID==Model.Marque.ID) ? "selected" : "" )>@item.Nom</option>
+        }
+        else{
+            <option value="@item.ID" >@item.Nom</option>
+        }
+    }
+    </select><br />
+Modèle : <select name="modeleId">
+        <option value="-1" @((Model.Modele==null) ? "selected" : "" )>Aucun modèle</option>
+    @foreach (var item in Model.Modeles) {
+        if( Model.Modele != null){
+        <option value="@item.ID" @((item.ID==Model.Modele.ID) ? "selected" : "" )>@item.Nom</option>
+        }
+        else{
+            <option value="@item.ID" >@item.Nom</option>
+        }
+    }
+    </select><br />
+<input type="submit" value="Enregistrer">
+</form> 
+
+@*@using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
@@ -51,4 +82,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
+}*@

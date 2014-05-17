@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using DAL.Models;
 using BLL.Services;
 using DAL.Managers;
+using Simulation_garagistes.ViewModels;
 
 namespace Simulation_garagistes.Controllers
 {
@@ -15,6 +16,8 @@ namespace Simulation_garagistes.Controllers
     {
         private GarageEntities db = new GarageEntities();
         private RevisionService revisionService = new RevisionService(new RevisionManager());
+        private ModeleService modeleService = new ModeleService(new ModeleManager());
+        private MarqueService marqueService = new MarqueService(new MarqueManager());
 
         //
         // GET: /Revision/
@@ -42,24 +45,28 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            vmRevision vmRevision = new vmRevision();
+            vmRevision.Marques = marqueService.getAllMarques();
+            vmRevision.Modeles = modeleService.getAllModeles();
+
+            return View(vmRevision);
         }
 
         //
         // POST: /Revision/Create
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(Revision revision)
         {
-            if (ModelState.IsValid)
-            {
-                db.RevisionJeu.Add(revision);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            string revisionLibelle = Request["revisionName"];
+            int revisionKm = int.Parse(Request["revisionKm"]);
+            TimeSpan dureeIntervention = TimeSpan.Parse(Request["revisionDuree"]);
+            int marqueId = int.Parse(Request["marqueId"]);
+            int modeleId = int.Parse(Request["modeleId"]);
+            //TODO Cas NULL marchant en pas à pas
+            revisionService.createRevision(revisionLibelle, revisionKm, dureeIntervention, modeleId, marqueId);
 
-            return View(revision);
+            return RedirectToAction("Index");
         }
 
         //
@@ -72,23 +79,36 @@ namespace Simulation_garagistes.Controllers
             {
                 return HttpNotFound();
             }
-            return View(revision);
+            vmRevision vmRevision = new vmRevision();
+            vmRevision.ID = revision.ID;
+            vmRevision.Kilometrage = revision.Kilometrage;
+            vmRevision.Libelle = revision.Libelle;
+            vmRevision.Marque = revision.Marque;
+            vmRevision.Marques = marqueService.getAllMarques();
+            vmRevision.DureeIntervention = revision.DureeIntervention ;
+            vmRevision.Modele = revision.Modele ;
+            vmRevision.Modeles = modeleService.getAllModeles();
+
+            return View(vmRevision);
         }
 
         //
         // POST: /Revision/Edit/5
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit(Revision revision)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(revision).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(revision);
+            int revisionId = int.Parse(Request["revisionId"]);
+            string revisionLibelle = Request["revisionName"];
+            int revisionKm = int.Parse(Request["revisionKm"]);
+            TimeSpan dureeIntervention = TimeSpan.Parse(Request["revisionDuree"]);
+            int marqueId = int.Parse(Request["marqueId"]);
+            int modeleId = int.Parse(Request["modeleId"]);
+            revision = revisionService.getRevisionById(revisionId);
+            //TODO Cas NULL marchant en pas à pas
+            revisionService.updateRevision(revisionId, revisionLibelle, revisionKm, dureeIntervention, modeleId, marqueId);
+            
+            return RedirectToAction("Edit/"+revisionId);
         }
 
         //

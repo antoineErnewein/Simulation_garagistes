@@ -9,7 +9,6 @@ namespace Simulation_garagistes.ViewModels
     public class vmRevision
     {
         public int ID {get;set;}
-        public string Nom { get; set; }
         public string Libelle { get; set; }
         public double Kilometrage { get; set; }
         public System.TimeSpan DureeIntervention { get; set; }
