@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "Test";
 }
-<h2>Simulation Test</h2>
+<h2>Simulation :</h2>
 
 <div id="Download" style="display:none">
     @Html.ActionLink("Télécharger le rapport", "GetFile")
@@ -21,7 +21,9 @@
 </div>
 
 <div id="Content"></div>
-
+<div id="dialog" title="Réparations effectuées">
+  <canvas id="myChart3" width="700" height="700"></canvas>
+</div>
 <script src="~/Scripts/Chart.js"></script>
 <script type="text/javascript">
 
@@ -30,6 +32,8 @@
 
     var ctx = document.getElementById("myChart").getContext("2d");
     var ctx2 = document.getElementById("myChart2").getContext("2d");
+    var ctx3 = document.getElementById("myChart3").getContext("2d");
+
     var options = { animateRotate: false };
     var options2 = { animation: false };
     var Chartdata = [
@@ -57,6 +61,7 @@
 
     var chartConstruct = new Chart(ctx);
     var charConstruct2 = new Chart(ctx2);
+    var charConstruct3 = new Chart(ctx3);
 
     $(document).ready(
         $(function() {
@@ -114,7 +119,7 @@
 
 
                 if (fini) {
-                    //clearInterval(intervalID);
+                    clearInterval(intervalID);
                     $("#btnPause").css("display", "none");
                     $("#Download").css("display", "inline");
 
@@ -166,6 +171,12 @@
 
         $(row).css("background-color", color);
     }
+
+    $("#myChart2").click(
+    function () {
+        charConstruct3.Line(Chartdata2, options2);
+        $("#dialog").dialog();
+    });
 
 </script>
 

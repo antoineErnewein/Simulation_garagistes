@@ -98,6 +98,7 @@ namespace Simulation_garagistes.Controllers
         {
             new Thread(() =>
             {
+                fini = false;
                 initSimulation();
                 run();
                 suppressionData();
@@ -116,6 +117,13 @@ namespace Simulation_garagistes.Controllers
                 {
                     List<LogSimulation> logsInSimu = logService.getLastestSimulation();
                     foreach (LogSimulation l in logsInSimu)
+                    {
+                        writer.WriteLine("[" + l.Date + "] " + l.Texte);
+                    }
+
+                    writer.WriteLine("\r\nStatistiques :\r\n");
+                    List<LogSimulation> statsInSimu = logService.getLastestSimulationStats();
+                    foreach (LogSimulation l in statsInSimu)
                     {
                         writer.WriteLine("[" + l.Date + "] " + l.Texte);
                     }
@@ -148,6 +156,7 @@ namespace Simulation_garagistes.Controllers
             chartDates = new List<string>();
             chartNbRep = new List<int>();
             int repAvant = 0;
+            int[] taux;
 
             while (dateCourante.CompareTo(dateFin) < 0)
             {
@@ -199,6 +208,8 @@ namespace Simulation_garagistes.Controllers
                     }
                 }
 
+                taux = garagisteService.getTauxOccupation(dateCourante);
+                logService.createLog("Statistiques au (" + dateJSON + ") :\r\nOccupation des garages : " + taux[0] + "/" + taux[1] + "H\r\nNombre de réparations effectuées : " + (nbReparations - repAvant), DAL.Enums.LogType.Stats);
                 dateCourante = dateCourante.AddDays(1);
                 dateJSON = dateCourante.Day + "/" + dateCourante.Month + "/" + dateCourante.Year;
                 chartNbRep.Add(nbReparations - repAvant);

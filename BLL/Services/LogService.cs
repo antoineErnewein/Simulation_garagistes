@@ -43,5 +43,10 @@ namespace BLL.Services
         {
             return logManager.getLastestSimulation();
         }
+
+        public List<LogSimulation> getLastestSimulationStats()
+        {
+            return logManager.getLastestSimulationStats();
+        }
     }
 }
