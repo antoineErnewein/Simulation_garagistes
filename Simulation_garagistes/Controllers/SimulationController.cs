@@ -29,8 +29,8 @@ namespace Simulation_garagistes.Controllers
         private static DateTime dateCourante;
         private static int nbReparations;
 
-        private static List<String> chartDates;
-        private static List<int> chartNbRep;
+        private static List<String> chartDates = new List<string>();
+        private static List<int> chartNbRep = new List<int>();
 
         //
         // GET: /Simulation/
