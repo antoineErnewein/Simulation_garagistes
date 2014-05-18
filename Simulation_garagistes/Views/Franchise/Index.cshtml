@@ -1,18 +1,20 @@
 ﻿@model IEnumerable<DAL.Models.Franchise>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Liste des franchises";
 }
 
-<h2>Index</h2>
+<h2>Liste des franchises</h2>
 
+@if (Request.IsAuthenticated) {
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Créer une nouvelle franchise", "Create")
 </p>
+}
 <table>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Nom)
+            Nom
         </th>
         <th></th>
     </tr>
@@ -20,13 +22,14 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Nom)
+            @item.Nom
         </td>
+        @if (Request.IsAuthenticated) {
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Editer", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Supprimer", "Delete", new { id=item.ID })
         </td>
+        }
     </tr>
 }
 

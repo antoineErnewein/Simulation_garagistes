@@ -65,6 +65,7 @@ namespace Simulation_garagistes.Controllers
             data.simulationTerminee = fini;
             data.tauxOccupation = garagisteService.getTauxOccupation(dateCourante);
             data.nbReparations = nbReparations;
+            //charDates = null sur les premières boucles avec 10 garagistes et 50 voitures
             data.chartDate = chartDates.ToArray();
             data.chartRep = chartNbRep.ToArray();
 
@@ -129,8 +130,10 @@ namespace Simulation_garagistes.Controllers
             //FAIRE TOUS LES TESTS SUR LES DATES !
             string[] debut = Request["debut_simu"].Split('/');
             string[] fin = Request["fin_simu"].Split('/');
-            dateCourante = new DateTime(int.Parse(debut[2]), int.Parse(debut[0]), int.Parse(debut[1]));
-            DateTime dateFin = new DateTime(int.Parse(fin[2]), int.Parse(fin[0]), int.Parse(fin[1]));
+            //dateCourante = new DateTime(int.Parse(debut[2]), int.Parse(debut[0]), int.Parse(debut[1]));
+            //DateTime dateFin = new DateTime(int.Parse(fin[2]), int.Parse(fin[0]), int.Parse(fin[1]));
+            dateCourante = DateTime.Parse(Request["debut_simu"]);
+            DateTime dateFin = DateTime.Parse(Request["fin_simu"]);
             dateJSON = dateCourante.Day + "/" + dateCourante.Month + "/" + dateCourante.Year;
 
             logService.createLog("Début de la simulation au : " + dateJSON, DAL.Enums.LogType.DebutSimulation);

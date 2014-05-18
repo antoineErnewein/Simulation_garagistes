@@ -1,14 +1,15 @@
 ﻿@model IEnumerable<DAL.Models.Revision>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Liste des révisions";
 }
 
-<h2>Index</h2>
-
+<h2>Liste des révisions</h2>
+@if (Request.IsAuthenticated) {
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Créer une nouvelle révision", "Create")
 </p>
+}
 <table>
     <tr>
         <th>
@@ -23,7 +24,9 @@
         <th>
             Durée d'intervention
         </th>
+        @if (Request.IsAuthenticated) {
         <th></th>
+        }
     </tr>
 
 @foreach (var item in Model) {
@@ -36,7 +39,7 @@
         </td>
         <td>
             @if (item.Marque == null && @item.Modele == null){
-                <p>Aucune marque ou modèle associée"</p>
+                <p>Aucune marque ou modèle associée</p>
             }
             else if (item.Marque == null){
                 <p>@item.Modele.Nom</p>
@@ -51,11 +54,13 @@
         <td>
             @item.DureeIntervention
         </td>
+        @if (Request.IsAuthenticated) {
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Editer", "Edit", new { id=item.ID }) |
+            @*@Html.ActionLink("Details", "Details", new { id=item.ID }) |*@
+            @Html.ActionLink("Supprimer", "Delete", new { id=item.ID })
         </td>
+        }
     </tr>
 }
 

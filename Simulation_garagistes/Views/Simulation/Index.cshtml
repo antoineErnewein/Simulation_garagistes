@@ -7,8 +7,25 @@
 <script>
     $.datepicker.setDefaults($.datepicker.regional["fr"]);
     $(function() {
-        $("#datepicker1 , #datepicker2").datepicker($.datepicker.regional[ "fr" ]);
+        $("#datepicker1 , #datepicker2").datepicker({
+            beforeShow: customRange,
+            dateFormat: "dd/mm/yy"
+        });
     });
+    function customRange(input) {
+        if (input.id === "datepicker1") {
+            if ($("#datepicker2").datepicker("getDate") != null) {
+                dateMax = $("#datepicker2").datepicker("getDate");
+                return { maxDate: dateMax };
+            }
+        }
+        if (input.id === "datepicker2") {
+            if ($("#datepicker1").datepicker("getDate") != null) {
+                dateMin = $("#datepicker1").datepicker("getDate");
+                return { minDate: dateMin };
+            }
+        }
+    }
 </script>
 
 <h2>Configuration de la simulation</h2>

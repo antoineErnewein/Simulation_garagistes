@@ -1,7 +1,7 @@
 ﻿@model Simulation_garagistes.ViewModels.vmRevision
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Editer la révision";
 }
 
 <h2>Editer la révision</h2>
@@ -10,7 +10,7 @@
 <input type="hidden" name="revisionId" value="@Model.ID" >
 Libellé : <input type="text" name="revisionName" value="@Model.Libelle"><br />
 Kilométrage : <input type="text" name="revisionKm" value="@Model.Kilometrage"><br />
-Durée d'intervention : <input type="number" min="0" max="8" />h <input type="number" min="0" max="60" />min <input type="text" name="revisionDuree" value="@Model.DureeIntervention"><br />
+Durée d'intervention : <input type="number" id="hours" name="revisionDureeH" value="@Model.DureeIntervention.Hours" min="0" max="8" style="width:50px;"/>h<input type="number" id="minutes" name="revisionDureeM" value="@Model.DureeIntervention.Minutes" min="0" max="60" style="width:50px;"/>min<br />
 
 Marque : <select name="marqueId">
     <option value="-1" @((Model.Marque==null) ? "selected" : "" )>Aucune marque</option>
@@ -34,7 +34,7 @@ Modèle : <select name="modeleId">
         }
     }
     </select><br />
-<input type="submit" value="Enregistrer">
+<input type="submit" value="Enregistrer"><a href="~/Revision">Retour à la liste des révisions</a>
 </form> 
 
 @*@using (Html.BeginForm()) {

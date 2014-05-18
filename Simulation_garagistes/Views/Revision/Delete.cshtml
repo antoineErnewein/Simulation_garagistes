@@ -1,40 +1,19 @@
 ﻿@model DAL.Models.Revision
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Supprimer une révision";
 }
 
-<h2>Delete</h2>
+<h2>Supprimer la révision @Model.Libelle</h2>
 
-<h3>Are you sure you want to delete this?</h3>
-<fieldset>
-    <legend>Revision</legend>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Libelle)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Libelle)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Kilometrage)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Kilometrage)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.DureeIntervention)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.DureeIntervention)
-    </div>
-</fieldset>
+<h3>Etes vous sûre de vouloir supprimer cette révision</h3>
+<h4>Kilométrage</h4>
+@Model.Kilometrage
+<h4>Durée d'intervention</h4>
+@Model.DureeIntervention
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     <p>
-        <input type="submit" value="Delete" /> |
-        @Html.ActionLink("Back to List", "Index")
+        <input type="submit" value="Supprimer" />@Html.ActionLink("Retour à la liste des révisions", "Index")
     </p>
 }

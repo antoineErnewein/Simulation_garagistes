@@ -1,10 +1,10 @@
 ﻿@model DAL.Models.Franchise
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Editer la franchise";
 }
 
-<h2>Edit</h2>
+<h2>Editer la franchise</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
@@ -24,14 +24,10 @@
         </div>
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Enregistrer" />@Html.ActionLink("Retour à la liste des franchises", "Index")
         </p>
     </fieldset>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

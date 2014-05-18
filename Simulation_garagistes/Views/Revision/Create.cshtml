@@ -9,7 +9,9 @@
 <form name="input" action="/Revision/Create" method="post">
 Libellé : <input type="text" name="revisionName"><br />
 Kilométrage : <input type="text" name="revisionKm"><br />
-Durée d'intervention : <input type="number" min="0" max="8" />h <input type="number" min="0" max="60" />min <input type="text" name="revisionDuree"><br />
+Durée d'intervention :
+<input type="number" id="hours" name="revisionDureeH" value="0" min="0" max="8" style="width:50px;"/>h<input type="number" id="minutes" name="revisionDureeM" value="0" min="0" max="60" style="width:50px;"/>min<br />
+@*<input type="number" min="0" max="8" />h <input type="number" min="0" max="60" />min <input type="text" name="revisionDuree"><br />*@
 
 Marque : <select name="marqueId">
     <option value="-1" selected>Aucune marque</option>
@@ -23,8 +25,9 @@ Modèle : <select name="modeleId">
             <option value="@item.ID" >@item.Nom</option>
     }
     </select><br />
-<input type="submit" value="Enregistrer">
+<input type="submit" value="Enregistrer"><a href="~/Revision">Retour à la liste des révisions</a>
 </form> 
+
 @*@using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)

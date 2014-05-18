@@ -60,7 +60,8 @@ namespace Simulation_garagistes.Controllers
         {
             string revisionLibelle = Request["revisionName"];
             int revisionKm = int.Parse(Request["revisionKm"]);
-            TimeSpan dureeIntervention = TimeSpan.Parse(Request["revisionDuree"]);
+            //TimeSpan dureeIntervention = TimeSpan.Parse(Request["revisionDuree"]);
+            TimeSpan dureeIntervention = TimeSpan.Parse(Request["revisionDureeH"] + ":" + Request["revisionDureeM"]+":00");
             int marqueId = int.Parse(Request["marqueId"]);
             int modeleId = int.Parse(Request["modeleId"]);
             //TODO Cas NULL marchant en pas à pas
@@ -101,7 +102,8 @@ namespace Simulation_garagistes.Controllers
             int revisionId = int.Parse(Request["revisionId"]);
             string revisionLibelle = Request["revisionName"];
             int revisionKm = int.Parse(Request["revisionKm"]);
-            TimeSpan dureeIntervention = TimeSpan.Parse(Request["revisionDuree"]);
+            //TimeSpan dureeIntervention = TimeSpan.Parse(Request["revisionDuree"]);
+            TimeSpan dureeIntervention = TimeSpan.Parse(Request["revisionDureeH"] + ":" + Request["revisionDureeM"] + ":00");
             int marqueId = int.Parse(Request["marqueId"]);
             int modeleId = int.Parse(Request["modeleId"]);
             revision = revisionService.getRevisionById(revisionId);
