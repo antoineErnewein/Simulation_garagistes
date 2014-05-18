@@ -17,7 +17,9 @@
         <th>
             Durée d'intervention
         </th>
+        @if (Request.IsAuthenticated) {
         <th></th>
+        }
     </tr>
 
 @foreach (var item in Model.Revision) {
@@ -31,10 +33,12 @@
         <td>
             @item.DureeIntervention
         </td>
+        @if (Request.IsAuthenticated) {
         <td>
             <a href="~/Revision/Edit/@item.ID">Editer</a> |
             <a href="~/Revision/Delete/@item.ID">Supprimer</a>
         </td>
+        }
     </tr>
 }
 

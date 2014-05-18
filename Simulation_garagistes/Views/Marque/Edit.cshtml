@@ -6,7 +6,13 @@
 
 <h2>Editer la marque</h2>
 
-@using (Html.BeginForm()) {
+<form name="input" action="/Marque/Edit" method="post">
+    <input type="hidden" name="marqueId" value="@Model.ID" >
+    Nom : <input type="text" value="@Model.Nom" required maxlength="99" name="marqueName" /><br />
+    <input type="submit" value="Enregistrer" /><a href="~/Marque">Retour à la liste des marques</a>
+    </form>
+
+@*@using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
@@ -31,4 +37,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
+}*@

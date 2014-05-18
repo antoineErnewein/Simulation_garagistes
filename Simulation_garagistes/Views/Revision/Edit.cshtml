@@ -8,8 +8,8 @@
 
 <form name="input" action="/Revision/Edit" method="post">
 <input type="hidden" name="revisionId" value="@Model.ID" >
-Libellé : <input type="text" name="revisionName" value="@Model.Libelle"><br />
-Kilométrage : <input type="text" name="revisionKm" value="@Model.Kilometrage"><br />
+Libellé : <input type="text" name="revisionName" value="@Model.Libelle" required><br />
+Kilométrage : <input type="number" min="0" name="revisionKm" value="@Model.Kilometrage" required><br />
 Durée d'intervention : <input type="number" id="hours" name="revisionDureeH" value="@Model.DureeIntervention.Hours" min="0" max="8" style="width:50px;"/>h<input type="number" id="minutes" name="revisionDureeM" value="@Model.DureeIntervention.Minutes" min="0" max="60" style="width:50px;"/>min<br />
 
 Marque : <select name="marqueId">

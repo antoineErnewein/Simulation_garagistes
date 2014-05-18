@@ -42,6 +42,8 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Create()
         {
+            if(System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
             return View();
         }
 
@@ -49,17 +51,15 @@ namespace Simulation_garagistes.Controllers
         // POST: /Franchise/Create
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(Franchise franchise)
         {
-            if (ModelState.IsValid)
-            {
-                db.FranchiseJeu.Add(franchise);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
 
-            return View(franchise);
+            string franchiseName = Request["franchiseName"];
+            franchiseService.createFranchise(franchiseName);
+            
+            return RedirectToAction("Index");
         }
 
         //
@@ -67,6 +67,9 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Edit(int id = 0)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             Franchise franchise = franchiseService.getFranchiseById(id);
             if (franchise == null)
             {
@@ -79,16 +82,16 @@ namespace Simulation_garagistes.Controllers
         // POST: /Franchise/Edit/5
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit(Franchise franchise)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(franchise).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(franchise);
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
+            string franchiseName = Request["franchiseName"];
+            int franchiseId = int.Parse(Request["franchiseId"]);
+            franchiseService.updateFranchise(franchiseId,franchiseName);
+
+            return RedirectToAction("Edit/"+franchiseId);
         }
 
         //
@@ -96,6 +99,9 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Delete(int id = 0)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             Franchise franchise = franchiseService.getFranchiseById(id);
             if (franchise == null)
             {
@@ -111,6 +117,9 @@ namespace Simulation_garagistes.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             franchiseService.deleteFranchise(id);
             return RedirectToAction("Index");
         }

@@ -30,21 +30,24 @@ namespace Simulation_garagistes.Controllers
         //
         // GET: /Garagiste/Details/5
 
-        public ActionResult Details(int id = 0)
-        {
-            Garagiste garagiste = garagisteService.getGaragisteById(id);
-            if (garagiste == null)
-            {
-                return HttpNotFound();
-            }
-            return View(garagiste);
-        }
+        //public ActionResult Details(int id = 0)
+        //{
+        //    Garagiste garagiste = garagisteService.getGaragisteById(id);
+        //    if (garagiste == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(garagiste);
+        //}
 
         //
         // GET: /Garagiste/Create
 
         public ActionResult Create()
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             vmGaragiste vmGaragiste = new vmGaragiste();
             vmGaragiste.Franchises = franchiseService.getAllFranchises();
             return View(vmGaragiste);
@@ -56,6 +59,9 @@ namespace Simulation_garagistes.Controllers
         [HttpPost]
         public ActionResult Create(vmGaragiste vmGaragiste)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             int franchiseId = int.Parse(Request["franchiseId"]);
             string garagisteName = Request["garagisteName"];
             DateTime fermetureBegin; 
@@ -91,6 +97,9 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Edit(int id = 0)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             Garagiste garagiste = db.GaragisteJeu.Find(id);
            
             vmGaragiste vmGaragiste = new vmGaragiste();
@@ -109,6 +118,9 @@ namespace Simulation_garagistes.Controllers
         [HttpPost]
         public ActionResult Edit(vmGaragiste vmGaragiste)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             int franchiseId = int.Parse(Request["franchiseId"]);
             string garagisteName = Request["garagisteName"];
             int garagisteId = int.Parse(Request["garagisteId"]);
@@ -143,6 +155,9 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Delete(int id = 0)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             Garagiste garagiste = garagisteService.getGaragisteById(id);
             if (garagiste == null)
             {
@@ -158,6 +173,9 @@ namespace Simulation_garagistes.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             garagisteService.deleteGaragiste(id);
             return RedirectToAction("Index");
         }
@@ -170,6 +188,9 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult SupprimerPeriode(int id = 0)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             PeriodeFermetureService periodeFermetureService = new PeriodeFermetureService(new PeriodeFermetureManager());
             periodeFermetureService.deletePeriodeFermeture(id);
             return Redirect(Request.UrlReferrer.PathAndQuery);

@@ -6,7 +6,11 @@
 
 <h2>Créer une nouvelle franchise</h2>
 
-@using (Html.BeginForm()) {
+<form name="input" action="/Franchise/Create" method="post">
+    Nom : <input type="text" required maxlength="99" name="franchiseName" /><br />
+    <input type="submit" value="Enregistrer" /><a href="~/Franchise">Retour à la liste des franchises</a>
+    </form>
+@*@using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
@@ -29,4 +33,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
+}*@

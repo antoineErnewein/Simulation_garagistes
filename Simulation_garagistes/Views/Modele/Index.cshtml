@@ -31,13 +31,15 @@
         <td>
             @item.Marque.Nom
         </td>
-        @if (Request.IsAuthenticated) {
         <td>            
-            @Html.ActionLink("Editer", "Edit", new { id=item.ID })  |
-            <a href="~/Modele/Details/@item.ID">Carnet</a> | @*@Html.ActionLink("Details", "Details", new { id=item.ID }) |*@
-            @Html.ActionLink("Supprimer", "Delete", new { id=item.ID })            
+            @if (Request.IsAuthenticated) {
+            <a href="~/Modele/Edit/@item.ID">Editer |</a>
+            }
+            <a href="~/Modele/Details/@item.ID">Carnet</a>
+            @if (Request.IsAuthenticated) {
+            <a href="~/Modele/Delete/@item.ID">| Supprimer</a>
+            }           
         </td>
-        }
     </tr>
 }
 

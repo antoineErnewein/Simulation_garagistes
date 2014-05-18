@@ -32,6 +32,9 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Details(int id = 0)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             Revision revision = revisionService.getRevisionById(id);
             if (revision == null)
             {
@@ -45,6 +48,9 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Create()
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             vmRevision vmRevision = new vmRevision();
             vmRevision.Marques = marqueService.getAllMarques();
             vmRevision.Modeles = modeleService.getAllModeles();
@@ -58,6 +64,9 @@ namespace Simulation_garagistes.Controllers
         [HttpPost]
         public ActionResult Create(Revision revision)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             string revisionLibelle = Request["revisionName"];
             int revisionKm = int.Parse(Request["revisionKm"]);
             //TimeSpan dureeIntervention = TimeSpan.Parse(Request["revisionDuree"]);
@@ -75,6 +84,9 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Edit(int id = 0)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             Revision revision = revisionService.getRevisionById(id);
             if (revision == null)
             {
@@ -99,6 +111,9 @@ namespace Simulation_garagistes.Controllers
         [HttpPost]
         public ActionResult Edit(Revision revision)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             int revisionId = int.Parse(Request["revisionId"]);
             string revisionLibelle = Request["revisionName"];
             int revisionKm = int.Parse(Request["revisionKm"]);
@@ -118,6 +133,9 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Delete(int id = 0)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             Revision revision = revisionService.getRevisionById(id);
             if (revision == null)
             {
@@ -133,6 +151,9 @@ namespace Simulation_garagistes.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             revisionService.deleteRevision(id);
             return RedirectToAction("Index");
         }

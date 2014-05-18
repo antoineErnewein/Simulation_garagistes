@@ -44,6 +44,9 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Create()
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             vmModele vmModele = new vmModele();
             vmModele.Marques = marqueService.getAllMarques();
             return View(vmModele);
@@ -55,6 +58,9 @@ namespace Simulation_garagistes.Controllers
         [HttpPost]
         public ActionResult Create(vmModele vmModele)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             int marqueId = int.Parse(Request["marqueId"]);
             string modeleName = Request["modeleName"];
 
@@ -78,6 +84,9 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Edit(int id = 0)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             Modele modele = modeleService.getModeleById(id);
             vmModele vmModele = new vmModele();
             vmModele.Nom = modele.Nom;
@@ -99,6 +108,9 @@ namespace Simulation_garagistes.Controllers
         [HttpPost]
         public ActionResult Edit(Modele modele)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             int marqueId = int.Parse(Request["marqueId"]);
             string modeleName = Request["modeleName"];
             int modeleID = int.Parse(Request["modeleId"]);
@@ -123,6 +135,9 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Delete(int id = 0)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             Modele modele = modeleService.getModeleById(id);
             if (modele == null)
             {
@@ -138,6 +153,9 @@ namespace Simulation_garagistes.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             modeleService.deleteModele(id);
             return RedirectToAction("Index");
         }

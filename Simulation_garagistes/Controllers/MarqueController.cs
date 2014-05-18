@@ -46,6 +46,9 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Create()
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             return View();
         }
 
@@ -53,17 +56,15 @@ namespace Simulation_garagistes.Controllers
         // POST: /Marque/Create
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(Marque marque)
         {
-            if (ModelState.IsValid)
-            {
-                db.MarqueJeu.Add(marque);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
 
-            return View(marque);
+            string marqueName = Request["marqueName"];
+            marqueService.createMarque(marqueName);
+
+            return RedirectToAction("Index");
         }
 
         //
@@ -71,6 +72,9 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Edit(int id = 0)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             Marque marque = marqueService.getMarqueById(id);
             if (marque == null)
             {
@@ -83,16 +87,16 @@ namespace Simulation_garagistes.Controllers
         // POST: /Marque/Edit/5
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit(Marque marque)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(marque).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Edit/"+marque.ID);
-            }
-            return View(marque);
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
+            string marqueName = Request["marqueName"];
+            int marqueId = int.Parse(Request["marqueId"]);
+            marqueService.updateMarque(marqueId,marqueName);
+
+            return RedirectToAction("Edit/" + marqueId);
         }
 
         //
@@ -100,6 +104,9 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Delete(int id = 0)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             Marque marque = marqueService.getMarqueById(id);
             if (marque == null)
             {
@@ -115,6 +122,9 @@ namespace Simulation_garagistes.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (System.Web.HttpContext.Current.User == null || !System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                return HttpNotFound();
+
             marqueService.deleteMarque(id);
             return RedirectToAction("Index");
         }

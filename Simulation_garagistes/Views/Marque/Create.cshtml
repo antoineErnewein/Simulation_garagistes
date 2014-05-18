@@ -6,7 +6,12 @@
 
 <h2>Créer une nouvelle marque</h2>
 
-@using (Html.BeginForm()) {
+<form name="input" action="/Marque/Create" method="post">
+    Nom : <input type="text" required maxlength="99" name="marqueName" /><br />
+    <input type="submit" value="Enregistrer" /><a href="~/Marque">Retour à la liste des marques</a>
+    </form>
+
+@*@using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
@@ -29,4 +34,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
+}*@

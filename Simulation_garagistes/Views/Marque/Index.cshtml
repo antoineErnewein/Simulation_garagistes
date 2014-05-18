@@ -25,14 +25,17 @@
         <td>
             @Html.DisplayFor(modelItem => item.Nom)
         </td>
-        @if (Request.IsAuthenticated) {
+        
         <td>
-            @Html.ActionLink("Editer", "Edit", new { id=item.ID }) |
+            @if (Request.IsAuthenticated) {
+            <a href="~/Marque/Edit/@item.ID">Editer |</a>
+            }
             <a href="~/Marque/Details/@item.ID">Carnet</a>
-            @*@Html.ActionLink("Details", "Details", new { id=item.ID })*@ |
-            @Html.ActionLink("Supprimer", "Delete", new { id=item.ID })
+            @if (Request.IsAuthenticated) {
+            <a href="~/Marque/Delete/@item.ID">| Supprimer</a>
+            }
         </td>
-        }
+        
     </tr>
 }
 

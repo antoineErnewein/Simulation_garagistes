@@ -6,7 +6,13 @@
 
 <h2>Editer la franchise</h2>
 
-@using (Html.BeginForm()) {
+<form name="input" action="/Franchise/Edit" method="post">
+    <input type="hidden" name="franchiseId" value="@Model.ID" >
+    Nom : <input type="text" value="@Model.Nom" required maxlength="99" name="franchiseName" /><br />
+    <input type="submit" value="Enregistrer" /><a href="~/Franchise">Retour à la liste des franchises</a>
+    </form>
+
+@*@using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
@@ -31,4 +37,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
+}*@
