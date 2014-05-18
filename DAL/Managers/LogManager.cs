@@ -34,7 +34,9 @@ namespace DAL.Managers
         {
             try
             {
-                return (from l in dbService.LogSimulationJeu orderby l.ID descending
+                return (from l in dbService.LogSimulationJeu
+                        where l.Type != 11
+                        orderby l.ID descending
                         select l).Take(number).ToList();
             }
             catch (Exception ex)
@@ -52,7 +54,26 @@ namespace DAL.Managers
                         select l).First().ID;
 
                 return (from l in dbService.LogSimulationJeu
-                        where l.ID >= id
+                        where l.ID >= id && l.Type != 11
+                        select l).ToList();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public List<LogSimulation> getLastestSimulationStats()
+        {
+            try
+            {
+                int id = (from l in dbService.LogSimulationJeu
+                          where l.Type == 1
+                          orderby l.ID descending
+                          select l).First().ID;
+
+                return (from l in dbService.LogSimulationJeu
+                        where l.ID >= id && l.Type == 11
                         select l).ToList();
             }
             catch (Exception ex)

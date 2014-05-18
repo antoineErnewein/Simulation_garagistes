@@ -65,7 +65,7 @@ namespace DAL.Managers
         {
             try
             {
-                List<Garagiste> garagistes = (from g in dbService.GaragisteJeu
+                List<Garagiste> garagistes = (from g in dbService.GaragisteJeu where g.Nom.StartsWith("Garagiste_")
                         select g).ToList();
 
                 foreach (Garagiste g in garagistes)
