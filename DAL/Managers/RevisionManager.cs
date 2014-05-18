@@ -37,6 +37,7 @@ namespace DAL.Managers
             try
             {
                 return (from r in dbService.RevisionJeu
+                        orderby r.Libelle
                         where r.Marque.ID == marqueID 
                         select r).ToList();
             }
@@ -51,6 +52,7 @@ namespace DAL.Managers
             try
             {
                 return (from r in dbService.RevisionJeu
+                        orderby r.Libelle
                         where r.Modele.ID == modeleID
                         select r).ToList();
             }
@@ -65,6 +67,7 @@ namespace DAL.Managers
             try
             {
                 return (from r in dbService.RevisionJeu
+                        orderby r.Libelle
                         select r).ToList();
             }
             catch (Exception ex)

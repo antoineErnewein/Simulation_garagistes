@@ -51,6 +51,7 @@ namespace DAL.Managers
             try
             {
                 return (from m in dbService.ModeleJeu
+                        orderby m.Nom
                         select m).ToList();
             }
             catch (Exception ex)

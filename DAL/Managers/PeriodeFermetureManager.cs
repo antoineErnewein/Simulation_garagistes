@@ -37,6 +37,7 @@ namespace DAL.Managers
             try
             {
                 return (from p in dbService.PeriodeFermetureJeu
+                        orderby p.DateDebut
                         where p.Garagiste.ID == garagisteID 
                         select p).ToList();
             }
@@ -51,6 +52,7 @@ namespace DAL.Managers
             try
             {
                 return (from p in dbService.PeriodeFermetureJeu
+                        orderby p.DateDebut
                         select p).ToList();
             }
             catch (Exception ex)

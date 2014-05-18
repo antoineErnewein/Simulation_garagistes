@@ -37,6 +37,7 @@ namespace DAL.Managers
             try
             {
                 return (from m in dbService.MarqueJeu
+                        orderby m.Nom
                         select m).ToList();
             }
             catch (Exception ex)
