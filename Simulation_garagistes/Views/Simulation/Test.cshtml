@@ -45,6 +45,10 @@
                     color: "#F7464A"
                 },
                 {
+                    value: 0,
+                    color: "#F785F7"
+                },
+                {
                     value: 100,
                     color: "white"
                 }];
@@ -92,7 +96,7 @@
                 }
 
                 var time = $('<p></p>').text(data.date);
-                var stOccupation = $('<p></p>').text(data.tauxOccupation[0] + " / " + data.tauxOccupation[1] + " H");
+                var stOccupation = $('<p></p>').text( (data.tauxOccupation[0] + data.tauxOccupation[1]) + " / " + data.tauxOccupation[2] + " H");
                 var stReparations = $('<p></p>').text(""+data.nbReparations);
 
                 if (data.simulationTerminee != null) {
@@ -104,8 +108,9 @@
                 $('#statOccupation').append(stOccupation);
                 $('#statReparation').append(stReparations);
 
-                Chartdata[0].value = ((data.tauxOccupation[0] / data.tauxOccupation[1])*100);
-                Chartdata[1].value = (100 - ((data.tauxOccupation[0] / data.tauxOccupation[1]) * 100));
+                Chartdata[0].value = ((data.tauxOccupation[0] / data.tauxOccupation[2]) * 100);
+                Chartdata[1].value = ((data.tauxOccupation[1] / data.tauxOccupation[2]) * 100);
+                Chartdata[2].value = (100 - (((data.tauxOccupation[0] + data.tauxOccupation[1]) / data.tauxOccupation[2]) * 100));
                 chartConstruct.Doughnut(Chartdata, options);
 
                 Chartdata2.labels = data.chartDate;
@@ -183,3 +188,9 @@
 
 </script>
 
+<style type="text/css">
+#Clock p {
+    font-size : large;
+    font : bold;
+}
+</style>

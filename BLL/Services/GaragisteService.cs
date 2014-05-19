@@ -14,6 +14,7 @@ namespace BLL.Services
         private IGaragisteManager garagisteManager;
         private LogService logService = new LogService(new LogManager());
         private ReparationService reparationService = new ReparationService(new ReparationManager());
+        private PeriodeFermetureService periodeFermetureService = new PeriodeFermetureService(new PeriodeFermetureManager());
 
         public GaragisteService(IGaragisteManager garagisteManager)
         {
@@ -79,14 +80,15 @@ namespace BLL.Services
         public int[] getTauxOccupation(DateTime jour)
         {
             List<Garagiste> garagistes = garagisteManager.getAllGaragistes();
-            int[] res = new int[2];
+            int[] res = new int[3];
 
             foreach (Garagiste g in garagistes)
             {
                 res[0] += reparationService.getChargeHoraire(g.ID, jour);
+                res[1] += (periodeFermetureService.isVacances(g.ID, jour)) ? 8 : 0;
             }
 
-            res[1] = garagistes.Count * 8;
+            res[2] = garagistes.Count * 8;
 
             return res;
         }
