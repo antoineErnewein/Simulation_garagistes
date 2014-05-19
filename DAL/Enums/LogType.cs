@@ -21,6 +21,7 @@ namespace DAL.Enums
         Creations = 8,
         Autres = 9,
         ReparationSurDeuxJours = 10,
-        Stats = 11
+        Stats = 11,
+        Accident = 12
     }
 }

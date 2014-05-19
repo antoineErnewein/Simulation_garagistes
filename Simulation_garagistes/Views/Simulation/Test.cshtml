@@ -12,6 +12,10 @@
     <hr />
     <h3>Statistiques</h3>
 
+    <p style="display:inline">Nombre d'accidents :</p>
+    <div id="statAccidents" style="display:inline-block"></div>
+    <br />
+
     <p style="display:inline">Occupation des garages :</p>
     <div id="statOccupation" style="display:inline-block"></div>
     <canvas style="display:block" id="myChart" width="150" height="150"></canvas>
@@ -83,6 +87,7 @@
                 $('#Content').empty();
                 $('#Clock').empty();
                 $('#statOccupation').empty();
+                $('#statAccidents').empty();
                 $('#statReparation').empty();
 
                 var table = $('<table></table>');
@@ -97,7 +102,8 @@
 
                 var time = $('<p></p>').text(data.date);
                 var stOccupation = $('<p></p>').text( (data.tauxOccupation[0] + data.tauxOccupation[1]) + " / " + data.tauxOccupation[2] + " H");
-                var stReparations = $('<p></p>').text(""+data.nbReparations);
+                var stAccidents = $('<p></p>').text("" + data.nbAccidents);
+                var stReparations = $('<p></p>').text("" + data.nbReparations);
 
                 if (data.simulationTerminee != null) {
                     fini = data.simulationTerminee;
@@ -106,6 +112,7 @@
                 $('#Content').append(table);
                 $('#Clock').append(time);
                 $('#statOccupation').append(stOccupation);
+                $('#statAccidents').append(stAccidents);
                 $('#statReparation').append(stReparations);
 
                 Chartdata[0].value = ((data.tauxOccupation[0] / data.tauxOccupation[2]) * 100);
@@ -156,7 +163,7 @@
                 color = "#99ed78";
                 break;
             case (4): //Voiture immobilisee
-                color = "#f7858d";
+                color = "#ffb600";
                 break;
             case (5): //Reparation voiture
                 color = "#85f1f7";
@@ -172,6 +179,9 @@
                 break;
             case (9): //Autres
                 color = "white";
+                break;
+            case (12): //Accident
+                color = "#f7858d";
                 break;
             default:
                 color = "white";
