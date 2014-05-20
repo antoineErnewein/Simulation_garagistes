@@ -374,6 +374,7 @@
     <Content Include="Views\Franchise\Delete.cshtml" />
     <Content Include="Views\Simulation\Index.cshtml" />
     <Content Include="Views\Simulation\Test.cshtml" />
+    <Content Include="Views\Simulation\Fixtures.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

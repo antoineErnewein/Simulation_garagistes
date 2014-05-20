@@ -14,5 +14,6 @@ namespace DAL.IManagers
         bool updateMarque();
         bool deleteMarque(int marqueID);
         int createMarque(Marque marque);
+        bool deleteAllMarques();
     }
 }

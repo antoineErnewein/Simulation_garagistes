@@ -91,5 +91,27 @@ namespace DAL.Managers
                 return -1;
             }
         }
+
+        public bool deleteAllFranchises()
+        {
+            try
+            {
+                List<Franchise> franchises = (from f in dbService.FranchiseJeu
+                                          select f).ToList();
+
+                foreach (Franchise f in franchises)
+                {
+                    dbService.FranchiseJeu.Remove(f);
+                }
+
+                dbService.SaveChanges();
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

@@ -14,5 +14,6 @@ namespace DAL.IManagers
         bool updateFranchise();
         bool deleteFranchise(int franchiseID);
         int createFranchise(Franchise franchise);
+        bool deleteAllFranchises();
     }
 }

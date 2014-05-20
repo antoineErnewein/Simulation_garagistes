@@ -89,5 +89,10 @@ namespace BLL.Services
             return franchiseManager.createFranchise(franchise);
         }
 
+        public bool deleteAllFranchises()
+        {
+            return franchiseManager.deleteAllFranchises();
+        }
+
     }
 }

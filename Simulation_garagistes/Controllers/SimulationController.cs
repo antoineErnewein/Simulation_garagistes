@@ -137,6 +137,10 @@ namespace Simulation_garagistes.Controllers
 
         public ActionResult Fixtures()
         {
+            //Vidage de la base
+            franchiseService.deleteAllFranchises();
+            marqueService.deleteAllMarques();
+
             //Franchise
             int faudiID = franchiseService.createFranchise("Audi");
             int fbmwID = franchiseService.createFranchise("BMW");
@@ -328,8 +332,8 @@ namespace Simulation_garagistes.Controllers
 
                     else
                     {
-                        //0,5% de chances d'effectuer un accident
-                        if (rand.Next(0, 1000) <= 5)
+                        //0,2% de chances d'effectuer un accident
+                        if (rand.Next(0, 1000) <= 1)
                         {
                             logService.createLog("(" + dateJSON + ") La voiture (" + v.ID + ") a eu un accident grave, elle est retirée de la simulation !", DAL.Enums.LogType.Accident);
                             voituresAccidentes.Add(v);

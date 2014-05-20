@@ -128,5 +128,10 @@ namespace BLL.Services
 
             return modeles[rand.Next(0,modeles.Count() -1)].ID;
         }
+
+        public bool deleteAllMarques()
+        {
+            return marqueManager.deleteAllMarques();
+        }
     }
 }

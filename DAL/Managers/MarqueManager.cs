@@ -91,5 +91,27 @@ namespace DAL.Managers
                 return -1;
             }
         }
+
+        public bool deleteAllMarques()
+        {
+            try
+            {
+                List<Marque> marques = (from m in dbService.MarqueJeu
+                                          select m).ToList();
+
+                foreach (Marque m in marques)
+                {
+                    dbService.MarqueJeu.Remove(m);
+                }
+
+                dbService.SaveChanges();
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }
