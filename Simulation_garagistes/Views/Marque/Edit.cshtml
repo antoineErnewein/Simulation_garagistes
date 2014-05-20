@@ -5,36 +5,24 @@
 }
 
 <h2>Editer la marque</h2>
+<br />
 
-<form name="input" action="/Marque/Edit" method="post">
+<form name="input" action="/Marque/Edit" method="post" class="form-horizontal" role="form">
     <input type="hidden" name="marqueId" value="@Model.ID" >
-    Nom : <input type="text" value="@Model.Nom" required maxlength="99" name="marqueName" /><br />
-    <input type="submit" value="Enregistrer" /><a href="~/Marque">Retour à la liste des marques</a>
-    </form>
 
-@*@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-
-    <fieldset>
-        <legend>Marque</legend>
-
-        @Html.HiddenFor(model => model.ID)
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Nom)
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Nom</label>
+        <div class="col-sm-5">
+            <input type="text" value="@Model.Nom" required maxlength="99" name="marqueName" />
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Nom)
-            @Html.ValidationMessageFor(model => model.Nom)
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-5">
+            <input type="submit" value="Enregistrer" class="btn btn-default" />
         </div>
+    </div>
+</form>
 
-        <p>
-            <input type="submit" value="Enregistrer" />@Html.ActionLink("Retour à la liste des marques", "Index")
-        </p>
-    </fieldset>
-}
+<a href="~/Marque">Retour à la liste des marques</a>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}*@

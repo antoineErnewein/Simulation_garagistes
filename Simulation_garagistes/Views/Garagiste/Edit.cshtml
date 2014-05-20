@@ -5,33 +5,78 @@
 }
 
 <h2>Editer le garagiste</h2>
-<form name="input" action="/Garagiste/Edit" method="post">
-<input type="hidden" name="garagisteId" value="@Model.ID" >
-Nom : <input type="text" name="garagisteName" value="@Model.Nom" maxlength="99" required><br />
-Franchise : <select name="franchiseId">
-    @foreach (var item in Model.Franchises) {
-        <option value="@item.ID" @((item.ID==Model.Franchise.ID) ? "selected" : "" )>@item.Nom</option>
-    }
-    </select><br />
-Périodes de Fermetures
-    @if(Model.PeriodeFermetures.Count==0){
+<br />
+<form name="input" action="/Garagiste/Edit" method="post" class="form-horizontal" role="form">
+    <input type="hidden" name="garagisteId" value="@Model.ID" >
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Nom</label>
+        <div class="col-sm-5">
+            <input type="text" name="garagisteName" value="@Model.Nom" maxlength="99" class="form-control" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Franchise</label>
+        <div class="col-sm-5">
+            <select name="franchiseId" class="form-control">
+                @foreach (var item in Model.Franchises)
+                {
+                    <option value="@item.ID" @((item.ID == Model.Franchise.ID) ? "selected" : "")>@item.Nom</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Périodes de Fermetures</label>
+        <div class="col-sm-5">
+            @if (Model.PeriodeFermetures.Count == 0)
+            {
                 <p>Aucune période enregistrée </p>
             }
-            else{
+            else
+            {
                 foreach (var periode in Model.PeriodeFermetures)
                 {
-                    <p>@periode.DateDebut.Day/@periode.DateDebut.Month/@periode.DateDebut.Year au @periode.DateFin.Day/@periode.DateFin.Month/@periode.DateFin.Year <a href="~/Garagiste/SupprimerPeriode/@periode.ID">X</a></p>
+                <p>@periode.DateDebut.Day/@periode.DateDebut.Month/@periode.DateDebut.Year au @periode.DateFin.Day/@periode.DateFin.Month/@periode.DateFin.Year <a href="~/Garagiste/SupprimerPeriode/@periode.ID">X</a></p>
                 }
             }
-Ajouter une période : <input type="text" id="datepicker1" name="fermetureBegin"> à <input type="text" id="datepicker2" name="fermetureEnd"><br />
-<input type="submit" value="Enregistrer"><a href="~/Garagiste">Retour à la liste des garagistes</a>
-</form> 
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Ajouter une période</label>
+        <div class="col-lg-10" style="margin-left: -15px;">
+
+            <div class="col-lg-3">
+                <label class="control-label">De :</label>
+                <input type="text" id="datepicker1" name="fermetureBegin" class="form-control">
+            </div>
+
+            <div class="col-lg-3">
+                <label class="control-label">À :</label>
+                <input type="text" id="datepicker2" name="fermetureEnd" class="form-control">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-5">
+            <input type="submit" class="btn btn-default" value="Enregistrer">
+        </div>
+    </div>
+
+    <a href="~/Garagiste">Retour à la liste des garagistes</a>
+</form>
+
 <script>
     $.datepicker.setDefaults($.datepicker.regional['fr']);
-    $(function() {
+    $(function () {
         $("#datepicker1 , #datepicker2").datepicker({
             beforeShow: customRange,
-            dateFormat: "dd/mm/yy"});
+            dateFormat: "dd/mm/yy"
+        });
     });
     function customRange(input) {
         if (input.id === "datepicker1") {
@@ -48,33 +93,3 @@ Ajouter une période : <input type="text" id="datepicker1" name="fermetureBegin"
         }
     }
 </script>
-@*@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-
-    <fieldset>
-        <legend>Garagiste</legend>
-
-        @Html.HiddenFor(model => model.ID)
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Nom)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Nom)
-            @Html.ValidationMessageFor(model => model.Nom)
-        </div>
-
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-    </fieldset>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}*@

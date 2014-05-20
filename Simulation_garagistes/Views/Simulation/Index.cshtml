@@ -6,7 +6,7 @@
 
 <script>
     $.datepicker.setDefaults($.datepicker.regional["fr"]);
-    $(function() {
+    $(function () {
         $("#datepicker1 , #datepicker2").datepicker({
             beforeShow: customRange,
             dateFormat: "dd/mm/yy"
@@ -30,28 +30,39 @@
 
 <h2>Configuration de la simulation</h2>
 
-<form name="input" action="/Simulation/Test" method="post">
+<form name="input" action="/Simulation/Test" method="post" class="form-horizontal" role="form">
 
-    <div>
-        <h3>Dates de la simulation</h3>
-        De : <input type="text" id="datepicker1" name="debut_simu" required="required"> à <input type="text" id="datepicker2" name="fin_simu" required="required"><br />
-   </div>
+    <h3>Dates de la simulation</h3>
 
-    <hr />
+    <div class="form-group">
+        <div class="col-lg-10">
+            <div class="col-lg-5">
+                <label class="control-label">De :</label>
+                <input type="text" id="datepicker1" name="debut_simu" class="form-control" required="required">
+            </div>
+            <div class="col-lg-5">
+                <label class="control-label">À :</label>
+                <input type="text" id="datepicker2" name="fin_simu" class="form-control" required="required">
+            </div>
+        </div>
+    </div>
+
+    <br />
     <div>
         <h3>Garagistes par franchises</h3>
-        <table>
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Franchises</th>
                     <th>Nombre de garagistes</th>
                 </tr>
 
-                @foreach (var item in Model.Franchises) 
+                @foreach (var item in Model.Franchises)
                 {
                     <tr>
                         <td>@item.Nom</td>
-                        <td><input type="number" value="0" name="franchise_@item.ID"/></td>
+                        <td>
+                            <input type="number" value="0" min="0" name="franchise_@item.ID" class="form-control" style="width:100px;"/></td>
                     </tr>
                 }
             </thead>
@@ -61,18 +72,19 @@
     <hr />
     <div>
         <h3>Voitures par marques</h3>
-        <table>
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Marques</th>
                     <th>Nombre de voitures</th>
                 </tr>
 
-                @foreach (var item in Model.Marques) 
+                @foreach (var item in Model.Marques)
                 {
                     <tr>
                         <td>@item.Nom</td>
-                        <td><input type="number" value="0" name="marque_@item.ID"/></td>
+                        <td>
+                            <input type="number" value="0" min="0" name="marque_@item.ID" class="form-control" style="width:100px;"/></td>
                     </tr>
                 }
             </thead>
@@ -82,24 +94,29 @@
     <hr />
     <div>
         <h3>Voitures par modèles</h3>
-        <table>
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Modèles</th>
                     <th>Nombre de voitures</th>
                 </tr>
 
-                @foreach (var item in Model.Modeles) 
+                @foreach (var item in Model.Modeles)
                 {
                     <tr>
                         <td>@item.Nom</td>
-                        <td><input type="number" value="0" name="modele_@item.ID"/></td>
+                        <td>
+                            <input type="number" value="0" min="0" name="modele_@item.ID" class="form-control" style="width:100px;"/></td>
                     </tr>
                 }
             </thead>
         </table>
     </div>
 
-    <input type="submit" value="Lancer la simulation !">
+    <div class="form-group">
+        <div class="col-sm-offset-9 col-sm-5">
+            <input type="submit" value="Lancer la simulation !" class="btn btn-default">
+        </div>
+    </div>
 </form>
 

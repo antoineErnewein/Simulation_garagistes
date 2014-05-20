@@ -5,60 +5,51 @@
 }
 
 <h2>Carnet d'entretien de la marque @Model.Nom</h2>
-@if(Model.Revision.Count>0){
-<table>
-    <tr>
-        <th>
-            Libellé
-        </th>        
-        <th>
-            Kilométrage
-        </th>
-        <th>
-            Durée d'intervention
-        </th>
-        @if (Request.IsAuthenticated) {
-        <th></th>
-        }
-    </tr>
+<br />
 
-@foreach (var item in Model.Revision) {
-    <tr>
-        <td>
-            @item.Libelle
-        </td>
-        <td>
-            @item.Kilometrage
-        </td>             
-        <td>
-            @item.DureeIntervention
-        </td>
-        @if (Request.IsAuthenticated) {
-        <td>
-            <a href="~/Revision/Edit/@item.ID">Editer</a> |
+@if (Model.Revision.Count > 0)
+{
+    <table class="table table-striped">
+        <tr>
+            <th>Libellé
+            </th>
+            <th>Kilométrage
+            </th>
+            <th>Durée d'intervention
+            </th>
+            @if (Request.IsAuthenticated)
+            {
+                <th></th>
+            }
+        </tr>
+
+        @foreach (var item in Model.Revision)
+        {
+            <tr>
+                <td>
+                    @item.Libelle
+                </td>
+                <td>
+                    @item.Kilometrage
+                </td>
+                <td>
+                    @item.DureeIntervention
+                </td>
+                @if (Request.IsAuthenticated)
+                {
+                    <td>
+                        <a href="~/Revision/Edit/@item.ID">Editer</a> |
             <a href="~/Revision/Delete/@item.ID">Supprimer</a>
-        </td>
+                    </td>
+                }
+            </tr>
         }
-    </tr>
-}
 
-</table>
+    </table>
 }
-else{
+else
+{
     <h3>Aucune révision enregistrée pour cette marque</h3>
 }
 <a href="~/Marque">Retour à la liste des marques</a>
-@*<fieldset>
-    <legend>Marque</legend>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Nom)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Nom)
-    </div>
-</fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>*@
