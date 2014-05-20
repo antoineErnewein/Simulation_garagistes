@@ -147,10 +147,8 @@ footer {
 #login {
     display: block;
     font-size: 1.2em;
-    margin: 0 0 10px;
+    margin: 10px 0px 10px;
     text-align: right;
-    position: fixed;
-    right: 20px;
 }
 
     #login a {
@@ -166,6 +164,7 @@ footer {
         margin: 0;
         padding: 0;
         text-decoration: underline;
+        display: inline;
     }
 
     #login ul {
