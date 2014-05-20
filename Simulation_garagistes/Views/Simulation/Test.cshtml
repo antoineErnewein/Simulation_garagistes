@@ -3,33 +3,38 @@
 }
 <h2>Simulation :</h2>
 
-<div id="Download" style="display:none">
-    @Html.ActionLink("Télécharger le rapport", "GetFile")
-</div>
-<div style="float:right">
+<div class="well" style="float: right; margin-top: 10px">
     <div id="Clock"></div>
-    <input type="button" id="btnPause" value="Pause" />
-    <hr />
-    <h3>Statistiques</h3>
-
-    <p style="display:inline">Nombre d'accidents :</p>
-    <div id="statAccidents" style="display:inline-block"></div>
+    <hr style="background-color : gray; margin-bottom: 0px; height:1px"/>
+    <input type="button" id="btnPause" name="Pause"  style="background: url('../../Images/pause.png') no-repeat; border:none; background-color: transparent; width: 50px; height : 50px; margin-left : 120px">
+    <hr style="background-color : gray; margin-top: 0px; height:1px"/>
+    <h3>Statistiques :</h3>
+    <hr style="background-color : black; margin-top: -3px; height:1px; width: 200px; margin-left : -3px "/>
+    
+    <p style="display: inline">Nombre d'accidents :</p>
+    <div id="statAccidents" style="display: inline-block"></div>
     <br />
 
-    <p style="display:inline">Occupation des garages :</p>
-    <div id="statOccupation" style="display:inline-block"></div>
-    <canvas style="display:block" id="myChart" width="150" height="150"></canvas>
-    
-    <p style="display:inline">Nombre de réparations effectuées :</p>
-    <div id="statReparation" style="display:inline-block"></div>
-    <canvas style="display:block" id="myChart2" width="300" height="300"></canvas>
-    
-    
+    <p style="display: inline">Occupation des garages :</p>
+    <div id="statOccupation" style="display: inline-block"></div>
+    <canvas style="display: block" id="myChart" width="150" height="150"></canvas>
+
+    <br />
+
+    <p style="display: inline">Nombre de réparations effectuées :</p>
+    <div id="statReparation" style="display: inline-block"></div>
+    <canvas style="display: block" id="myChart2" width="300" height="300"></canvas>
+
+    <br />
+    <div id="Download" style="display: none; margin-left: 140px">
+    @Html.ActionLink("Télécharger le rapport", "GetFile")
+    </div>
 </div>
 
-<div id="Content"></div>
+<div id="Content" style="float:left; width: 650px"></div>
+
 <div id="dialog" title="Réparations effectuées">
-  <canvas id="myChart3" width="700" height="700"></canvas>
+    <canvas id="myChart3" width="700" height="700"></canvas>
 </div>
 <script src="~/Scripts/Chart.js"></script>
 <script type="text/javascript">
@@ -75,7 +80,7 @@
     var charConstruct3 = new Chart(ctx3);
 
     $(document).ready(
-        $(function() {
+        $(function () {
             intervalID = setInterval("getData()", 500);
         })
  );
@@ -90,7 +95,7 @@
                 $('#statAccidents').empty();
                 $('#statReparation').empty();
 
-                var table = $('<table></table>');
+                var table = $('<table></table>').addClass("table");
 
                 for (i = 0; i < data.logs.length; i++) {
                     var row = $('<tr></tr>');
@@ -101,7 +106,7 @@
                 }
 
                 var time = $('<p></p>').text(data.date);
-                var stOccupation = $('<p></p>').text( (data.tauxOccupation[0] + data.tauxOccupation[1]) + " / " + data.tauxOccupation[2] + " H");
+                var stOccupation = $('<p></p>').text((data.tauxOccupation[0] + data.tauxOccupation[1]) + " / " + data.tauxOccupation[2] + " H");
                 var stAccidents = $('<p></p>').text("" + data.nbAccidents);
                 var stReparations = $('<p></p>').text("" + data.nbReparations);
 
@@ -121,7 +126,7 @@
                 chartConstruct.Doughnut(Chartdata, options);
 
                 Chartdata2.labels = data.chartDate;
-                
+
                 Chartdata2.datasets = [
                 {
                     fillColor: "rgba(220,220,220,0.5)",
@@ -144,8 +149,8 @@
     }
 
     $("#btnPause").click(function () {
-        var etat = $("#btnPause").attr("value");
-        $.post("/Simulation/Pause/", { 'etat': etat }, function (data) { if (etat == "Pause") { $("#btnPause").prop('value', 'Unpause') } else { $("#btnPause").prop('value', 'Pause') } }, 'json');
+        var etat = $("#btnPause").attr("name");
+        $.post("/Simulation/Pause/", { 'etat': etat }, function (data) { if (etat == "Pause") { $("#btnPause").prop('name', 'Unpause'); $("#btnPause").css("background", "url('../../Images/play.png') no-repeat"); } else { $("#btnPause").prop('name', 'Pause'); $("#btnPause").css("background", "url('../../Images/pause.png') no-repeat"); } }, 'json');
     });
 
     function setBackgroundColor(row, type) {
@@ -199,8 +204,8 @@
 </script>
 
 <style type="text/css">
-#Clock p {
-    font-size : large;
-    font : bold;
-}
+    #Clock p {
+        font-size: large;
+        font: bold;
+    }
 </style>
