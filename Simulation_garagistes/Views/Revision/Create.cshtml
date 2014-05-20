@@ -5,70 +5,68 @@
 }
 
 <h2>Créer une nouvelle révision</h2>
+<br />
+<form name="input" action="/Revision/Create" method="post" class="form-horizontal" role="form">
 
-<form name="input" action="/Revision/Create" method="post">
-Libellé : <input type="text" name="revisionName" required="required"><br />
-Kilométrage : <input type="number" min="0" name="revisionKm" required><br />
-Durée d'intervention :
-<input type="number" id="hours" name="revisionDureeH" value="0" min="0" max="8" style="width:50px;"/>h<input type="number" id="minutes" name="revisionDureeM" value="0" min="0" max="60" style="width:50px;"/>min<br />
-@*<input type="number" min="0" max="8" />h <input type="number" min="0" max="60" />min <input type="text" name="revisionDuree"><br />*@
-
-Marque : <select name="marqueId">
-    <option value="-1" selected>Aucune marque</option>
-    @foreach (var item in Model.Marques) {        
-            <option value="@item.ID" >@item.Nom</option>
-    }
-    </select><br />
-Modèle : <select name="modeleId">
-        <option value="-1" selected>Aucun modèle</option>
-    @foreach (var item in Model.Modeles) {
-            <option value="@item.ID" >@item.Nom</option>
-    }
-    </select><br />
-<input type="submit" value="Enregistrer"><a href="~/Revision">Retour à la liste des révisions</a>
-</form> 
-
-@*@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-
-    <fieldset>
-        <legend>Revision</legend>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Libelle)
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Libellé</label>
+        <div class="col-sm-5">
+            <input type="text" name="revisionName" class="form-control" required="required">
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Libelle)
-            @Html.ValidationMessageFor(model => model.Libelle)
-        </div>
+    </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Kilometrage)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Kilometrage)
-            @Html.ValidationMessageFor(model => model.Kilometrage)
-        </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.DureeIntervention)
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Kilométrage</label>
+        <div class="col-sm-5">
+            <input type="number" min="0" name="revisionKm" class="form-control" required>
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.DureeIntervention)
-            @Html.ValidationMessageFor(model => model.DureeIntervention)
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Durée d'intervention</label>
+        <div class="col-lg-10" style="margin-left: -15px;">
+
+            <div class="col-lg-3">
+                <input type="number" id="hours" name="revisionDureeH" value="@Model.DureeIntervention.Hours" min="0" max="8" class="form-control" />h
+            </div>
+            <div class="col-lg-3">
+                <input type="number" id="minutes" name="revisionDureeM" value="@Model.DureeIntervention.Minutes" min="0" max="60" class="form-control"/>min
+            </div>
         </div>
+    </div>
 
-        <p>
-            <input type="submit" value="Create" />
-        </p>
-    </fieldset>
-}
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Marque</label>
+        <div class="col-sm-5">
+            <select name="marqueId" class="form-control">
+                <option value="-1" selected>Aucune marque</option>
+                @foreach (var item in Model.Marques)
+                {        
+                    <option value="@item.ID" >@item.Nom</option>
+                }
+            </select>
+        </div>
+    </div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Modèle</label>
+        <div class="col-sm-5">
+            <select name="modeleId" class="form-control">
+                <option value="-1" selected>Aucun modèle</option>
+                @foreach (var item in Model.Modeles)
+                {
+                    <option value="@item.ID" >@item.Nom</option>
+                }
+            </select>
+        </div>
+    </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}*@
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-5">
+            <input type="submit" value="Enregistrer" class="btn btn-default">
+        </div>
+    </div>
+</form>
+
+<a href="~/Revision">Retour à la liste des révisions</a>

@@ -24,6 +24,9 @@ namespace Simulation_garagistes
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+            "~/Scripts/bootstrap.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css", "~/Content/themes/base/jquery-ui.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
@@ -39,6 +42,8 @@ namespace Simulation_garagistes
                         "~/Content/themes/base/jquery.ui.datepicker.css",
                         "~/Content/themes/base/jquery.ui.progressbar.css",
                         "~/Content/themes/base/jquery.ui.theme.css"));
+
+            bundles.Add(new StyleBundle("~/Content/bootstrap/css").Include("~/Content/bootstrap.css", "~/Content/bootstrap-theme.css"));
         }
     }
 }

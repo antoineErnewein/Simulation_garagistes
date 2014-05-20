@@ -6,93 +6,81 @@
 
 <h2>Carnet d'entretien du modèle @Model.Nom</h2>
 
-<table>
-    <h3>Modèle</h3>
+<h3>Modèle</h3>
+<table class="table table-striped">
+
     <tr>
-        <th>
-            Libellé
-        </th>        
-        <th>
-            Kilométrage
+        <th>Libellé
         </th>
-        <th>
-            Durée d'intervention
+        <th>Kilométrage
         </th>
-        @if (Request.IsAuthenticated) {
-        <th></th>
+        <th>Durée d'intervention
+        </th>
+        @if (Request.IsAuthenticated)
+        {
+            <th></th>
         }
     </tr>
 
-@foreach (var item in Model.Revision) {
-    <tr>
-        <td>
-            @item.Libelle
-        </td>
-        <td>
-            @item.Kilometrage
-        </td>             
-        <td>
-            @item.DureeIntervention
-        </td>
-        @if (Request.IsAuthenticated) {
-        <td>
-            <a href="~/Revision/Edit/@item.ID">Editer</a> |
+    @foreach (var item in Model.Revision)
+    {
+        <tr>
+            <td>
+                @item.Libelle
+            </td>
+            <td>
+                @item.Kilometrage
+            </td>
+            <td>
+                @item.DureeIntervention
+            </td>
+            @if (Request.IsAuthenticated)
+            {
+                <td>
+                    <a href="~/Revision/Edit/@item.ID">Editer</a> |
             <a href="~/Revision/Delete/@item.ID">Supprimer</a>
-        </td>
-        }
-    </tr>
-}
-    </table>
-<table>
-    <h3>Marque</h3>
-    <tr>
-        <th>
-            Libellé
-        </th>        
-        <th>
-            Kilométrage
-        </th>
-        <th>
-            Durée d'intervention
-        </th>
-        @if (Request.IsAuthenticated) {
-        <th></th>
-        }
-    </tr>
-@foreach (var item in Model.Marque.Revision) {
-    <tr>
-        <td>
-            @item.Libelle
-        </td>
-        <td>
-            @item.Kilometrage
-        </td>             
-        <td>
-            @item.DureeIntervention
-        </td>
-        @if (Request.IsAuthenticated) {
-        <td>
-            <a href="~/Revision/Edit/@item.ID">Editer</a> |
-            <a href="~/Revision/Delete/@item.ID">Supprimer</a>
-        </td>
-        }
-    </tr>
-}
+                </td>
+            }
+        </tr>
+    }
 </table>
+
+<h3>Marque</h3>
+<table class="table table-striped">
+
+    <tr>
+        <th>Libellé
+        </th>
+        <th>Kilométrage
+        </th>
+        <th>Durée d'intervention
+        </th>
+        @if (Request.IsAuthenticated)
+        {
+            <th></th>
+        }
+    </tr>
+    @foreach (var item in Model.Marque.Revision)
+    {
+        <tr>
+            <td>
+                @item.Libelle
+            </td>
+            <td>
+                @item.Kilometrage
+            </td>
+            <td>
+                @item.DureeIntervention
+            </td>
+            @if (Request.IsAuthenticated)
+            {
+                <td>
+                    <a href="~/Revision/Edit/@item.ID">Editer</a> |
+            <a href="~/Revision/Delete/@item.ID">Supprimer</a>
+                </td>
+            }
+        </tr>
+    }
+</table>
+
 <a href="~/Modele">Retour à la liste des modèles</a>
-@*<h2>Details</h2>
-
-<fieldset>
-    <legend>Modele</legend>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Nom)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Nom)
-    </div>
-</fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>*@

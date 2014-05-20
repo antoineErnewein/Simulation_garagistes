@@ -5,45 +5,36 @@
 }
 
 <h2>Editer le modèle</h2>
+<br />
 
-<form name="input" action="/Modele/Edit" method="post">
-<input type="hidden" name="modeleId" value="@Model.ID" >
-Nom : <input type="text" name="modeleName" value="@Model.Nom" maxlength="99" required><br />
-Marque : <select name="marqueId">
-    @foreach (var item in Model.Marques) {
-        <option value="@item.ID" @((item.ID==Model.Marque.ID) ? "selected" : "" )>@item.Nom</option>
-    }
-    </select><br />
-<input type="submit" value="Enregistrer"><a href="~/Modele">Retour à la liste des modèles</a>
-</form> 
+<form name="input" action="/Modele/Edit" method="post" class="form-horizontal" role="form">
+    <input type="hidden" name="modeleId" value="@Model.ID" >
 
-@*@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-
-    <fieldset>
-        <legend>Modele</legend>
-
-        @Html.HiddenFor(model => model.ID)
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Nom)
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Nom</label>
+        <div class="col-sm-5">
+            <input type="text" name="modeleName" value="@Model.Nom" maxlength="99" class="form-control" required>
         </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Nom)
-            @Html.ValidationMessageFor(model => model.Nom)
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Marque</label>
+        <div class="col-sm-5">
+            <select name="marqueId" class="form-control">
+                @foreach (var item in Model.Marques)
+                {
+                    <option value="@item.ID" @((item.ID == Model.Marque.ID) ? "selected" : "")>@item.Nom</option>
+                }
+            </select>
         </div>
+    </div>
 
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-    </fieldset>
-}
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-5">
+            <input type="submit" value="Enregistrer" class="btn btn-default">
+        </div>
+    </div>
+</form>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<a href="~/Modele">Retour à la liste des modèles</a>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}*@

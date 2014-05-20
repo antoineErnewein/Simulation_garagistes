@@ -11,7 +11,7 @@
     <a href="~/Franchise">Ajouter une franchise</a>
     }
 
-<table>
+<table class="table table-striped">
     <tr>
         <th>
             Nom
@@ -50,12 +50,10 @@
         <td>
             <a href="~/Garagiste/Edit/@item.ID">Editer</a> |
             <a href="~/Garagiste/Delete/@item.ID">Supprimer</a>
-            @*@Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })*@
         </td>
         }
     </tr>
 }
 
 </table>
+
