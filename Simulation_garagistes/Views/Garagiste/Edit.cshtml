@@ -39,7 +39,7 @@
             {
                 foreach (var periode in Model.PeriodeFermetures)
                 {
-                <p>@periode.DateDebut.Day/@periode.DateDebut.Month/@periode.DateDebut.Year au @periode.DateFin.Day/@periode.DateFin.Month/@periode.DateFin.Year <a href="~/Garagiste/SupprimerPeriode/@periode.ID">X</a></p>
+                <div ><p>@periode.DateDebut.Day/@periode.DateDebut.Month/@periode.DateDebut.Year au @periode.DateFin.Day/@periode.DateFin.Month/@periode.DateFin.Year <input type=button onClick="parent.location = '../SupprimerPeriode/@periode.ID'" style="background: url('../../Images/delete/delete-20.png') no-repeat; border:none; background-color: transparent; width: 20px; height : 20px;"/></p></div>
                 }
             }
         </div>
