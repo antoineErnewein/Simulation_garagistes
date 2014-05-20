@@ -37,8 +37,13 @@
             @if (Request.IsAuthenticated)
             {
                 <td>
-                    <a href="~/Revision/Edit/@item.ID">Editer</a> |
-            <a href="~/Revision/Delete/@item.ID">Supprimer</a>
+
+                <a href="~/Revision/Edit/@item.ID" style="box-shadow: none; background-color: transparent;" title="Editer"><img src="../../Images/edit/edit-26.png" alt="Editer" width="20" height="20"></a>
+           
+                 <a href="~/Revision/Delete/@item.ID" style="box-shadow: none; background-color: transparent;" title="Supprimer"><img src="../../Images/delete/delete-26.png" alt="Supprimer" width="20" height="20"></a>
+            
+                  @*  <a href="~/Revision/Edit/@item.ID">Editer</a> |
+            <a href="~/Revision/Delete/@item.ID">Supprimer</a>*@
                 </td>
             }
         </tr>
@@ -75,8 +80,12 @@
             @if (Request.IsAuthenticated)
             {
                 <td>
-                    <a href="~/Revision/Edit/@item.ID">Editer</a> |
-            <a href="~/Revision/Delete/@item.ID">Supprimer</a>
+                    <a href="~/Revision/Edit/@item.ID" style="box-shadow: none; background-color: transparent;" title="Editer"><img src="../../Images/edit/edit-26.png" alt="Editer" width="20" height="20"></a>
+           
+                 <a href="~/Revision/Delete/@item.ID" style="box-shadow: none; background-color: transparent;" title="Supprimer"><img src="../../Images/delete/delete-26.png" alt="Supprimer" width="20" height="20"></a>
+            
+@*                    <a href="~/Revision/Edit/@item.ID">Editer</a> |
+            <a href="~/Revision/Delete/@item.ID">Supprimer</a>*@
                 </td>
             }
         </tr>
