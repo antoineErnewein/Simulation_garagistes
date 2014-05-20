@@ -14,28 +14,32 @@
         @Styles.Render("~/Content/bootstrap/css")
     </head>
     <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-right">
-                    <section id="login">
-                        @Html.Partial("_LoginPartial")
-                    </section>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Simulation garagistes</a>
                 </div>
-                <div class="float-left">
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Simulation", "Index", "Simulation")</li>
-                            @*<li>@Html.ActionLink("Voitures", "Index", "Voiture")</li>   *@                          
-                            <li>@Html.ActionLink("Marques", "Index", "Marque")</li>
-                            <li>@Html.ActionLink("Modèles", "Index", "Modele")</li>
-                            <li>@Html.ActionLink("Révisions", "Index", "Revision")</li>
-                            <li>@Html.ActionLink("Franchises", "Index", "Franchise")</li> 
-                            <li>@Html.ActionLink("Garagistes", "Index", "Garagiste")</li>                             
-                        </ul>
-                    </nav>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Simulation", "Index", "Simulation")</li>                        
+                        <li>@Html.ActionLink("Marques", "Index", "Marque")</li>
+                        <li>@Html.ActionLink("Modèles", "Index", "Modele")</li>
+                        <li>@Html.ActionLink("Révisions", "Index", "Revision")</li>
+                        <li>@Html.ActionLink("Franchises", "Index", "Franchise")</li> 
+                        <li>@Html.ActionLink("Garagistes", "Index", "Garagiste")</li>  
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li id="login">
+                            @Html.Partial("_LoginPartial")
+                        </li>
+                    </ul> 
                 </div>
             </div>
-        </header>
+        </div>
+
+        <br />
         <div id="body">
             @RenderSection("featured", required: false)
             <section class="content-wrapper main-content clear-fix">
