@@ -149,14 +149,15 @@ footer {
     font-size: 1.2em;
     margin: 10px 0px 10px;
     text-align: right;
+    color : white;
 }
 
     #login a {
-        background-color: #d3dce0;
         margin-left: 10px;
         margin-right: 3px;
         padding: 2px 3px;
         text-decoration: none;
+        color : white;
     }
 
     #login a.username {
@@ -633,7 +634,7 @@ tr.pager td {
         }
 
         #login a:hover {
-            color: #333;
+            color: white;
         }
 
     /* menu */
