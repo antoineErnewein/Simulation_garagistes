@@ -135,6 +135,111 @@ namespace Simulation_garagistes.Controllers
             }
         }
 
+        public ActionResult Fixtures()
+        {
+            //Franchise
+            int faudiID = franchiseService.createFranchise("Audi");
+            int fbmwID = franchiseService.createFranchise("BMW");
+            int fchevroletID = franchiseService.createFranchise("Chevrolet");
+            int fdodgeID = franchiseService.createFranchise("Dodge");
+            int ffordID = franchiseService.createFranchise("Ford");
+            int fhondaID = franchiseService.createFranchise("Honda");
+            int fjaguarID = franchiseService.createFranchise("Jaguar");
+            int fmazdaID = franchiseService.createFranchise("Mazda");
+            int fnissanID = franchiseService.createFranchise("Nissan");
+            int fporscheID = franchiseService.createFranchise("Porsche");
+
+            //Marques
+            int audiID = marqueService.createMarque("Audi");
+            int bmwID = marqueService.createMarque("BMW");
+            int chevroletID = marqueService.createMarque("Chevrolet");
+            int dodgeID = marqueService.createMarque("Dodge");
+            int fordID = marqueService.createMarque("Ford");
+            int hondaID = marqueService.createMarque("Honda");
+            int jaguarID = marqueService.createMarque("Jaguar");
+            int mazdaID = marqueService.createMarque("Mazda");
+            int nissanID = marqueService.createMarque("Nissan");
+            int porscheID = marqueService.createMarque("Porsche");
+
+            //Modèles
+            int a4ID = modeleService.createModele("A4", audiID);
+            int rs7ID = modeleService.createModele("RS 7", audiID);
+            int m6ID = modeleService.createModele("M6", bmwID);
+            int camaroID = modeleService.createModele("Camaro", chevroletID);
+            int impalaID = modeleService.createModele("Impala", chevroletID);
+            int challengerD = modeleService.createModele("Challenger", dodgeID);
+            int mustangID = modeleService.createModele("Mustang", fordID);
+            int fiestaID = modeleService.createModele("Fiesta", fordID);
+            int civicID = modeleService.createModele("Civic", hondaID);
+            int xfID = modeleService.createModele("XF", jaguarID);
+            int cx5ID = modeleService.createModele("CX-5", mazdaID);
+            int z370ID = modeleService.createModele("370Z", nissanID);
+            int boxsterID = modeleService.createModele("Boxster", porscheID);
+            int cayenneID = modeleService.createModele("Cayenne", porscheID);
+
+            //Révisions
+            revisionService.createRevision("Vidange", 20000, new TimeSpan(1, 0, 0), -1, audiID);
+            revisionService.createRevision("Freins", 100000, new TimeSpan(2, 0, 0), -1, audiID);
+            revisionService.createRevision("Turbo", 150000, new TimeSpan(3, 0, 0), rs7ID, -1);
+            revisionService.createRevision("Vidange", 70000, new TimeSpan(1, 0, 0), -1, bmwID);
+            revisionService.createRevision("Freins", 120000, new TimeSpan(1, 0, 0), -1, bmwID);
+            revisionService.createRevision("Vidange", 20000, new TimeSpan(2, 0, 0), -1, chevroletID);
+            revisionService.createRevision("Freins", 100000, new TimeSpan(1, 0, 0), -1, chevroletID);
+            revisionService.createRevision("Turbo", 150000, new TimeSpan(4, 0, 0), impalaID, -1);
+            revisionService.createRevision("Vidange", 20000, new TimeSpan(1, 0, 0), -1, dodgeID);
+            revisionService.createRevision("Vidange", 50000, new TimeSpan(1, 0, 0), -1, fordID);
+            revisionService.createRevision("Freins", 150000, new TimeSpan(3, 0, 0), -1, fordID);
+            revisionService.createRevision("Vidange", 20000, new TimeSpan(1, 0, 0), -1, hondaID);
+            revisionService.createRevision("Freins", 10000, new TimeSpan(1, 0, 0), -1, hondaID);
+            revisionService.createRevision("Vidange", 80000, new TimeSpan(2, 0, 0), -1, jaguarID);
+            revisionService.createRevision("Vidange", 20000, new TimeSpan(2, 0, 0), -1, mazdaID);
+            revisionService.createRevision("Freins", 100000, new TimeSpan(1, 0, 0), -1, mazdaID);
+            revisionService.createRevision("Vidange", 40000, new TimeSpan(1, 0, 0), -1, nissanID);
+            revisionService.createRevision("Freins", 110000, new TimeSpan(1, 0, 0), -1, nissanID);
+            revisionService.createRevision("Vidange", 60000, new TimeSpan(2, 0, 0), -1, porscheID);
+            revisionService.createRevision("Freins", 140000, new TimeSpan(3, 0, 0), -1, porscheID);
+            revisionService.createRevision("Turbo", 170000, new TimeSpan(5, 0, 0), boxsterID, -1);
+
+            //Garagistes
+            int g1 = garagisteService.createGaragiste("Ferdinand Piech", faudiID);
+            int g2 = garagisteService.createGaragiste("August Horch", faudiID);
+            int g3 = garagisteService.createGaragiste("Gustav Otto", fbmwID);
+            int g4 = garagisteService.createGaragiste("Karl Rapp", fbmwID);
+            int g5 = garagisteService.createGaragiste("William C. Durant", fchevroletID);
+            int g6 = garagisteService.createGaragiste("John Dodge", fdodgeID);
+            int g7 = garagisteService.createGaragiste("Henry Ford", ffordID);
+            int g8 = garagisteService.createGaragiste("Takeo Fujisawa", fhondaID);
+            int g9 = garagisteService.createGaragiste("William Lyons", fjaguarID);
+            int g10 = garagisteService.createGaragiste("Takashi Yamanouchi", fmazdaID);
+            int g11 = garagisteService.createGaragiste("Carlos Ghosn", fnissanID);
+            int g12 = garagisteService.createGaragiste("Matthias Müller", fporscheID);
+            int g13 = garagisteService.createGaragiste("Wolfgang Porsche", fporscheID);
+
+            //Vacances
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 5, 30), new DateTime(2014, 6, 5), g1);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 6, 20), new DateTime(2014, 6, 22), g1);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 8, 1), new DateTime(2014, 8, 5), g2);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 8, 25), new DateTime(2014, 8, 29), g2);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 9, 2), new DateTime(2014, 9, 5), g3);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 10, 19), new DateTime(2014, 10, 23), g3);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 5, 16), new DateTime(2014, 5, 20), g4);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 6, 15), new DateTime(2014, 6, 19), g4);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 10, 13), new DateTime(2014, 10, 14), g5);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 2, 12), new DateTime(2014, 2, 15), g5);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 3, 24), new DateTime(2014, 3, 27), g6);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 5, 21), new DateTime(2014, 5, 23), g6);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 7, 10), new DateTime(2014, 7, 15), g7);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 7, 22), new DateTime(2014, 7, 23), g7);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 9, 22), new DateTime(2014, 9, 24), g8);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 12, 23), new DateTime(2014, 12, 25), g9);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 11, 12), new DateTime(2014, 11, 14), g10);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 8, 23), new DateTime(2014, 8, 25), g11);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 10, 3), new DateTime(2014, 10, 5), g12);
+            periodeFermetureService.createPeriodeFermeture(new DateTime(2014, 5, 11), new DateTime(2014, 5, 12), g13);
+
+            return View();
+        }
+
         public void run()
         {
             string[] debut = Request["debut_simu"].Split('/');
