@@ -267,6 +267,7 @@
     <Content Include="Images\delete\delete-32.png" />
     <Content Include="Images\delete\delete-48.png" />
     <Content Include="Images\delete\delete-20.png" />
+    <Content Include="Images\delete\delete-512.png" />
     <Content Include="Images\delete\delete-64.png" />
     <Content Include="Images\edit\edit-128.png" />
     <Content Include="Images\edit\edit-256.png" />

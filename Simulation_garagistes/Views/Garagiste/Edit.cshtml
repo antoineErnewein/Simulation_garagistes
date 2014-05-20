@@ -33,13 +33,13 @@
         <div class="col-sm-5">
             @if (Model.PeriodeFermetures.Count == 0)
             {
-                <p>Aucune période enregistrée </p>
+                <div class="label_align">Aucune période enregistrée</div>
             }
             else
             {
                 foreach (var periode in Model.PeriodeFermetures)
                 {
-                <p>@periode.DateDebut.Day/@periode.DateDebut.Month/@periode.DateDebut.Year au @periode.DateFin.Day/@periode.DateFin.Month/@periode.DateFin.Year <a href="~/Garagiste/SupprimerPeriode/@periode.ID">X</a></p>
+                <div ><p>@periode.DateDebut.Day/@periode.DateDebut.Month/@periode.DateDebut.Year au @periode.DateFin.Day/@periode.DateFin.Month/@periode.DateFin.Year <input type=button onClick="parent.location = '../SupprimerPeriode/@periode.ID'" style="background: url('../../Images/delete/delete-20.png') no-repeat; border:none; background-color: transparent; width: 20px; height : 20px;"/></p></div>
                 }
             }
         </div>
@@ -51,12 +51,12 @@
 
             <div class="col-lg-3">
                 <label class="control-label">De :</label>
-                <input type="text" id="datepicker1" name="fermetureBegin" class="form-control">
+                <input type="text" id="datepicker1" name="fermetureBegin" class="form-control" readonly>
             </div>
 
             <div class="col-lg-3">
                 <label class="control-label">À :</label>
-                <input type="text" id="datepicker2" name="fermetureEnd" class="form-control">
+                <input type="text" id="datepicker2" name="fermetureEnd" class="form-control" readonly>
             </div>
         </div>
     </div>

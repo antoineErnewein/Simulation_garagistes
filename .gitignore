@@ -162,8 +162,8 @@ UpgradeLog*.XML
 UpgradeLog*.htm
 
 # SQL Server files
-App_Data/*.mdf
-App_Data/*.ldf
+#App_Data/*.mdf
+#App_Data/*.ldf
 
 # Connexion string
 Web.*config
@@ -216,3 +216,5 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+Simulation_garagistes/App_Data/aspnet-Simulation_garagistes-20140508142103.mdf
+Simulation_garagistes/App_Data/aspnet-Simulation_garagistes-20140508142103_log.ldf
