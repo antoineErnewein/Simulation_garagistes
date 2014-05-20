@@ -17,5 +17,6 @@ namespace DAL.IManagers
         bool deleteRevision(int revisionID);
         int createRevision(Revision revision, int modeleID, int marqueID);
         int createRevisionWithoutID(Revision revision);
+        bool deleteAllRevisions();
     }
 }

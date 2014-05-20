@@ -140,6 +140,7 @@ namespace Simulation_garagistes.Controllers
             //Vidage de la base
             franchiseService.deleteAllFranchises();
             marqueService.deleteAllMarques();
+            revisionService.deleteAllRevisions();
 
             //Franchise
             int faudiID = franchiseService.createFranchise("Audi");

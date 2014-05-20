@@ -143,5 +143,27 @@ namespace DAL.Managers
                 return -1;
             }
         }
+
+        public bool deleteAllRevisions()
+        {
+            try
+            {
+                List<Revision> revisions = (from r in dbService.RevisionJeu
+                                            select r).ToList();
+
+                foreach (Revision r in revisions)
+                {
+                    dbService.RevisionJeu.Remove(r);
+                }
+
+                dbService.SaveChanges();
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

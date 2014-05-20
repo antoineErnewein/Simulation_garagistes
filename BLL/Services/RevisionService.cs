@@ -95,5 +95,10 @@ namespace BLL.Services
 
             return revisionManager.createRevisionWithoutID(revision);
         }
+
+        public bool deleteAllRevisions()
+        {
+            return revisionManager.deleteAllRevisions();
+        }
     }
 }
