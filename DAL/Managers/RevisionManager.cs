@@ -114,8 +114,12 @@ namespace DAL.Managers
         {
             try
             {
+                if(modeleID != -1)
                 revision.Modele = dbService.ModeleJeu.Find(modeleID);
+
+                if(marqueID != -1)
                 revision.Marque = dbService.MarqueJeu.Find(marqueID);
+
                 dbService.RevisionJeu.Add(revision);
                 dbService.SaveChanges();
                 return revision.ID;
