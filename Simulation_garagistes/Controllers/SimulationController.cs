@@ -28,9 +28,10 @@ namespace Simulation_garagistes.Controllers
         private static bool fini = false;
         private static DateTime dateCourante;
         private static int nbReparations;
+        private static int nbAccidents;
 
-        private static List<String> chartDates;
-        private static List<int> chartNbRep;
+        private static List<String> chartDates = new List<string>();
+        private static List<int> chartNbRep = new List<int>();
 
         //
         // GET: /Simulation/
@@ -65,7 +66,7 @@ namespace Simulation_garagistes.Controllers
             data.simulationTerminee = fini;
             data.tauxOccupation = garagisteService.getTauxOccupation(dateCourante);
             data.nbReparations = nbReparations;
-            //charDates = null sur les premières boucles avec 10 garagistes et 50 voitures
+            data.nbAccidents = nbAccidents;
             data.chartDate = chartDates.ToArray();
             data.chartRep = chartNbRep.ToArray();
 
@@ -101,8 +102,8 @@ namespace Simulation_garagistes.Controllers
                 fini = false;
                 initSimulation();
                 run();
-                suppressionData();
                 fini = true;
+                suppressionData();
 
             }).Start();
     
@@ -127,6 +128,7 @@ namespace Simulation_garagistes.Controllers
                     {
                         writer.WriteLine("[" + l.Date + "] " + l.Texte);
                     }
+                    writer.WriteLine("\r\nIl y a eu " + nbAccidents + " accidents pendant la simulation");
                 }
 
                 return File(new MemoryStream(memoStream.GetBuffer()), "text/txt", "Rapport_simulation.txt");
@@ -135,11 +137,9 @@ namespace Simulation_garagistes.Controllers
 
         public void run()
         {
-            //FAIRE TOUS LES TESTS SUR LES DATES !
             string[] debut = Request["debut_simu"].Split('/');
             string[] fin = Request["fin_simu"].Split('/');
-            //dateCourante = new DateTime(int.Parse(debut[2]), int.Parse(debut[0]), int.Parse(debut[1]));
-            //DateTime dateFin = new DateTime(int.Parse(fin[2]), int.Parse(fin[0]), int.Parse(fin[1]));
+
             dateCourante = DateTime.Parse(Request["debut_simu"]);
             DateTime dateFin = DateTime.Parse(Request["fin_simu"]);
             dateJSON = dateCourante.Day + "/" + dateCourante.Month + "/" + dateCourante.Year;
@@ -151,12 +151,17 @@ namespace Simulation_garagistes.Controllers
             int chargeFaisable = 0;
             bool repare = false;
             nbReparations = 0;
+            nbAccidents = 0;
 
             //Test graphe reparations
             chartDates = new List<string>();
             chartNbRep = new List<int>();
             int repAvant = 0;
             int[] taux;
+
+            //Gestion des accidents
+            Random rand = new Random();
+            List<Voiture> voituresAccidentes = new List<Voiture>();
 
             while (dateCourante.CompareTo(dateFin) < 0)
             {
@@ -189,8 +194,17 @@ namespace Simulation_garagistes.Controllers
                                 {
                                     //On démarre la réparation à ce jour mais on la poursuit le lendemain
                                     chargeFaisable = 8 - reparationService.getChargeHoraire(garagistesEnJeu[i].ID, dateCourante);
-                                    reparationService.createReparation(dateCourante, dateCourante.AddDays(1), chargeFaisable, garagistesEnJeu[i].ID, v.ID, revisionsAEffectuer[0].ID);
-                                    reparationService.createReparation(dateCourante.AddDays(1), dateCourante.AddDays(1), (revisionsAEffectuer[0].DureeIntervention.Hours - chargeFaisable), garagistesEnJeu[i].ID, v.ID, revisionsAEffectuer[0].ID);
+
+                                    //On regarde si le(s) jour(s) suivant(s) ne sont pas des jours de vacances
+                                    int jadd = 1;
+                                    while (periodeFermetureService.isVacances(garagistesEnJeu[i].ID, dateCourante.AddDays(jadd)))
+                                    {
+                                        jadd++;
+                                    }
+
+                                    reparationService.createReparation(dateCourante, dateCourante.AddDays(jadd), chargeFaisable, garagistesEnJeu[i].ID, v.ID, revisionsAEffectuer[0].ID);
+                                    reparationService.createReparation(dateCourante.AddDays(jadd), dateCourante.AddDays(jadd), (revisionsAEffectuer[0].DureeIntervention.Hours - chargeFaisable), garagistesEnJeu[i].ID, v.ID, revisionsAEffectuer[0].ID);
+
                                     logService.createLog("(" + dateJSON + ") La voiture (" + v.ID + ") effectue la revision (" + revisionsAEffectuer[0].ID + ") en 2 jours chez le garagiste (" + garagistesEnJeu[i].ID + ")", DAL.Enums.LogType.ReparationSurDeuxJours);
                                     nbReparations++;
                                 }
@@ -206,10 +220,28 @@ namespace Simulation_garagistes.Controllers
 
                         repare = false;
                     }
+
+                    else
+                    {
+                        //0,5% de chances d'effectuer un accident
+                        if (rand.Next(0, 1000) <= 5)
+                        {
+                            logService.createLog("(" + dateJSON + ") La voiture (" + v.ID + ") a eu un accident grave, elle est retirée de la simulation !", DAL.Enums.LogType.Accident);
+                            voituresAccidentes.Add(v);
+                            nbAccidents++;
+                        }
+                    }
                 }
 
+                //On supprime les voitures accidentés de la simulation
+                foreach (Voiture va in voituresAccidentes)
+                {
+                    voituresEnJeu.RemoveAll(voiture => voiture.ID == va.ID);
+                }
+                voituresAccidentes.Clear();
+
                 taux = garagisteService.getTauxOccupation(dateCourante);
-                logService.createLog("Statistiques au (" + dateJSON + ") :\r\nOccupation des garages : " + taux[0] + "/" + taux[1] + "H\r\nNombre de réparations effectuées : " + (nbReparations - repAvant), DAL.Enums.LogType.Stats);
+                logService.createLog("Statistiques au (" + dateJSON + ") :\r\nOccupation des garages : " + (taux[0]+taux[1]) + "/" + taux[2] + "H\r\nNombre de réparations effectuées : " + (nbReparations - repAvant), DAL.Enums.LogType.Stats);
                 dateCourante = dateCourante.AddDays(1);
                 dateJSON = dateCourante.Day + "/" + dateCourante.Month + "/" + dateCourante.Year;
                 chartNbRep.Add(nbReparations - repAvant);
@@ -223,17 +255,21 @@ namespace Simulation_garagistes.Controllers
             int franchiseID, marqueID, modeleID;
             string franchiseName, marqueName, modeleName;
             int nbVoulu;
+            int existant;
 
             foreach (string str in Request.Form)
             {
                 //Création des garagistes
                 if (str.StartsWith("franchise_"))
                 {
-                    franchiseID = int.Parse(str.Substring(10)); //FAIRE UN CONTROLE
+                    franchiseID = int.Parse(str.Substring(10));
                     franchiseName = franchiseService.getFranchiseById(franchiseID).Nom;
-                    nbVoulu = int.Parse(Request.Form[str]); //FAIRE UN CONTROLE
+                    nbVoulu = int.Parse(Request.Form[str]);
 
-                    for (int i = 0; i < nbVoulu; i++)
+                    //On utilise les garagistes déjà créé 
+                    existant = garagisteService.getGaragistesByFranchise(franchiseID).Count();
+
+                    for (int i = existant; i < nbVoulu; i++)
                     {
                         garagisteService.createGaragiste("Garagiste_" + franchiseName + "_" + i, franchiseID);
                     }
@@ -243,9 +279,9 @@ namespace Simulation_garagistes.Controllers
                 //Par marque
                 if (str.StartsWith("marque_"))
                 {
-                    marqueID = int.Parse(str.Substring(7)); //FAIRE UN CONTROLE
+                    marqueID = int.Parse(str.Substring(7));
                     marqueName = marqueService.getMarqueById(marqueID).Nom;
-                    nbVoulu = int.Parse(Request.Form[str]); //FAIRE UN CONTROLE
+                    nbVoulu = int.Parse(Request.Form[str]);
 
                     for (int i = 0; i < nbVoulu; i++)
                     {
@@ -256,9 +292,9 @@ namespace Simulation_garagistes.Controllers
                 //Par modèle
                 if (str.StartsWith("modele_"))
                 {
-                    modeleID = int.Parse(str.Substring(7)); //FAIRE UN CONTROLE
+                    modeleID = int.Parse(str.Substring(7));
                     modeleName = modeleService.getModeleById(modeleID).Nom;
-                    nbVoulu = int.Parse(Request.Form[str]); //FAIRE UN CONTROLE
+                    nbVoulu = int.Parse(Request.Form[str]);
 
                     for (int i = 0; i < nbVoulu; i++)
                     {
@@ -291,6 +327,7 @@ namespace Simulation_garagistes.Controllers
             public bool simulationTerminee { get; set; }
             public int[] tauxOccupation { get; set; }
             public int nbReparations  { get; set; }
+            public int nbAccidents { get; set; }
             public string[] chartDate { get; set; }
             public int[] chartRep { get; set; }
         }

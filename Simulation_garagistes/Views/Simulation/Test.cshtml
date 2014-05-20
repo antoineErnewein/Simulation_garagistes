@@ -11,12 +11,19 @@
     <input type="button" id="btnPause" value="Pause" />
     <hr />
     <h3>Statistiques</h3>
-    <p>Occupation des garages :</p>
-    <canvas id="myChart" width="150" height="150"></canvas>
-    <div id="statOccupation"></div>
-    <p>Nombre de réparations effectuées :</p>
-    <canvas id="myChart2" width="300" height="300"></canvas>
-    <div id="statReparation"></div>
+
+    <p style="display:inline">Nombre d'accidents :</p>
+    <div id="statAccidents" style="display:inline-block"></div>
+    <br />
+
+    <p style="display:inline">Occupation des garages :</p>
+    <div id="statOccupation" style="display:inline-block"></div>
+    <canvas style="display:block" id="myChart" width="150" height="150"></canvas>
+    
+    <p style="display:inline">Nombre de réparations effectuées :</p>
+    <div id="statReparation" style="display:inline-block"></div>
+    <canvas style="display:block" id="myChart2" width="300" height="300"></canvas>
+    
     
 </div>
 
@@ -40,6 +47,10 @@
                 {
                     value: 0,
                     color: "#F7464A"
+                },
+                {
+                    value: 0,
+                    color: "#F785F7"
                 },
                 {
                     value: 100,
@@ -76,6 +87,7 @@
                 $('#Content').empty();
                 $('#Clock').empty();
                 $('#statOccupation').empty();
+                $('#statAccidents').empty();
                 $('#statReparation').empty();
 
                 var table = $('<table></table>');
@@ -89,8 +101,9 @@
                 }
 
                 var time = $('<p></p>').text(data.date);
-                var stOccupation = $('<p></p>').text(data.tauxOccupation[0] + " / " + data.tauxOccupation[1] + " H");
-                var stReparations = $('<p></p>').text(""+data.nbReparations);
+                var stOccupation = $('<p></p>').text( (data.tauxOccupation[0] + data.tauxOccupation[1]) + " / " + data.tauxOccupation[2] + " H");
+                var stAccidents = $('<p></p>').text("" + data.nbAccidents);
+                var stReparations = $('<p></p>').text("" + data.nbReparations);
 
                 if (data.simulationTerminee != null) {
                     fini = data.simulationTerminee;
@@ -99,10 +112,12 @@
                 $('#Content').append(table);
                 $('#Clock').append(time);
                 $('#statOccupation').append(stOccupation);
+                $('#statAccidents').append(stAccidents);
                 $('#statReparation').append(stReparations);
 
-                Chartdata[0].value = ((data.tauxOccupation[0] / data.tauxOccupation[1])*100);
-                Chartdata[1].value = (100 - ((data.tauxOccupation[0] / data.tauxOccupation[1]) * 100));
+                Chartdata[0].value = ((data.tauxOccupation[0] / data.tauxOccupation[2]) * 100);
+                Chartdata[1].value = ((data.tauxOccupation[1] / data.tauxOccupation[2]) * 100);
+                Chartdata[2].value = (100 - (((data.tauxOccupation[0] + data.tauxOccupation[1]) / data.tauxOccupation[2]) * 100));
                 chartConstruct.Doughnut(Chartdata, options);
 
                 Chartdata2.labels = data.chartDate;
@@ -148,7 +163,7 @@
                 color = "#99ed78";
                 break;
             case (4): //Voiture immobilisee
-                color = "#f7858d";
+                color = "#ffb600";
                 break;
             case (5): //Reparation voiture
                 color = "#85f1f7";
@@ -165,6 +180,9 @@
             case (9): //Autres
                 color = "white";
                 break;
+            case (12): //Accident
+                color = "#f7858d";
+                break;
             default:
                 color = "white";
         }
@@ -180,3 +198,9 @@
 
 </script>
 
+<style type="text/css">
+#Clock p {
+    font-size : large;
+    font : bold;
+}
+</style>

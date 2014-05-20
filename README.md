@@ -25,7 +25,7 @@ o	Durée d’intervention (ex : 1h) (peut être différente par garagiste)
 
 -	Les garages acceptent toutes les voitures jusqu'à ce que leur agenda du jour soit rempli	[X]
 
--	Des réparations peuvent être terminées le lendemain		[/]
+-	Des réparations peuvent être terminées le lendemain		[X]
 
 -	Pouvoir lancer la simulation avec un nombre paramétrable de voitures et Garagistes 	   [X]
 
@@ -33,9 +33,9 @@ o	Durée d’intervention (ex : 1h) (peut être différente par garagiste)
 
 BACK OFFICE : 
 -	Back office permettant de gérer :
-o	Voitures (marque/modèle)	[/]
-o	Garagistes (franchise, périodes de fermetures)	[/]
-o	Carnet d’entretien par type de voiture (marque et/ou modèle)	[/]
+o	Voitures (marque/modèle)	[X]
+o	Garagistes (franchise, périodes de fermetures)	[X]
+o	Carnet d’entretien par type de voiture (marque et/ou modèle)	[X]
 
 -	Les données sont stockées dans une base de données (SQL, SQLite,…).		[X]
 -	Entity Framework est utilisé comme ORM pour modéliser les classes de domaines	[X]
@@ -49,7 +49,7 @@ o	Durée en jours de la Simulation 	[X]
 
 o	Un « log » en ligne pour voir le résultat de la simulation 		[X]
 o	Les logs sont archivés en fichier texte 	[X]
-o	Un rapport détaillé avec des statistiques (durant la simulation) : 		[/]
+o	Un rapport détaillé avec des statistiques (durant la simulation) : 		[X]
 o	de révisions
 o	d’occupation des garagistes
 o	Les résultats du rapport sont stockés en base de données
