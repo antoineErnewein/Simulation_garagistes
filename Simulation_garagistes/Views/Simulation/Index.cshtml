@@ -9,7 +9,8 @@
     $(function () {
         $("#datepicker1 , #datepicker2").datepicker({
             beforeShow: customRange,
-            dateFormat: "dd/mm/yy"
+            dateFormat: "dd/mm/yy",
+            defaultDate: new Date()
         });
     });
     function customRange(input) {
@@ -38,11 +39,11 @@
         <div class="col-lg-10">
             <div class="col-lg-5">
                 <label class="control-label">De :</label>
-                <input type="text" id="datepicker1" name="debut_simu" class="form-control" required="required">
+                <input type="text" id="datepicker1" name="debut_simu" class="form-control" readonly="readonly" required="required" value="@DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year">
             </div>
             <div class="col-lg-5">
                 <label class="control-label">À :</label>
-                <input type="text" id="datepicker2" name="fin_simu" class="form-control" required="required">
+                <input type="text" id="datepicker2" name="fin_simu" class="form-control" readonly="readonly" required="required" value="@DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year">
             </div>
         </div>
     </div>
