@@ -37,14 +37,19 @@
     <h3>Dates de la simulation</h3>
 
     <div class="form-group">
-        <div class="col-lg-10">
-            <div class="col-lg-5">
-                <label class="control-label">De :</label>
-                <input type="text" id="datepicker1" name="debut_simu" class="form-control" readonly="readonly" required="required" value="@DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year">
+        <div class="col-lg-10" style="margin-left:-15px;">
+            <div class="col-lg-1" style="margin-top: 7px; padding-right: 0; width:6%">
+            <label class="control-label">De :</label>
+        </div>
+        <div class="col-lg-4" style="margin-top:7px">
+            <input type="text" id="datepicker1" name="debut_simu" class="form-control" readonly="readonly" required="required" value="@DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year">
             </div>
-            <div class="col-lg-5">
-                <label class="control-label">À :</label>
-                <input type="text" id="datepicker2" name="fin_simu" class="form-control" readonly="readonly" required="required" value="@DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year">
+            <div class="col-lg-1" style="margin-top: 7px; padding-left: 0; padding-right: 0; width:3%">
+            <label class="control-label">À :</label>
+
+            </div>
+    <div class="col-lg-4" style="margin-top:7px">
+            <input type="text" id="datepicker2" name="fin_simu" class="form-control" readonly="readonly" required="required" value="@DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year">
             </div>
         </div>
     </div>
