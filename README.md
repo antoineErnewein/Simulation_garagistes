@@ -47,7 +47,7 @@ o	Nombre de garagistes de chaque franchise	[X]
 o	Date de départ de la Simulation 	[X]
 o	Durée en jours de la Simulation 	[X]
 
-o	Un « log » en ligne pour voir le résultat de la simulation 		[X]
+-	Un « log » en ligne pour voir le résultat de la simulation 		[X]
 o	Les logs sont archivés en fichier texte 	[X]
 o	Un rapport détaillé avec des statistiques (durant la simulation) : 		[X]
 o	de révisions
@@ -58,7 +58,7 @@ FACULTATIF :
 -	Gestion d’évènements aléatoires durant la simulation (accidents, pannes, …)		[/]
 
 REPARTITION :
--Noel Deutschmann : Back office metier
--Antoine Ernewein : Front office simulation
--Maxime Heckel : Accès aux données
--Etienne Heitz : Accès aux données
+-  Noel Deutschmann : Back office metier
+-  Antoine Ernewein : Front office simulation
+-  Maxime Heckel : Accès aux données
+-  Etienne Heitz : Accès aux données
