@@ -56,3 +56,9 @@ o	Les résultats du rapport sont stockés en base de données
 
 FACULTATIF :
 -	Gestion d’évènements aléatoires durant la simulation (accidents, pannes, …)		[/]
+
+REPARTITION :
+-Noel Deutschmann : Back office metier
+-Antoine Ernewein : Front office simulation
+-Maxime Heckel : Accès aux données
+-Etienne Heitz : Accès aux données
